@@ -3,11 +3,11 @@
 # ===============================================================================
 # ABOUT
 # ===============================================================================
-# Version 1.3
+# Version 1.4
 # 
-# February 2015 
+# September 2015 
 #
-# By Alex Holehouse, Washington University in St. Louis [Pappu Lab]
+# By Alex Holehouse, Washington University in St. Louis 
 # Contact alex.holehouse@gmail.com or https://github.com/alexholehouse
 #
 #
@@ -140,14 +140,15 @@ class ProteomeScoutAPI:
         for line in content:
 
             # split the record and get the canonical ID
-            record = line.split('\t')
-            IDlist_raw = record[1].split(";")
+            record          = line.split('\t')
+            IDlist_raw      = record[1].split(";")
+            ProteomeScoutID = record[0]
             IDlist = []
             for ID in IDlist_raw:
                 IDlist.append(ID.strip())
                 
             # add the first ID to the list of unique keys
-            self.uniqueKeys.append(IDlist[0])
+            self.uniqueKeys.append(ProteomeScoutID)
 
             # now construct the object dictionary. Note we
             # have hardcoded the number of header columns here
@@ -157,15 +158,38 @@ class ProteomeScoutAPI:
             OBJ={}
             for i in xrange(2,19):
                 OBJ[headers[i]] = record[i]
+
+
+            # ALWAYS add the record via the ProteomeScout uniquekey
+            self.database[ProteomeScoutID] = OBJ
         
-            # assign the object to each ID - note this means that
-            # there are many IDs point to the same object (which 
-            # is desriable, given the many-to-one mapping of
-            # accessions to records). It also avoids the need
-            # to contrain yourself to a specific type of accession
-            # when delaing with the ProteomeScoutAPI
+            # for each other ID associated with the record, assign that accession-record
+            # mapping assuming the record is not overwriting a more complete record which
+            # already exists. 
+            #
+            # This means users can use whatever accession type they want to interact 
+            # with the ProteomeScoutAPI, while recognizing that many different accessions
+            # will be referring to the same protein
             for ID in IDlist:
-                self.database[ID] = OBJ
+
+                # A possible issue is the possibility that the same accession
+                # points to several ProteomeScout records. Rather than merging records,
+                # which can introduce problems, we've chosen to deal with this by defaulting
+                # to the record with the largest number of modifications associated with it
+                #
+                # In most examples of record duplicaion there is clearly a 'major' and 'minor'
+                # record. This occurs through insufficient cross-referencing in databases
+                # outside of ProteomeScout. The 'minor' record is typically a subset of
+                # the 'major' record
+                if ID in self.database:
+
+                    # if the newly found record has more PTMs associated with it than the 
+                    # original record then overwrite 
+                    if len(OBJ['modifications'].split(";")) > len(self.database[ID]['modifications'].split(";")):
+                        self.database[ID] = OBJ
+
+                else:                                        
+                    self.database[ID] = OBJ
 
     def get_PTMs(self, ID):
         """
