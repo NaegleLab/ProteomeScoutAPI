@@ -269,6 +269,45 @@ class ProteomeScoutAPI:
                     print "ERROR: the domain did not match expected %s"%(i)
                     #doms_clean.append((tmp, -1, -1))
         return doms_clean
+    
+    def get_structure(self, ID):
+        """
+        Return all structures associated with the ID in question.
+       
+
+        POSTCONDITIONS:
+
+        Returns a list of tuples of structure
+        if there is a problem with the start and end position, these will be
+        returned as -1
+        [(domain_name, start_position, end_position),...,]
+        
+        Returns -1 if unable to find the ID
+
+        Returns [] (empty list) if no structures        
+
+        """
+        
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+        structs = record["structure"]
+       
+        structs_raw=structs.split(";")
+        structs_clean =[]
+        for i in structs_raw:
+            if i:
+                tmp = i.strip()
+                tmp = tmp.split(":")
+                if len(tmp)>=2:
+                    name, sites = tmp
+                    tmp = sites.split("-")
+                    structs_clean.append((name, tmp[0], tmp[1]))
+                else:
+                    print "ERROR: the structure did not match expected %s"%(i)
+                    #doms_clean.append((tmp, -1, -1))
+        return structs_clean
           
 
     def get_nearbyPTMs(self,ID,pos, window):

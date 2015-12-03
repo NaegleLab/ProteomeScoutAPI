@@ -25,6 +25,10 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(2, len(self.API.get_domains('Q9NYE7','pfam')))
         self.assertEqual('zf-H2C2_2', self.API.get_domains('Q9NYE7','pfam')[0][0])
 
+    def test_get_structure(self):
+        self.assertEqual(10, len(self.API.get_structure('Q9NYE7')))
+        self.assertEqual('strand', self.API.get_structure('Q9NYE7')[0][0])
+    
     def test_get_nearby_PTMs(self):
         self.assertEqual(2, len(self.API.get_nearbyPTMs('Q9NYE7',5,10)))
         self.assertEqual(2, len(self.API.get_nearbyPTMs('Q9NYE7',5,13)))
