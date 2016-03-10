@@ -47,4 +47,7 @@ class TestFunctions(unittest.TestCase):
     def test_get_species(self):
         self.assertEqual('homo sapiens', self.API.get_species('117210'))
 
+    def test_get_acc_gene(self):
+        self.assertEqual('PTPRS', self.API.get_acc_gene('117210'))
+
         

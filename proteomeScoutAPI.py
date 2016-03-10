@@ -341,6 +341,25 @@ class ProteomeScoutAPI:
         sequence = record["sequence"]
         return sequence
 
+    def get_acc_gene(self, ID):
+        """
+        Return the gene name  associated with the ID in question.
+        POSTCONDITIONS:
+
+        Returns a string of the gene name 
+
+        Returns '-1' if unable to find the ID
+
+        Returns '' (empty list) if no gene name 
+
+        """
+        try: 
+            record = self.database[ID]
+        except KeyError:
+            return '-1'
+        acc_gene = record["acc_gene"]
+        return acc_gene 
+
     
     def get_phosphosites(self,ID):
         """
