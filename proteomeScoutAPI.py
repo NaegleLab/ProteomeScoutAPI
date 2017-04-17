@@ -156,7 +156,7 @@ class ProteomeScoutAPI:
             # dataset more columns are added you coulded extend this
             # here
             OBJ={}
-            for i in xrange(1,19):
+            for i in range(1,19):
                 OBJ[headers[i]] = record[i]
 
 
@@ -257,7 +257,7 @@ class ProteomeScoutAPI:
                     tmp = sites.split("-")
                     structs_clean.append((name, tmp[0],tmp[1]))
                 else:
-                    print "ERROR: the structure did not match expected %s"%(i)
+                    print("ERROR: the structure did not match expected %s"%(i))
                             #doms_clean.append((tmp, -1, -1))
         return structs_clean
     
@@ -290,7 +290,7 @@ class ProteomeScoutAPI:
         elif domain_type == 'uniprot':
             doms = record["uniprot_domains"]
         else:
-            print "%s is an unrecognized domain type. Use 'pfam' or 'uniprot'"%(domain_type)
+            print("%s is an unrecognized domain type. Use 'pfam' or 'uniprot'"%(domain_type))
             return -2
         
         doms_raw=doms.split(";")
@@ -304,7 +304,7 @@ class ProteomeScoutAPI:
                     tmp = sites.split("-")
                     doms_clean.append((name, tmp[0], tmp[1]))
                 else:
-                    print "ERROR: the domain did not match expected %s"%(i)
+                    print("ERROR: the domain did not match expected %s"%(i))
                     #doms_clean.append((tmp, -1, -1))
         return doms_clean
           
@@ -458,7 +458,7 @@ class ProteomeScoutAPI:
         mutations_clean=[]
         mutations_ann_raw = mutations_ann.split("|")
         if len(mutations_raw) != len(mutations_ann_raw):
-            print "Error: Not the same number of annotations (%d) and mutations (%d)\n"%(len(mutations_ann_raw), len(mutations_raw))
+            print("Error: Not the same number of annotations (%d) and mutations (%d)\n"%(len(mutations_ann_raw), len(mutations_raw)))
             return -2
 
         for idx, i in enumerate(mutations_raw):
