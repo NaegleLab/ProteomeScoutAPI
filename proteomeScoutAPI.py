@@ -571,6 +571,41 @@ class ProteomeScoutAPI:
 
         return(acc_list)
 
+    def get_PTMs_withEvidenceThreshold(self, ID, evidenceThreshold):
+        """
+        Return all PTMs associated with the ID in question that have at least evidenceThreshold or more pieces
+        of experimental or database evidence
+
+        POSTCONDITIONS:
+
+        Returns a list of tuples of modifications
+        [(position, residue, modification-type),...,]
+        
+        Returns -1 if unable to find the ID
+        Returns -2 if the modifications have a mismatched evidence array
+
+        Returns [] (empty list) if no modifications fit that threshold      
+
+        """
+        evidences = self.get_evidence(ID)
+        mods = self.get_PTMs(ID)
+        modsMeetThreshold = []
+        if mods == -1:
+            return -1
+        elif len(mods)==0:
+            return []
+        else:
+            if len(evidences) != len(mods):
+                return -2
+            for i in range(0, len(mods)):
+                numEvidences, evidenceArr = evidences[i]
+                if numEvidences >= evidenceThreshold:
+                    modsMeetThreshold.append(mods[i])
+        return modsMeetThreshold
+
+
+
+
 
 
 
