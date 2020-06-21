@@ -3,12 +3,13 @@
 # ===============================================================================
 # ABOUT
 # ===============================================================================
-# Version 1.5
+# Version 2.0
 # 
-# January 2016 
+# June 2020
 #
-# By Alex Holehouse, Washington University in St. Louis 
-# Contact alex.holehouse@gmail.com or https://github.com/alexholehouse
+# Oritinally By Alex Holehouse, Washington University in St. Louis 
+# Contact alex.holehouse@gmail.com 
+# This version maintained by Naegle Lab
 #
 #
 #
