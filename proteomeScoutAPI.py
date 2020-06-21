@@ -426,6 +426,43 @@ class ProteomeScoutAPI:
 
         return phospho
 
+    def get_evidence(self, ID):
+        """
+        Return all evidence associated with modifications for the ID in question.
+
+        POSTCONDITIONS:
+
+        Returns a list of tuples of evidence
+        [(numEvidences, [ArrayOfEvidences], (numEvidences ScecondSite, [ArrayOfEvidences], etc.]
+        
+        Returns -1 if unable to find the ID
+
+        Returns [] (empty list) if no modifications/evidences    
+
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+
+        evidence = record["evidence"]
+        
+        evidence_raw=evidence.split(";")
+        evidence_clean = []
+        for site in evidence_raw: #an array of evidences, corresponding in position to each site.
+            indEvidences = site.split(",")
+            evidencesArrTemp = []
+            for i in indEvidences:
+                i.strip()
+                evidencesArrTemp.append(int(i))
+            numEvidences = len(evidencesArrTemp)
+          
+            # append a tuple of length of evidences, and a list of evidences
+            evidence_clean.append([numEvidences, evidencesArrTemp])
+        return evidence_clean
+
+
+
     def get_mutations(self, ID):
         
         """
