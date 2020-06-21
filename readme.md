@@ -6,7 +6,8 @@ A lightweight API to talk to ProteomeScout flatfiles in Python.
 # about
 Version 2.0 - June 2020
 
-Origins: By Alex Holehouse, Washington University in St. Louis Contact alex.holehouse@gmail.com or contribute at [https://github.com/alexholehouse](https://github.com/alexholehouse)
+Originally: By Alex Holehouse, Washington University in St. Louis Contact alex.holehouse@gmail.com or contribute at [https://github.com/alexholehouse](https://github.com/alexholehouse)
+
 Current Version: Naegle Lab, University of Virginia [https://github.com/naegleLab](https://github.com/naegleLab)
 
 # overview
