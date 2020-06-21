@@ -4,11 +4,10 @@
 A lightweight API to talk to ProteomeScout flatfiles in Python. 
 
 # about
-Version 1.3 - February 2015 
+Version 2.0 - June 2020
 
-By Alex Holehouse, Washington University in St. Louis ([Pappu Lab](http://pappulab.wustl.edu/))
-
-Contact alex.holehouse@gmail.com or contribute at [https://github.com/alexholehouse](https://github.com/alexholehouse)
+Origins: By Alex Holehouse, Washington University in St. Louis Contact alex.holehouse@gmail.com or contribute at [https://github.com/alexholehouse](https://github.com/alexholehouse)
+Current Version: Naegle Lab, University of Virginia [https://github.com/naegleLab](https://github.com/naegleLab)
 
 # overview
 ProteomeScoutAPI is a Python module which can be used to connect to and parse ProteomeScout flatfiles. Specifically, the goal of this module is to allow anyone to interact with ProteomeScout data without the need to
