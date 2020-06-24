@@ -603,6 +603,40 @@ class ProteomeScoutAPI:
                     modsMeetThreshold.append(mods[i])
         return modsMeetThreshold
 
+    def get_PTMs_withEvidence(self, ID):
+        """
+        Return PTMs as a list of dictionaries with both the modification information and the evidence associated with that.
+        
+        POSTCONDITIONS:
+
+        Returns a list of dictionaries, keys are 'mod' and 'evidence'.
+        dictionary[0]['mod'] is an array with (position, residue, modification-type) of the first PTM in the ID record
+        dictionary[0]['evidence'] is a list of experiment IDs for that PTM
+
+        Returns -1 if unable to find ID
+        Returns -2 if the modifications have a mimatched evidence array
+
+        Returns [] (empty list) if no modifications
+
+        """
+        modList = []
+        evidences = self.get_evidence(ID)
+        mods = self.get_PTMs(ID)
+        if mods == -1:
+            return -1
+        elif len(mods)==0:
+            return []
+        else:
+            if len(evidences) != len(mods):
+                return -2
+            for i in range(0, len(mods)):
+                dictTemp = {}
+                dictTemp['mod'] = mods[i]
+                numEvidences, evidenceArr = evidences[i]
+                dictTemp['evidence'] = evidenceArr
+                
+                modList.append(dictTemp)
+        return modList
 
 
 
