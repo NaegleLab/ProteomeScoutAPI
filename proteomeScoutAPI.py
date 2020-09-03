@@ -10,6 +10,7 @@
 # Oritinally By Alex Holehouse, Washington University in St. Louis 
 # Contact alex.holehouse@gmail.com 
 # This version maintained by Naegle Lab
+# Contact Kristen Naegle at kmn4mj@virginia.edu
 #
 #
 #
@@ -308,6 +309,81 @@ class ProteomeScoutAPI:
                     print("ERROR: the domain did not match expected %s"%(i))
                     #doms_clean.append((tmp, -1, -1))
         return doms_clean
+
+    def get_domains_harmonized(self, ID):
+        """
+        This will harmonize pfam and uniprot domains into one tuple output
+        with the following rules:
+            1. Use the pfam domain name (since it does not append numbers if more than one domain of that type)
+            2. Use the Uniprop domain boundaries (since they are typically more expansive)
+            3. If uniprot does not have a pfam domain, use the pfam domain as it is
+        POSTCONDITIONS:
+
+        Returns a list of tuples of domains 
+        if there is a problem with the start and end position, these will be
+        returned as -1
+        [(domain_name, start_position, end_position),...,]
+        
+        Returns -1 if unable to find the ID
+
+        Returns [] (empty list) if no domains  
+
+        """
+        #First find which domains overlap from pfam to uniprot, keeping those
+        # they overlap if the start position or end positions are
+
+        pfam = self.get_domains(ID, 'pfam')
+        uniprot = self.get_domains(ID, 'uniprot')
+
+        if pfam == -1:
+            return -1
+
+        harmonized = []
+        #create a dictionary of matches from pfam to uniprot and vice versa
+        pfamDict = {}
+        uniprotDict = {}
+
+
+        for p in pfam:
+            p_name, p_start, p_stop = p
+            pfamSpan = set(range(int(p_start), int(p_stop)))
+            pfamDict[p] = []
+            for uni in uniprot:
+                uni_name, uni_start, uni_stop = uni
+                uniSpan = set(range(int(uni_start), int(uni_stop)))
+            
+                if uniSpan.intersection(pfamSpan):
+                    pfamDict[p] = uni
+                    uniprotDict[uni] = p
+                    break
+                        
+        #repeat from uniprot for uniprot domains not yet matched
+        for uni in uniprot:
+            if uni not in uniprotDict:
+                uni_name, uni_start, uni_stop = uni
+                uniSpan = set(range(int(uni_start), int(uni_stop)))
+                uniprotDict[uni] = []
+                for p in pfam:
+                    p_name, p_start, p_stop = p
+                    pfamSpan = set(range(int(p_start), int(p_stop)))
+                    if uniSpan.intersection(pfamSpan):
+                        pfamDict[p] = uni
+                        uniprotDict[uni] = p
+                        break
+                        
+                        
+        #now take all uniprot domains and any in pfam that have no match to uniprot. 
+        # Use the pfam domain name (which doesn't add numbers if there are tandem domains, e.g.)
+        for p in pfamDict:
+            if not pfamDict[p]: #there is no matching uniprot domain
+                harmonized.append(p)
+            else: #there is, but we want to change the uniprot name to have the pfam domain
+                uni_name, uni_start, uni_stop = pfamDict[p]
+                p_name = p[0]
+                harmonized.append((p_name, uni_start, uni_stop))
+        
+        return harmonized
+                    
           
 
     def get_nearbyPTMs(self,ID,pos, window):
