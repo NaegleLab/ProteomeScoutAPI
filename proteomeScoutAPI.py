@@ -384,7 +384,70 @@ class ProteomeScoutAPI:
         
         return harmonized
                     
-          
+    def get_Scansite(self, ID):
+        """
+        Return all Scansite annotations that exist for a protein record (ID)
+
+
+        POSTCONDITIONS:
+
+        Returns a dict of tuples of scansite predictions. dictionary keys are the type of Scansite prediction (bind, kinase)
+        Tuples in each are 
+        [(residuePosition, kinase/bind name, score),...,]
+
+        Returns -1 if unable to find the ID
+
+        Returns [] (empty list) if no scansite predictions
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+        scansite = record["scansite_predictions"]
+
+        if not scansite:
+            return [] #no scansite records found
+
+        #scansite line is <residue><position>-scansite_<type>-<name>:<score>
+        # multiple entries are separated by semicolons
+        scansiteDict = {}
+        for record in scansite.split(';'):
+            arr = record.split('-')
+            res_pos = arr[0].strip(' ')
+            scan_type = arr[1]
+            nameScore  = arr[2]
+            if scan_type not in scansiteDict:
+                scansiteDict[scan_type] = [] #send array of tuples
+            name, score  = nameScore.split(':')
+            info = [res_pos, name, score]
+            scansiteDict[scan_type].append(info)
+        return scansiteDict
+
+    def get_Scansite_byPos(self, ID, res_pos):
+        """
+        Return all Scansite annotations that exist at a specific residue position, given as the AminoAcidPos, e.g. T183
+
+        POSTCONDITIONS:
+
+        Returns a list of tuples of modifications
+        [(position, residue, modification-type),...,]
+
+        Returns -1 if unable to find the ID
+
+        Returns empty dictionary if no Scansite. Returns emtpy lists in Dictionary items
+        if no Scansite predictions found at that site
+
+        """
+        scansiteDict = self.get_Scansite(ID)
+        subsetDict = {}
+        for typeScan in scansiteDict:
+            subsetDict[typeScan] = []
+            for prediction in scansiteDict[typeScan]:
+                if prediction[0] == res_pos:
+                    subsetDict[typeScan].append(prediction)
+        return subsetDict
+
+
 
     def get_nearbyPTMs(self,ID,pos, window):
         """
@@ -620,6 +683,37 @@ class ProteomeScoutAPI:
             GO_terms_clean.append(i.strip())
 
         return GO_terms_clean
+
+    def get_kinaseLoops(self, ID):
+        """
+        Return kinase activation loop with the ID in question
+
+
+        POSTCONDITIONS:
+        
+        Returns a tuple of (loop/predicted, start, stop)
+
+        Returns a -1 if unable to find the ID
+
+        Returns a [] (empty list) if no kinase activation loops
+
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+        finalLoops = []
+        kinase_loops = record['kinase_loops']
+        if kinase_loops:
+            loops = kinase_loops.split(';')
+            for loop in loops:
+                info = loop.split(':')
+                loopType = info[0]
+                start, stop = info[1].split('-')
+                finalLoops.append((loopType, start, stop))
+        else:
+            return []
+        return finalLoops
 
     def get_accessions(self,ID):
         """
