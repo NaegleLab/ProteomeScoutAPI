@@ -259,7 +259,7 @@ class ProteomeScoutAPI:
                     tmp = sites.split("-")
                     structs_clean.append((name, tmp[0],tmp[1]))
                 else:
-                    print("ERROR: the structure did not match expected %s"%(i))
+                    print("ERROR: the structure did not match expected format %s"%(i))
                             #doms_clean.append((tmp, -1, -1))
         return structs_clean
     
@@ -294,6 +294,12 @@ class ProteomeScoutAPI:
         else:
             print("%s is an unrecognized domain type. Use 'pfam' or 'uniprot'"%(domain_type))
             return -2
+
+        #check for atypical records and replace the extra ; to avoid errors in parsing
+        doms = doms.replace("; atypical", " atypical")
+        doms = doms.replace("; truncated", " truncated")
+        doms = doms.replace("; second part", " second part")
+        doms = doms.replace("; first part", " first part")
         
         doms_raw=doms.split(";")
         doms_clean =[]
@@ -306,7 +312,8 @@ class ProteomeScoutAPI:
                     tmp = sites.split("-")
                     doms_clean.append((name, tmp[0], tmp[1]))
                 else:
-                    print("ERROR: the domain did not match expected %s"%(i))
+                    print("ERROR: the domain did not match expected format %s"%(i))
+                    #if this happens, it's likely due to an extra ; where atypical occurs, so replace ; atypical before the split.
                     #doms_clean.append((tmp, -1, -1))
         return doms_clean
 
@@ -315,7 +322,7 @@ class ProteomeScoutAPI:
         This will harmonize pfam and uniprot domains into one tuple output
         with the following rules:
             1. Use the pfam domain name (since it does not append numbers if more than one domain of that type)
-            2. Use the Uniprop domain boundaries (since they are typically more expansive)
+            2. Use the Uniprot domain boundaries (since they are typically more expansive)
             3. If uniprot does not have a pfam domain, use the pfam domain as it is
         POSTCONDITIONS:
 
@@ -339,6 +346,7 @@ class ProteomeScoutAPI:
             return -1
 
         harmonized = []
+        source = [] #keeping track of source, but not currently returning it
         #create a dictionary of matches from pfam to uniprot and vice versa
         pfamDict = {}
         uniprotDict = {}
@@ -359,6 +367,7 @@ class ProteomeScoutAPI:
                         
         #repeat from uniprot for uniprot domains not yet matched
         for uni in uniprot:
+            found = 0
             if uni not in uniprotDict:
                 uni_name, uni_start, uni_stop = uni
                 uniSpan = set(range(int(uni_start), int(uni_stop)))
@@ -369,7 +378,11 @@ class ProteomeScoutAPI:
                     if uniSpan.intersection(pfamSpan):
                         pfamDict[p] = uni
                         uniprotDict[uni] = p
+                        found = 1
                         break
+                #here, if uni does not exist in uniprot, then add it (a uniprot domain not in pfam)
+                if not found:
+                    pfamDict[uni] = uni
                         
                         
         #now take all uniprot domains and any in pfam that have no match to uniprot. 
@@ -377,10 +390,12 @@ class ProteomeScoutAPI:
         for p in pfamDict:
             if not pfamDict[p]: #there is no matching uniprot domain
                 harmonized.append(p)
+                source.append('pfam')
             else: #there is, but we want to change the uniprot name to have the pfam domain
                 uni_name, uni_start, uni_stop = pfamDict[p]
                 p_name = p[0]
                 harmonized.append((p_name, uni_start, uni_stop))
+                source.append('uniprot')
         
         return harmonized
                     
