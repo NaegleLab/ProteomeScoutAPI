@@ -54,14 +54,19 @@ def get_PTMs(ID)
 
 Return all PTMs associated with the ID in question.
 
-POSTCONDITIONS:
 
-Returns a list of tuples of modifications
-[(position, residue, modification-type),...,]
+Paremeters
+----------
+ID: str
+accession number to query in PTM_API
 
-Returns -1 if unable to find the ID
+**Returns**:
 
-Returns [] (empty list) if no modifications
+  --------
+- `ptm_list` - list
+  list of ptms in tuples [(position, residue, modification-type),...,].
+  Returns -1 if unable to find the ID
+  Returns [] (empty list) if no modifications
 
 <a id="proteomeScoutAPI.ProteomeScoutAPI.get_structure"></a>
 
