@@ -72,8 +72,8 @@ for index, row in df.iterrows():
         #get Scansite information
         for res_pos in pos_aa_arr:
             scansite = PTM_API.get_Scansite_byPos(acc, res_pos)
-            print("Debug found scanstite")
-            print(scansite)
+            #print("Debug found scanstite")
+            #print(scansite)
 
 
             if 'scansite_bind' in scansite:
@@ -91,6 +91,24 @@ for index, row in df.iterrows():
                 for kin in scaniste_kinase:
                     scansite_kin_arr.append(':'.join(kin))
                 df.at[index, 'scansite_kinase'] = ';'.join(scansite_kin_arr)
+
+        #now check if it's been annotated as a known modification site before
+        PTMs = PTM_API.get_phosphosites(acc)
+        
+        found_arr = []
+        for pos in seqPosArr:
+            found = 0
+
+            for mod in PTMs:
+                (pos_mod, res_mod, type_mod) = mod
+                #print("Debug, comparing %d to %d"%(pos, int(pos_mod)))
+                if pos == int(pos_mod):
+                    found = 1
+                    #print("FOUND IT!")
+                    break
+
+            found_arr.append(str(found))
+        df.at[index, 'documented_phosphosite'] = ';'.join(found_arr)
 
 
 
