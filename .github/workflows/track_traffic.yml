@@ -5,11 +5,6 @@ on:
     - cron: '0 0 */3 * *'  # Run every 3 days at midnight
   workflow_dispatch:        # Allow manual triggering
 
-permissions:
-  contents: write    # Needed to write data back to the repo
-  actions: read      # Needed to read workflow data
-  pull-requests: read  # Optional, but helps with debugging
-
 jobs:
   collect-traffic:
     runs-on: ubuntu-latest
@@ -32,7 +27,7 @@ jobs:
       
       - name: Run traffic collection script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TRAFFIC_PAT }}  # Use personal access token stored as a secret
           REPO_OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
         run: |
