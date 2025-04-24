@@ -5,6 +5,12 @@ on:
     - cron: '0 0 */3 * *'  # Run every 3 days at midnight
   workflow_dispatch:        # Allow manual triggering
 
+# Add this permissions block
+permissions:
+  contents: write    # Needed to write data back to the repo
+  metadata: read     # Needed to read repo metadata
+  pull-requests: read  # Optional, but helps with debugging
+
 jobs:
   collect-traffic:
     runs-on: ubuntu-latest
