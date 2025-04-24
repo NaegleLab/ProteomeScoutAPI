@@ -1,12 +1,17 @@
 {
   "repository": "NaegleLab/ProteomeScoutAPI",
   "first_collected": "2025-04-24T17:43:33.349563",
-  "last_updated": "2025-04-24T17:50:50.465914",
+  "last_updated": "2025-04-24T18:05:23.661429",
   "total_views": 0,
   "total_unique_views": 0,
-  "total_clones": 0,
-  "total_unique_clones": 0,
+  "total_clones": 1,
+  "total_unique_clones": 1,
   "daily_views": {},
-  "daily_clones": {},
+  "daily_clones": {
+    "2025-04-12": {
+      "count": 1,
+      "uniques": 1
+    }
+  },
   "referrers": {}
 }
