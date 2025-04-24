@@ -32,6 +32,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pandas matplotlib
       
+      - name: Create scripts directory
+        run: |
+          mkdir -p ${{ github.workspace }}/stats-repo/.github/scripts/
+          cp ${{ github.workspace }}/source-repo/.github/scripts/track_traffic_central.py ${{ github.workspace }}/stats-repo/.github/scripts/
+      
       - name: Run traffic collection script
         env:
           GITHUB_TOKEN: ${{ secrets.TRAFFIC_PAT }}  # Token for accessing traffic data
@@ -40,12 +45,12 @@ jobs:
           OUTPUT_DIR: ${{ github.workspace }}/stats-repo/data/${{ github.repository_owner }}/${{ github.event.repository.name }}
         run: |
           mkdir -p $OUTPUT_DIR
-          cd source-repo
-          python ../.github/scripts/track_traffic_central.py
+          cd ${{ github.workspace }}/stats-repo
+          python .github/scripts/track_traffic_central.py
       
       - name: Commit and push to stats repository
         run: |
-          cd stats-repo
+          cd ${{ github.workspace }}/stats-repo
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add data/
