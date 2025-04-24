@@ -1,4 +1,4 @@
-name: Track GitHub Traffic Statistics
+name: Track GitHub Traffic Statistics to Central Repository
 
 on:
   schedule:
