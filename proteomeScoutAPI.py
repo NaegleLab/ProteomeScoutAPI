@@ -109,7 +109,7 @@ class ProteomeScoutAPI:
             with open(filename, 'r') as f:
                 first_line = f.readline()
                 
-            if not len(first_line.split("\t")) == 19:
+            if not len(first_line.split("\t")) == 16:
                 raise BadProteomeScoutFile("N/A")
             
                 
@@ -158,7 +158,7 @@ class ProteomeScoutAPI:
             # dataset more columns are added you coulded extend this
             # here
             OBJ={}
-            for i in range(1,19):
+            for i in range(1,16):
                 OBJ[headers[i]] = record[i]
 
 
