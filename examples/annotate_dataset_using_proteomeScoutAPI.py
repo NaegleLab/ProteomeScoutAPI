@@ -10,7 +10,7 @@ parser.add_argument('inputFile', type=str, help='Input File')
 parser.add_argument('outputFile', type=str, help='Output File')
 parser.add_argument('proteomeScoutFile', type=str, help='Location of ProteomeScout File')
 parser.add_argument('-a', '--acc', default='acc', help='Accession column name, if not labeled as acc')
-parser.add_argument('-p', '--pep', default='pep', help='Accession column name, if not labeled as acc')
+parser.add_argument('-p', '--pep', default='pep', help='Accession column name, if not labeled as pep')
 parser.add_argument('-s', '--site', default=False, help='If s or site is TRUE, then find the lowercase PTM in it for centering a peptide and reporting on moifications at a site')
 args = parser.parse_args()
 
