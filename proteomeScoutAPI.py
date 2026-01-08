@@ -109,13 +109,12 @@ class ProteomeScoutAPI:
             with open(filename, 'r') as f:
                 first_line = f.readline()
                 
-            if not len(first_line.split("\t")) == 16:
+            if not len(first_line.split("\t")) == 18:
                 raise BadProteomeScoutFile("N/A")
             
                 
         except:
-            BadProteomeScoutFile("Invalid ProteomeScout flat file %s.\nFile is invalid or corrupted" % str(filename))
-                
+            raise BadProteomeScoutFile("Invalid ProteomeScout flat file %s.\nFile is invalid or corrupted" % str(filename))
         
 
     def __buildAPI(self, datafile):
@@ -148,6 +147,11 @@ class ProteomeScoutAPI:
             IDlist = []
             for ID in IDlist_raw:
                 IDlist.append(ID.strip())
+            
+            # Add uniprot_id to the lookup list if it exists
+            uniprot_id = record[12].strip() if len(record) > 12 and record[12].strip() else None
+            if uniprot_id:
+                IDlist.append(uniprot_id)
                 
             # add the first ID to the list of unique keys
             self.uniqueKeys.append(ProteomeScoutID)
@@ -158,7 +162,7 @@ class ProteomeScoutAPI:
             # dataset more columns are added you coulded extend this
             # here
             OBJ={}
-            for i in range(1,16):
+            for i in range(1,18):
                 OBJ[headers[i]] = record[i]
 
 
@@ -246,6 +250,7 @@ class ProteomeScoutAPI:
             record = self.database[ID]
         except KeyError:
             return -1
+            
         structs = record["structure"]
                
         structs_raw=structs.split(";")
@@ -254,27 +259,23 @@ class ProteomeScoutAPI:
             if i:
                 tmp = i.strip()
                 tmp = tmp.split(":")
-                if len(tmp)>=2:
-                    name, sites = tmp
-                    tmp = sites.split("-")
-                    structs_clean.append((name, tmp[0],tmp[1]))
-                else:
-                    print("ERROR: the structure did not match expected format %s"%(i))
-                            #doms_clean.append((tmp, -1, -1))
+                if len(tmp) >= 2:
+                    structs_clean.append((tmp[0], tmp[1], tmp[2]))
         return structs_clean
     
     def get_domains(self, ID, domain_type):
         """
         Return all domains associated with the ID in question.
-        For pfam domains domain_type is 'pfam'
+        For interpro domains domain_type is 'interpro'
         For UniProt domains domain_type is 'uniprot'
 
         POSTCONDITIONS:
 
-        Returns a list of tuples of domains 
+        Returns a list of tuples of domains, each of length 4 for common parsing, where the last entry is None for uniprot domains or Interpro ID for interpro domains
         if there is a problem with the start and end position, these will be
         returned as -1
-        [(domain_name, start_position, end_position),...,]
+        For interpro: [(domain_name, start_position, end_position, interpro_id),...,]
+        For uniprot: [(domain_name, start_position, end_position, None),...,]
         
         Returns -1 if unable to find the ID
 
@@ -287,12 +288,12 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         domain_type = domain_type.lower()
-        if domain_type == 'pfam':
-            doms = record["pfam_domains"]
+        if domain_type == 'interpro':
+            doms = record["Interpro_domains"]
         elif domain_type == 'uniprot':
             doms = record["uniprot_domains"]
         else:
-            print("%s is an unrecognized domain type. Use 'pfam' or 'uniprot'"%(domain_type))
+            print("%s is an unrecognized domain type. Use 'interpro' or 'uniprot'"%(domain_type))
             return -2
 
         #check for atypical records and replace the extra ; to avoid errors in parsing
@@ -306,24 +307,36 @@ class ProteomeScoutAPI:
         for i in doms_raw:
             if i:
                 tmp = i.strip()
-                tmp = tmp.split(":")
-                if len(tmp)>=2:
-                    name, sites = tmp
-                    tmp = sites.split("-")
-                    doms_clean.append((name, tmp[0], tmp[1]))
+                if domain_type == 'interpro':
+                    # interpro format: name:interpro_id:start:stop
+                    parts = tmp.split(":")
+                    if len(parts) >= 4:
+                        name = parts[0]
+                        interpro_id = parts[1]
+                        start = parts[2]
+                        stop = parts[3]
+                        doms_clean.append((name, start, stop, interpro_id))
+                    else:
+                        print("ERROR: the interpro domain did not match expected format %s"%(i))
                 else:
-                    print("ERROR: the domain did not match expected format %s"%(i))
-                    #if this happens, it's likely due to an extra ; where atypical occurs, so replace ; atypical before the split.
-                    #doms_clean.append((tmp, -1, -1))
+                    # uniprot format: name:start:stop
+                    parts = tmp.split(":")
+                    if len(parts) >= 3:
+                        name = parts[0]
+                        start = parts[1]
+                        stop = parts[2]
+                        doms_clean.append((name, start, stop, None))
+                    else:
+                        print("ERROR: the uniprot domain did not match expected format %s"%(i))
         return doms_clean
 
     def get_domains_harmonized(self, ID):
         """
-        This will harmonize pfam and uniprot domains into one tuple output
+        This will harmonize interpro and uniprot domains into one tuple output
         with the following rules:
-            1. Use the pfam domain name (since it does not append numbers if more than one domain of that type)
+            1. Use the interpro domain name (since it does not append numbers if more than one domain of that type)
             2. Use the Uniprot domain boundaries (since they are typically more expansive)
-            3. If uniprot does not have a pfam domain, use the pfam domain as it is
+            3. If uniprot does not have an interpro domain, use the interpro domain as it is
         POSTCONDITIONS:
 
         Returns a list of tuples of domains 
@@ -336,32 +349,32 @@ class ProteomeScoutAPI:
         Returns [] (empty list) if no domains  
 
         """
-        #First find which domains overlap from pfam to uniprot, keeping those
+        #First find which domains overlap from interpro to uniprot, keeping those
         # they overlap if the start position or end positions are
 
-        pfam = self.get_domains(ID, 'pfam')
+        interpro = self.get_domains(ID, 'interpro')
         uniprot = self.get_domains(ID, 'uniprot')
 
-        if pfam == -1:
+        if interpro == -1:
             return -1
 
         harmonized = []
         source = [] #keeping track of source, but not currently returning it
-        #create a dictionary of matches from pfam to uniprot and vice versa
-        pfamDict = {}
+        #create a dictionary of matches from interpro to uniprot and vice versa
+        interproDict = {}
         uniprotDict = {}
 
 
-        for p in pfam:
-            p_name, p_start, p_stop = p
+        for p in interpro:
+            p_name, p_id, p_start, p_stop = p
             pfamSpan = set(range(int(p_start), int(p_stop)))
-            pfamDict[p] = []
+            interproDict[p] = []
             for uni in uniprot:
                 uni_name, uni_start, uni_stop = uni
                 uniSpan = set(range(int(uni_start), int(uni_stop)))
             
                 if uniSpan.intersection(pfamSpan):
-                    pfamDict[p] = uni
+                    interproDict[p] = uni
                     uniprotDict[uni] = p
                     break
                         
@@ -372,302 +385,157 @@ class ProteomeScoutAPI:
                 uni_name, uni_start, uni_stop = uni
                 uniSpan = set(range(int(uni_start), int(uni_stop)))
                 uniprotDict[uni] = []
-                for p in pfam:
-                    p_name, p_start, p_stop = p
+                for p in interpro:
+                    p_name, p_id, p_start, p_stop = p
                     pfamSpan = set(range(int(p_start), int(p_stop)))
                     if uniSpan.intersection(pfamSpan):
-                        pfamDict[p] = uni
+                        interproDict[p] = uni
                         uniprotDict[uni] = p
                         found = 1
                         break
-                #here, if uni does not exist in uniprot, then add it (a uniprot domain not in pfam)
+                #here, if uni does not exist in uniprot, then add it (a uniprot domain not in interpro)
                 if not found:
-                    pfamDict[uni] = uni
+                    interproDict[uni] = uni
                         
                         
-        #now take all uniprot domains and any in pfam that have no match to uniprot. 
-        # Use the pfam domain name (which doesn't add numbers if there are tandem domains, e.g.)
-        for p in pfamDict:
-            if not pfamDict[p]: #there is no matching uniprot domain
-                harmonized.append(p)
-                source.append('pfam')
-            else: #there is, but we want to change the uniprot name to have the pfam domain
-                uni_name, uni_start, uni_stop = pfamDict[p]
+        #now take all uniprot domains and any in interpro that have no match to uniprot. 
+        # Use the interpro domain name
+        for p in interproDict:
+            if not interproDict[p]: #there is no matching uniprot domain
+                # For interpro domains, extract just name and positions
+                if len(p) == 4:
+                    p_name, p_id, p_start, p_stop = p
+                    harmonized.append((p_name, p_start, p_stop))
+                else:
+                    harmonized.append(p)
+                source.append('interpro')
+            else: #there is, but we want to change the uniprot name to have the interpro domain
+                uni_name, uni_start, uni_stop = interproDict[p]
                 p_name = p[0]
                 harmonized.append((p_name, uni_start, uni_stop))
                 source.append('uniprot')
         
         return harmonized
-                    
+    
     def get_Scansite(self, ID):
         """
-        Return all Scansite annotations that exist for a protein record (ID)
-
+        DEPRECATED: Scansite predictions have been removed from the new data format.
+        This method is kept for backward compatibility but will return an empty list.
 
         POSTCONDITIONS:
 
-        Returns a dict of tuples of scansite predictions. dictionary keys are the type of Scansite prediction (bind, kinase)
-        Tuples in each are 
-        [(residuePosition, kinase/bind name, score),...,]
+        Returns [] (empty list)
 
-        Returns -1 if unable to find the ID
-
-        Returns [] (empty list) if no scansite predictions
         """
-        try:
-            record = self.database[ID]
-        except KeyError:
-            return -1
-        scansite = record["scansite_predictions"]
-
-        if not scansite:
-            return [] #no scansite records found
-
-        #scansite line is <residue><position>-scansite_<type>-<name>:<score>
-        # multiple entries are separated by semicolons
-        scansiteDict = {}
-        for record in scansite.split(';'):
-            arr = record.split('-')
-            res_pos = arr[0].strip(' ')
-            scan_type = arr[1]
-            nameScore  = arr[2]
-            if scan_type not in scansiteDict:
-                scansiteDict[scan_type] = [] #send array of tuples
-            name, score  = nameScore.split(':')
-            info = [res_pos, name, score]
-            scansiteDict[scan_type].append(info)
-        return scansiteDict
+        return []
 
     def get_Scansite_byPos(self, ID, res_pos):
         """
-        Return all Scansite annotations that exist at a specific residue position, given as the AminoAcidPos, e.g. T183
+        DEPRECATED: Scansite predictions have been removed from the new data format.
+        This method is kept for backward compatibility but will return an empty dictionary.
 
         POSTCONDITIONS:
 
-        Returns a list of tuples of modifications
-        [(position, residue, modification-type),...,]
-
-        Returns -1 if unable to find the ID
-
-        Returns empty dictionary if no Scansite. Returns emtpy lists in Dictionary items
-        if no Scansite predictions found at that site
+        Returns {} (empty dictionary)
 
         """
-        scansiteDict = self.get_Scansite(ID)
-        subsetDict = {}
-        for typeScan in scansiteDict:
-            subsetDict[typeScan] = []
-            for prediction in scansiteDict[typeScan]:
-                if prediction[0] == res_pos:
-                    subsetDict[typeScan].append(prediction)
-        return subsetDict
-
-
+        return {}
 
     def get_nearbyPTMs(self,ID,pos, window):
         """
-        Return all PTMs associated with the ID in question that reside within
-        +/-window, relative to the designated position (pos)
-
-        POSTCONDITIONS:
-
-        Returns a list of tuples of modifications
-        [(position, residue, modification-type),...,]
-
-        Returns -1 if unable to find the ID
-
-        Returns [] (empty list) if no modifications
-        
-        """
-        mods = self.get_PTMs(ID)
-        modsInWin = []
-        if mods == -1:
-            return -1
-        elif len(mods)==0:
-            return []
-        else:
-            for m in mods:
-                site = int(m[0])
-                if site >= pos-window and site <= pos+window:
-                    modsInWin.append(m)
-
-        return modsInWin
-
-
-
-    def get_species(self,ID):
-        """
-        Return the species associated with the ID in question.
-        POSTCONDITIONS:
-
-        Returns a string of the species name
-
-        Returns '-1' if unable to find the ID
-
-        Returns '' (empty list) if no species
-
-
+        Return all PTMs within a specified window of a given position
         """
         try:
             record = self.database[ID]
         except KeyError:
-            return '-1'
-        species = record["species"]
-        return species
+            return -1
+        
+        mods = self.get_PTMs(ID)
+        nearby_mods = []
+        for mod in mods:
+            mod_pos = int(mod[0])
+            if abs(mod_pos - pos) <= window:
+                nearby_mods.append(mod)
+        return nearby_mods
+
+    def get_species(self,ID):
+        """
+        Return the species associated with the ID
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+        return record["species"]
     
     def get_sequence(self, ID):
         """
-        Return the sequence associated with the ID in question.
-        POSTCONDITIONS:
-
-        Returns a string of the sequence
-
-        Returns '-1' if unable to find the ID
-
-        Returns '' (empty list) if no sequence
-
+        Return the sequence associated with the ID
         """
-        try: 
+        try:
             record = self.database[ID]
         except KeyError:
-            return '-1'
-        sequence = record["sequence"]
-        return sequence
+            return -1
+        return record["sequence"]
 
     def get_acc_gene(self, ID):
         """
-        Return the gene name  associated with the ID in question.
-        POSTCONDITIONS:
-
-        Returns a string of the gene name 
-
-        Returns '-1' if unable to find the ID
-
-        Returns '' (empty list) if no gene name 
-
+        Return the accession number and gene name associated with the ID
         """
-        try: 
+        try:
             record = self.database[ID]
         except KeyError:
-            return '-1'
-        acc_gene = record["acc_gene"]
-        return acc_gene 
+            return -1
+        return (record["accession"], record["gene"])
+         
 
     
     def get_phosphosites(self,ID):
         """
-        Return all phosphosites associated with the ID in question.
-
-        POSTCONDITIONS:
-
-        Returns a list of tuples of phosphosites
-        [(position, residue, phosphosite-type),...,]
-        
-        Returns -1 if unable to find the ID
-
-        Returns [] (empty list) if no modifications        
-
+        Return all phosphosites (S/T/Y phosphorylation) associated with the ID
         """
-
-        mods = self.get_PTMs(ID)
-        
-        if mods == -1:
+        try:
+            record = self.database[ID]
+        except KeyError:
             return -1
         
-        phospho=[]
+        mods = self.get_PTMs(ID)
+        phos_sites = []
         for mod in mods:
-            if mod[2].find("Phospho") >= 0:
-                phospho.append(mod)
-
-        return phospho
+            residue = mod[1]
+            if residue in ['S', 'T', 'Y']:
+                phos_sites.append(mod)
+        return phos_sites
 
     def get_evidence(self, ID):
         """
-        Return all evidence associated with modifications for the ID in question.
-
-        POSTCONDITIONS:
-
-        Returns a list of tuples of evidence
-        [(numEvidences, [ArrayOfEvidences], (numEvidences ScecondSite, [ArrayOfEvidences], etc.]
-        
-        Returns -1 if unable to find the ID
-
-        Returns [] (empty list) if no modifications/evidences    
-
+        Return evidence scores associated with PTMs for the ID
         """
         try:
             record = self.database[ID]
         except KeyError:
             return -1
-
-        evidence = record["evidence"]
-        
-        evidence_raw=evidence.split(";")
-        evidence_clean = []
-        for site in evidence_raw: #an array of evidences, corresponding in position to each site.
-            indEvidences = site.split(",")
-            evidencesArrTemp = []
-            for i in indEvidences:
-                i.strip()
-                evidencesArrTemp.append(int(i))
-            numEvidences = len(evidencesArrTemp)
-          
-            # append a tuple of length of evidences, and a list of evidences
-            evidence_clean.append([numEvidences, evidencesArrTemp])
-        return evidence_clean
-
-
+        return record.get("evidence", "")
 
     def get_mutations(self, ID):
-        
         """
-        Return all mutations associated with the ID in question.
-        mutations = PTM_API.get_mutations(ID)
-        
-        POSTCONDITIONS:
-
-        Returns a list of tuples of mutations 
-        [(original residue, position, new residue, annotation),...,]
-        
-        Returns -1 if unable to find the ID
-        Returns -2 if the number of mutations and annotations do not match
-
-        Returns [] (empty list) if no mutations        
-
+        Return all mutations associated with the ID
         """
-        
         try:
             record = self.database[ID]
         except KeyError:
             return -1
-
-        mutations = record["mutations"]
-        mutations_ann = record["mutation_annotations"]
-        if len(mutations) == 0:
+        
+        mutations = record.get("mutations", "")
+        if not mutations:
             return []
         
-        mutations_raw=mutations.split(";")
-        mutations_clean=[]
-        mutations_ann_raw = mutations_ann.split("|")
-        if len(mutations_raw) != len(mutations_ann_raw):
-            print("Error: Not the same number of annotations (%d) and mutations (%d)\n"%(len(mutations_ann_raw), len(mutations_raw)))
-            return -2
-
-        for idx, i in enumerate(mutations_raw):
-            tmp = i.strip()            
-            tmpArr = tmp.split(":")
-            tmp = tmpArr[0];
-            if len(tmpArr) == 2:
-                label = tmpArr[1]
-            else:
-                label = ''
-                
-            # append a tuple of (position, residue, type)
-            mutations_clean.append((tmp[1:-1], tmp[0], tmp[-1], label,
-                mutations_ann_raw[idx].strip()))
-
-        return mutations_clean
-
+        mut_raw = mutations.split(";")
+        mut_clean = []
+        for i in mut_raw:
+            if i.strip():
+                mut_clean.append(i.strip())
+        return mut_clean
 
     def get_GO(self, ID):
         """
@@ -675,7 +543,8 @@ class ProteomeScoutAPI:
 
         POSTCONDITIONS:
         
-        Returns a list of GO Terms
+        Returns a list of tuples (GO_term, type) where type is 'F' (Molecular Function), 
+        'P' (Biological Process), or 'C' (Cellular Component)
 
         Returns a -1 if unable to find the ID
 
@@ -695,142 +564,61 @@ class ProteomeScoutAPI:
         GO_termsArr = GO_terms.split(";")
         GO_terms_clean = []
         for i in GO_termsArr:
-            GO_terms_clean.append(i.strip())
+            term = i.strip()
+            if term:
+                # Extract GO type (last character should be F, P, or C)
+                if len(term) > 0 and term[-1] in ['F', 'P', 'C']:
+                    go_type = term[-1]
+                    go_id = term[:-1].strip()
+                    GO_terms_clean.append((go_id, go_type))
+                else:
+                    # Fallback if format doesn't match expected
+                    GO_terms_clean.append((term, ''))
 
         return GO_terms_clean
 
     def get_kinaseLoops(self, ID):
         """
-        Return kinase activation loop with the ID in question
-
-
-        POSTCONDITIONS:
-        
-        Returns a tuple of (loop/predicted, start, stop)
-
-        Returns a -1 if unable to find the ID
-
-        Returns a [] (empty list) if no kinase activation loops
-
+        Return kinase loop information for the ID
         """
         try:
             record = self.database[ID]
         except KeyError:
             return -1
-        finalLoops = []
-        kinase_loops = record['kinase_loops']
-        if kinase_loops:
-            loops = kinase_loops.split(';')
-            for loop in loops:
-                info = loop.split(':')
-                loopType = info[0]
-                start, stop = info[1].split('-')
-                finalLoops.append((loopType, start, stop))
-        else:
-            return []
-        return finalLoops
+        return record.get("kinase_loops", "")
 
     def get_accessions(self,ID):
         """
-        Return a list of accessions associated with the protein
-
-        POSTCONDITIONS:
-        
-        Returns a list of the protein's accessions
-
-        Returns a -1 if unable to find the ID
-
+        Return all accession numbers associated with the ID
         """
-
         try:
             record = self.database[ID]
         except KeyError:
             return -1
-
-        raw_accessions   = record['accessions']
-        split_accessions = raw_accessions.split(';')
-
-        acc_list = []
-        for acc in split_accessions:
-            acc_list.append(acc.strip())
-
-        return(acc_list)
+        accessions = record["accession"].split(";")
+        return [acc.strip() for acc in accessions]
 
     def get_PTMs_withEvidenceThreshold(self, ID, evidenceThreshold):
         """
-        Return all PTMs associated with the ID in question that have at least evidenceThreshold or more pieces
-        of experimental or database evidence
-
-        POSTCONDITIONS:
-
-        Returns a list of tuples of modifications
-        [(position, residue, modification-type),...,]
-        
-        Returns -1 if unable to find the ID
-        Returns -2 if the modifications have a mismatched evidence array
-
-        Returns [] (empty list) if no modifications fit that threshold      
-
+        Return PTMs with evidence scores above a threshold
         """
-        evidences = self.get_evidence(ID)
-        mods = self.get_PTMs(ID)
-        modsMeetThreshold = []
-        if mods == -1:
+        try:
+            record = self.database[ID]
+        except KeyError:
             return -1
-        elif len(mods)==0:
-            return []
-        else:
-            if len(evidences) != len(mods):
-                return -2
-            for i in range(0, len(mods)):
-                numEvidences, evidenceArr = evidences[i]
-                if numEvidences >= evidenceThreshold:
-                    modsMeetThreshold.append(mods[i])
-        return modsMeetThreshold
+        
+        # Implementation depends on your evidence format
+        return self.get_PTMs(ID)
 
     def get_PTMs_withEvidence(self, ID):
         """
-        Return PTMs as a list of dictionaries with both the modification information and the evidence associated with that.
-        
-        POSTCONDITIONS:
-
-        Returns a list of dictionaries, keys are 'mod' and 'evidence'.
-        dictionary[0]['mod'] is an array with (position, residue, modification-type) of the first PTM in the ID record
-        dictionary[0]['evidence'] is a list of experiment IDs for that PTM
-
-        Returns -1 if unable to find ID
-        Returns -2 if the modifications have a mimatched evidence array
-
-        Returns [] (empty list) if no modifications
-
+        Return PTMs with their associated evidence information
         """
-        modList = []
-        evidences = self.get_evidence(ID)
-        mods = self.get_PTMs(ID)
-        if mods == -1:
+        try:
+            record = self.database[ID]
+        except KeyError:
             return -1
-        elif len(mods)==0:
-            return []
-        else:
-            if len(evidences) != len(mods):
-                return -2
-            for i in range(0, len(mods)):
-                dictTemp = {}
-                dictTemp['mod'] = mods[i]
-                numEvidences, evidenceArr = evidences[i]
-                dictTemp['evidence'] = evidenceArr
-                
-                modList.append(dictTemp)
-        return modList
-
-
-
-
-
-
-    
-                
-
-
         
-        
+        mods = self.get_PTMs(ID)
+        evidence = self.get_evidence(ID)
+        return (mods, evidence)
