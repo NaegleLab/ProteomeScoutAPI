@@ -142,40 +142,27 @@ class ProteomeScoutAPI:
 
             # split the record and get the canonical ID
             record          = line.split('\t')
-            IDlist_raw      = record[1].split(";")
             ProteomeScoutID = record[0]
-            IDlist = []
-            for ID in IDlist_raw:
-                IDlist.append(ID.strip())
             
-            # Add uniprot_id to the lookup list if it exists
+            # Use uniprot_id as the primary lookup key
             uniprot_id = record[12].strip() if len(record) > 12 and record[12].strip() else None
+            
+            IDlist = []
             if uniprot_id:
                 IDlist.append(uniprot_id)
                 
             # add the first ID to the list of unique keys
             self.uniqueKeys.append(ProteomeScoutID)
 
-            # now construct the object dictionary. Note we
-            # have hardcoded the number of header columns here
-            # though if in future versions of the ProteomeScout
-            # dataset more columns are added you coulded extend this
-            # here
+            # now construct the object dictionary
             OBJ={}
             for i in range(1,18):
                 OBJ[headers[i]] = record[i]
 
-
             # ALWAYS add the record via the ProteomeScout uniquekey
             self.database[ProteomeScoutID] = OBJ
         
-            # for each other ID associated with the record, assign that accession-record
-            # mapping assuming the record is not overwriting a more complete record which
-            # already exists. 
-            #
-            # This means users can use whatever accession type they want to interact 
-            # with the ProteomeScoutAPI, while recognizing that many different accessions
-            # will be referring to the same protein
+            # for each other ID associated with the record (only uniprot_id now)
             for ID in IDlist:
 
                 # A possible issue is the possibility that the same accession
@@ -263,23 +250,65 @@ class ProteomeScoutAPI:
                     structs_clean.append((tmp[0], tmp[1], tmp[2]))
         return structs_clean
     
-    def get_domains(self, ID, domain_type):
+    def get_macro_molecular(self, ID):
+        """
+        Return all macro-molecular structures associated with the ID in question.
+
+        POSTCONDITIONS:
+    
+            Returns a list of tuples of macro-molecular structures
+            [(structure_name, start_position, end_position),...,]
+            
+            Returns -1 if unable to find the ID
+    
+            Returns [] (empty list) if no macro-molecular structures  
+
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+            
+        macro_mol = record["macro_molecular"]
+        
+        if not macro_mol or macro_mol.strip() == "":
+            return []
+               
+        macro_mol_raw = macro_mol.split(";")
+        macro_mol_clean = []
+        for i in macro_mol_raw:
+            if i:
+                tmp = i.strip()
+                parts = tmp.split(":")
+                if len(parts) >= 3:
+                    name = parts[0]
+                    start = parts[1]
+                    stop = parts[2]
+                    macro_mol_clean.append((name, start, stop))
+                else:
+                    print("ERROR: the macro-molecular structure did not match expected format %s"%(i))
+        return macro_mol_clean
+    
+    def get_domains(self, ID, domain_type=None):
         """
         Return all domains associated with the ID in question.
         For interpro domains domain_type is 'interpro'
         For UniProt domains domain_type is 'uniprot'
+        If domain_type is not specified, returns a dictionary with both.
 
         POSTCONDITIONS:
 
-        Returns a list of tuples of domains, each of length 4 for common parsing, where the last entry is None for uniprot domains or Interpro ID for interpro domains
-        if there is a problem with the start and end position, these will be
-        returned as -1
+        Returns a list of tuples of domains if domain_type is specified (tuple length matched for easy processing, but only interpro_id is returned as the last for interpro):
         For interpro: [(domain_name, start_position, end_position, interpro_id),...,]
         For uniprot: [(domain_name, start_position, end_position, None),...,]
         
+        Returns a dictionary with 'interpro' and 'uniprot' keys if domain_type is not specified:
+        {'interpro': [...], 'uniprot': [...]}
+
+        
         Returns -1 if unable to find the ID
 
-        Returns [] (empty list) if no modifications        
+        Returns [] (empty list) if no domains for the specified type
 
         """
         
@@ -287,6 +316,14 @@ class ProteomeScoutAPI:
             record = self.database[ID]
         except KeyError:
             return -1
+        
+        # If no domain_type specified, return both
+        if domain_type is None:
+            return {
+                'interpro': self.get_domains(ID, 'interpro'),
+                'uniprot': self.get_domains(ID, 'uniprot')
+            }
+        
         domain_type = domain_type.lower()
         if domain_type == 'interpro':
             doms = record["Interpro_domains"]
@@ -329,93 +366,6 @@ class ProteomeScoutAPI:
                     else:
                         print("ERROR: the uniprot domain did not match expected format %s"%(i))
         return doms_clean
-
-    def get_domains_harmonized(self, ID):
-        """
-        This will harmonize interpro and uniprot domains into one tuple output
-        with the following rules:
-            1. Use the interpro domain name (since it does not append numbers if more than one domain of that type)
-            2. Use the Uniprot domain boundaries (since they are typically more expansive)
-            3. If uniprot does not have an interpro domain, use the interpro domain as it is
-        POSTCONDITIONS:
-
-        Returns a list of tuples of domains 
-        if there is a problem with the start and end position, these will be
-        returned as -1
-        [(domain_name, start_position, end_position),...,]
-        
-        Returns -1 if unable to find the ID
-
-        Returns [] (empty list) if no domains  
-
-        """
-        #First find which domains overlap from interpro to uniprot, keeping those
-        # they overlap if the start position or end positions are
-
-        interpro = self.get_domains(ID, 'interpro')
-        uniprot = self.get_domains(ID, 'uniprot')
-
-        if interpro == -1:
-            return -1
-
-        harmonized = []
-        source = [] #keeping track of source, but not currently returning it
-        #create a dictionary of matches from interpro to uniprot and vice versa
-        interproDict = {}
-        uniprotDict = {}
-
-
-        for p in interpro:
-            p_name, p_id, p_start, p_stop = p
-            pfamSpan = set(range(int(p_start), int(p_stop)))
-            interproDict[p] = []
-            for uni in uniprot:
-                uni_name, uni_start, uni_stop = uni
-                uniSpan = set(range(int(uni_start), int(uni_stop)))
-            
-                if uniSpan.intersection(pfamSpan):
-                    interproDict[p] = uni
-                    uniprotDict[uni] = p
-                    break
-                        
-        #repeat from uniprot for uniprot domains not yet matched
-        for uni in uniprot:
-            found = 0
-            if uni not in uniprotDict:
-                uni_name, uni_start, uni_stop = uni
-                uniSpan = set(range(int(uni_start), int(uni_stop)))
-                uniprotDict[uni] = []
-                for p in interpro:
-                    p_name, p_id, p_start, p_stop = p
-                    pfamSpan = set(range(int(p_start), int(p_stop)))
-                    if uniSpan.intersection(pfamSpan):
-                        interproDict[p] = uni
-                        uniprotDict[uni] = p
-                        found = 1
-                        break
-                #here, if uni does not exist in uniprot, then add it (a uniprot domain not in interpro)
-                if not found:
-                    interproDict[uni] = uni
-                        
-                        
-        #now take all uniprot domains and any in interpro that have no match to uniprot. 
-        # Use the interpro domain name
-        for p in interproDict:
-            if not interproDict[p]: #there is no matching uniprot domain
-                # For interpro domains, extract just name and positions
-                if len(p) == 4:
-                    p_name, p_id, p_start, p_stop = p
-                    harmonized.append((p_name, p_start, p_stop))
-                else:
-                    harmonized.append(p)
-                source.append('interpro')
-            else: #there is, but we want to change the uniprot name to have the interpro domain
-                uni_name, uni_start, uni_stop = interproDict[p]
-                p_name = p[0]
-                harmonized.append((p_name, uni_start, uni_stop))
-                source.append('uniprot')
-        
-        return harmonized
     
     def get_Scansite(self, ID):
         """
@@ -503,7 +453,8 @@ class ProteomeScoutAPI:
         phos_sites = []
         for mod in mods:
             residue = mod[1]
-            if residue in ['S', 'T', 'Y']:
+            mod_type = mod[2]
+            if mod_type in ['Phosphoserine', 'Phosphothreonine', 'Phosphotyrosine']:
                 phos_sites.append(mod)
         return phos_sites
 
@@ -517,25 +468,26 @@ class ProteomeScoutAPI:
             return -1
         return record.get("evidence", "")
 
-    def get_mutations(self, ID):
-        """
-        Return all mutations associated with the ID
-        """
-        try:
-            record = self.database[ID]
-        except KeyError:
-            return -1
+    # def get_mutations(self, ID):
+    ## DEPRECATED: Mutations have been removed from the new data format.
+    #     """
+    #     Return all mutations associated with the ID
+    #     """
+    #     try:
+    #         record = self.database[ID]
+    #     except KeyError:
+    #         return -1
         
-        mutations = record.get("mutations", "")
-        if not mutations:
-            return []
+    #     mutations = record.get("mutations", "")
+    #     if not mutations:
+    #         return []
         
-        mut_raw = mutations.split(";")
-        mut_clean = []
-        for i in mut_raw:
-            if i.strip():
-                mut_clean.append(i.strip())
-        return mut_clean
+    #     mut_raw = mutations.split(";")
+    #     mut_clean = []
+    #     for i in mut_raw:
+    #         if i.strip():
+    #             mut_clean.append(i.strip())
+    #     return mut_clean
 
     def get_GO(self, ID):
         """
@@ -577,15 +529,16 @@ class ProteomeScoutAPI:
 
         return GO_terms_clean
 
-    def get_kinaseLoops(self, ID):
-        """
-        Return kinase loop information for the ID
-        """
-        try:
-            record = self.database[ID]
-        except KeyError:
-            return -1
-        return record.get("kinase_loops", "")
+    # def get_kinaseLoops(self, ID):
+    # DEPRECATED: Kinase loop information has been removed from the new data format.
+    #     """
+    #     Return kinase loop information for the ID
+    #     """
+    #     try:
+    #         record = self.database[ID]
+    #     except KeyError:
+    #         return -1
+    #     return record.get("kinase_loops", "")
 
     def get_accessions(self,ID):
         """
@@ -598,17 +551,17 @@ class ProteomeScoutAPI:
         accessions = record["accession"].split(";")
         return [acc.strip() for acc in accessions]
 
-    def get_PTMs_withEvidenceThreshold(self, ID, evidenceThreshold):
-        """
-        Return PTMs with evidence scores above a threshold
-        """
-        try:
-            record = self.database[ID]
-        except KeyError:
-            return -1
+    # def get_PTMs_withEvidenceThreshold(self, ID, evidenceThreshold):
+    #     """
+    #     Return PTMs with evidence scores above a threshold
+    #     """
+    #     try:
+    #         record = self.database[ID]
+    #     except KeyError:
+    #         return -1
         
-        # Implementation depends on your evidence format
-        return self.get_PTMs(ID)
+    #     # Implementation depends on your evidence format
+    #     return self.get_PTMs(ID)
 
     def get_PTMs_withEvidence(self, ID):
         """
