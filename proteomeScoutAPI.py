@@ -152,7 +152,7 @@ class ProteomeScoutAPI:
                 IDlist.append(uniprot_id)
                 
             # add the first ID to the list of unique keys
-            self.uniqueKeys.append(ProteomeScoutID)
+            self.uniqueKeys.append(uniprot_id)
 
             # now construct the object dictionary
             OBJ={}
@@ -160,7 +160,12 @@ class ProteomeScoutAPI:
                 OBJ[headers[i]] = record[i]
 
             # ALWAYS add the record via the ProteomeScout uniquekey
-            self.database[ProteomeScoutID] = OBJ
+            if uniprot_id and uniprot_id not in self.database:
+                self.database[uniprot_id] = OBJ
+            else:
+                self.database[ProteomeScoutID] = OBJ
+                print("Warning: %s uniprot id had issues for %s"%(uniprot_id, ProteomeScoutID))
+
         
             # for each other ID associated with the record (only uniprot_id now)
             for ID in IDlist:
