@@ -141,53 +141,33 @@ class ProteomeScoutAPI:
         for line in content:
 
             # split the record and get the canonical ID
-            record          = line.split('\t')
+            record          = line.strip().split('\t')
+            
+            # Skip empty lines
+            if not record or not record[0].strip():
+                continue
+            
             ProteomeScoutID = record[0]
             
             # Use uniprot_id as the primary lookup key
-            uniprot_id = record[12].strip() if len(record) > 12 and record[12].strip() else None
-            
-            IDlist = []
-            if uniprot_id:
-                IDlist.append(uniprot_id)
+            uniprot_id = record[12].strip() if len(record) > 12 and record[12].strip() else ProteomeScoutID
                 
-            # add the first ID to the list of unique keys
+            # add to the list of unique keys
             self.uniqueKeys.append(uniprot_id)
 
             # now construct the object dictionary
             OBJ={}
             for i in range(1,18):
-                OBJ[headers[i]] = record[i]
+                OBJ[headers[i]] = record[i].strip() if i < len(record) else ""
 
-            # ALWAYS add the record via the ProteomeScout uniquekey
-            if uniprot_id and uniprot_id not in self.database:
-                self.database[uniprot_id] = OBJ
+            # ALWAYS add the record via uniprot_id (or ProteomeScoutID if no uniprot_id)
+            if uniprot_id in self.database:
+                # if the newly found record has more PTMs associated with it than the 
+                # original record then overwrite 
+                if len(OBJ['modifications'].split(";")) > len(self.database[uniprot_id]['modifications'].split(";")):
+                    self.database[uniprot_id] = OBJ
             else:
-                self.database[ProteomeScoutID] = OBJ
-                print("Warning: %s uniprot id had issues for %s"%(uniprot_id, ProteomeScoutID))
-
-        
-            # for each other ID associated with the record (only uniprot_id now)
-            for ID in IDlist:
-
-                # A possible issue is the possibility that the same accession
-                # points to several ProteomeScout records. Rather than merging records,
-                # which can introduce problems, we've chosen to deal with this by defaulting
-                # to the record with the largest number of modifications associated with it
-                #
-                # In most examples of record duplicaion there is clearly a 'major' and 'minor'
-                # record. This occurs through insufficient cross-referencing in databases
-                # outside of ProteomeScout. The 'minor' record is typically a subset of
-                # the 'major' record
-                if ID in self.database:
-
-                    # if the newly found record has more PTMs associated with it than the 
-                    # original record then overwrite 
-                    if len(OBJ['modifications'].split(";")) > len(self.database[ID]['modifications'].split(";")):
-                        self.database[ID] = OBJ
-
-                else:                                        
-                    self.database[ID] = OBJ
+                self.database[uniprot_id] = OBJ
 
     def get_PTMs(self, ID):
         """
@@ -580,3 +560,23 @@ class ProteomeScoutAPI:
         mods = self.get_PTMs(ID)
         evidence = self.get_evidence(ID)
         return (mods, evidence)
+    
+    def return_species_nr_uniprot_ids(self):
+        """
+        Return a dictionary with species as keys and number of unique uniprot IDs as values. 
+        Keep only those that are flagged as uniprot IDs in in the non-redundant list.
+        """
+        species_dict = {}
+        for ID in self.database.keys():
+            species = self.get_species(ID)
+            non_redundant = self.database[ID].get("swissprot_nr").strip()
+            if non_redundant:
+                if species not in species_dict:
+                    species_dict[species] = set()
+                species_dict[species].add(ID)
+        
+        # at the end, convert sets to lists 
+        for species in species_dict:
+            species_dict[species] = list(species_dict[species])
+        
+        return species_dict
