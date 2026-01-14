@@ -565,6 +565,11 @@ class ProteomeScoutAPI:
         """
         Return a dictionary with species as keys and number of unique uniprot IDs as values. 
         Keep only those that are flagged as uniprot IDs in in the non-redundant list.
+
+        POSTCONDITIONS:
+        Returns a tuple (species_dict, species_reference_bool)
+        species_dict: {species_name: [list of uniprot IDs]}
+        species_reference_bool: {species_name: is_reference_species (True/False)} - If False, it means that only nonredundant uniprot records are included in the list if they have PTMs. 
         """
         species_dict = {}
         for ID in self.database.keys():
@@ -578,5 +583,14 @@ class ProteomeScoutAPI:
         # at the end, convert sets to lists 
         for species in species_dict:
             species_dict[species] = list(species_dict[species])
+
+        species_reference_bool = {
+                        "Homo sapiens": True,
+                        "Mus musculus": True,
+                        "Rattus norvegicus": False,
+                        "Bos taurus": False,
+                        "Drosophila melanogaster"  : False,
+                        "Saccharomyces cerevisiae (strain ATCC 204508 / S288c)": False,
+                    }
         
-        return species_dict
+        return species_dict, species_reference_bool
