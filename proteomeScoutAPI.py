@@ -216,7 +216,7 @@ class ProteomeScoutAPI:
             [(domain_name, start_position, end_position),...,]
             
             Returns -1 if unable to find the ID
-    
+                
             Returns [] (empty list) if no structures  
 
         """
@@ -250,6 +250,8 @@ class ProteomeScoutAPI:
             [(structure_name, start_position, end_position),...,]
             
             Returns -1 if unable to find the ID
+
+            Removes any malformed entries that don't have name:start:stop
     
             Returns [] (empty list) if no macro-molecular structures  
 
@@ -274,6 +276,11 @@ class ProteomeScoutAPI:
                     name = parts[0]
                     start = parts[1]
                     stop = parts[2]
+                    try:
+                        int(start)
+                        int(stop)
+                    except ValueError:
+                        continue
                     macro_mol_clean.append((name, start, stop))
                 else:
                     print("ERROR: the macro-molecular structure did not match expected format %s"%(i))
