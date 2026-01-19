@@ -109,7 +109,7 @@ class ProteomeScoutAPI:
             with open(filename, 'r') as f:
                 first_line = f.readline()
                 
-            if not len(first_line.split("\t")) == 18:
+            if not len(first_line.split("\t")) == 17:
                 raise BadProteomeScoutFile("N/A")
             
                 
@@ -157,7 +157,7 @@ class ProteomeScoutAPI:
 
             # now construct the object dictionary
             OBJ={}
-            for i in range(1,18):
+            for i in range(1,17):
                 OBJ[headers[i]] = record[i].strip() if i < len(record) else ""
 
             # ALWAYS add the record via uniprot_id (or ProteomeScoutID if no uniprot_id)
@@ -190,6 +190,8 @@ class ProteomeScoutAPI:
             return -1
 
         mods = record["modifications"]
+        if not mods or mods.strip() == "":
+            return []
         
         mods_raw=mods.split(";")
         mods_clean =[]
@@ -224,6 +226,9 @@ class ProteomeScoutAPI:
             return -1
             
         structs = record["structure"]
+        
+        if not structs or structs.strip() == "":
+            return []
                
         structs_raw=structs.split(";")
         structs_clean =[]
@@ -413,15 +418,16 @@ class ProteomeScoutAPI:
             return -1
         return record["sequence"]
 
-    def get_acc_gene(self, ID):
+
+    def get_gene_name(self, ID):
         """
-        Return the accession number and gene name associated with the ID
+        Return the gene_name of an ID
         """
         try:
             record = self.database[ID]
         except KeyError:
             return -1
-        return (record["accession"], record["gene"])
+        return (record["acc_gene"])
          
 
     
