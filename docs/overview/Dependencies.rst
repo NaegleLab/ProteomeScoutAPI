@@ -1,0 +1,6 @@
+Dependencies
+============
+
+- numpy
+- pandas
+- requests
