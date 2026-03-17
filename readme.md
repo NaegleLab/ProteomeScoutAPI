@@ -19,6 +19,8 @@ ProteomeScoutAPI is a Python module which can be used to connect to and parse Pr
 
 3. Facilitate rapid exploration of the ProteomeScout dataset
 
+See [documentation](https://naeglelab.github.io/ProteomeScoutAPI/)
+
 # usage
 
 0. Import the `proteomeScoutAPI` module (this assumes the code is in your current directory)

@@ -2,6 +2,29 @@
 
 # Common Helper functions to move in and out of strings/tuples from ProteomeScout, align peptides around modifications, etc.
 
+def clean_PTM_string(ptm_string):
+    """
+    Given a PTM string from ProteomeScout, return a tuple of (position, residue, type)
+    
+    Parameters
+    ----------
+    ptm_string: str
+        A PTM string from ProteomeScout, e.g. "S123-Phosphoserine; T456-Phosphothreonine"
+        
+    Returns
+    -------
+    """
+    mods_raw = ptm_string.split(';')
+    mods_clean =[]
+    for i in mods_raw:
+        tmp = i.strip()
+        tmp = tmp.split("-")
+        
+        # append a tuple of (position, residue, type)
+        mods_clean.append((tmp[0][1:], tmp[0][0], "-".join(tmp[1:])))
+    return mods_clean
+
+
 
 def returnDomainArchString(domains):
     """
@@ -23,9 +46,14 @@ def returnDomainArchString(domains):
     domainStruct = {}
     domainList = []
     for domain_entry in domains:
-        name, start, stop = domain_entry
+        name, start, stop, domain_id = domain_entry
         #print("DEBUG: found %s"%(name))
-        domainList.append("%s:%s:%s"%(name, start, stop))
+
+        #check if domain_id exists (is interpro, not uniprot). If so, include it in string
+        if domain_id == domain_id:
+            domainList.append("%s:%s:%s:%s"%(name, start, stop, domain_id))
+        else:
+            domainList.append("%s:%s:%s"%(name, start, stop))
         domainStruct[int(start)] = name
     domainStarts = list(domainStruct.keys())
 
@@ -98,5 +126,7 @@ def returnOrientedPhosphoPeptide(proteinSeq, pep, flank=7):
 
 def find_phospho(s):
     return [i for i, letter in enumerate(s) if (letter == 't' or letter=='s' or letter=='y')]
+
+
 
 

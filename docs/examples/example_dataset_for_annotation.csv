@@ -1,0 +1,650 @@
+﻿acc,Protein name,Protein symbol,Phosphorylation site,modification,pep,data:time(hours):0,data:time(hours):0.5,data:time(hours):1,data:time(hours):2,data:time(hours):4,data:time(hours):8,data:time(hours):24
+Q9C0C2,182 kDa tankyrase-1-binding protein.,TNKS1BP1,S672,phosphorylation,TEAQDLCRAsPEPPGPESSSR,1.05,0.75,0.59,0.89,0.95,0.89,1.00
+Q9C0C2,182 kDa tankyrase-1-binding protein.,TNKS1BP1,S691,phosphorylation,WLDDLLAsPPPSGGGAR,0.56,0.66,0.63,0.58,0.48,0.64,1.00
+P17980,26S protease regulatory subunit 6A,PSMC3,Y132,phosphorylation,QTyFLPVIGLVDAEK,0.11,0.09,0.11,0.12,0.14,0.04,1.00
+O15530,3-phosphoinositide-dependent protein kinase 1,PDPK1,S241,phosphorylation,ANsFVGTAQYVSPELLTEK,0.64,0.81,0.58,0.98,0.62,0.66,1.00
+P23396,40S ribosomal protein S3.,RPS3,T220/ T221*,phosphorylation,DEILPtTPISEQK,0.73,0.64,0.59,0.56,0.61,0.58,1.00
+B3GQS7,"60 kDa heat shock protein, mitochondrial",HSPD1,S67,phosphorylation,TVIIEQsWGSPK,1.26,1.10,0.78,0.95,0.92,0.85,1.00
+A8K4Z4,60S acidic ribosomal protein P0,RPLP0,"S304, S307",phosphorylation,VEAKEEsEEsDEDMGFGLFD,0.78,0.49,0.40,0.47,0.39,0.42,1.00
+P05386,60S acidic ribosomal protein P1.,RPLP1,"S101, S104",phosphorylation,KEEsEEsDDDMGFGLFD,2.65,2.05,1.33,2.10,2.00,2.11,1.00
+P05386,60S acidic ribosomal protein P1.,RPLP1,S101,phosphorylation,KEEsEESDDDMGFGLFD,0.29,0.27,0.22,0.38,0.20,0.20,1.00
+P05387,60S acidic ribosomal protein P2,RPLP2,S16/ S17*,phosphorylation,YVASYLLAALGGNsSPSAK,0.54,0.73,0.64,0.75,0.77,0.69,1.00
+P50914,60S ribosomal protein L14,RPL14,S139,phosphorylation,AALLKAsPK,1.07,0.84,1.10,1.09,0.93,0.95,1.00
+P46937,65 kDa Yes-associated protein,YAP1,S109,phosphorylation,QAsTDAGTAGALTPQHVR,0.90,0.66,0.60,0.69,0.78,0.90,1.00
+P46937,65 kDa Yes-associated protein,YAP1,S109/ T110*,phosphorylation,QAsTDAGTAGALTPQHVR,0.48,0.47,0.53,0.38,0.54,0.51,1.00
+P46937,65 kDa Yes-associated protein,YAP1,S164,phosphorylation,QSsFEIPDDVPLPAGWEMAK,0.50,0.39,0.34,0.48,0.46,0.40,1.00
+P36639,"7,8-dihydro-8-oxoguanine triphosphatase",NUDT1,Y48,phosphorylation,LyTLVLVLQPQR,0.58,0.48,0.66,0.80,0.29,0.90,1.00
+A8K5Q1,7SK snRNA methylphosphate capping enzyme,MEPCE,S254,phosphorylation,DITDPLSLNTCTDEGHVVLAsPLK,0.89,0.97,0.80,0.82,0.93,0.63,1.00
+A8K5Q1,7SK snRNA methylphosphate capping enzyme,MEPCE,S216/ S217*,phosphorylation,TLNAETPKsSPLPAK,1.32,1.12,1.18,1.03,1.07,1.16,1.00
+P60709,"Actin, cytoplasmic 1",ACTB,Y218,phosphorylation,LCyVALDFEQEMATAASSSSLEK,0.05,0.00,0.04,0.03,0.07,0.09,1.00
+P54819,"Adenylate kinase 2, mitochondrial",AK2,Y190,phosphorylation,LQAyHTQTTPLIEYYR,0.16,0.06,0.17,0.17,0.12,0.17,1.00
+Q9NRG9,Aladin,AAAS,S495,phosphorylation,FsPVLGR,0.89,0.69,0.73,0.70,0.79,0.74,1.00
+A2A3P0,Alpha-adducin,ADD1,S358,phosphorylation,SPGsPVGEGTGSPPKWQIGEQEFEALMR,0.35,0.35,0.31,0.41,0.39,0.39,1.00
+A2A3P0,Alpha-adducin,ADD1,Y407,phosphorylation,ySDVEVPASVTGYSFASDGDSGTCSPLR,0.06,0.00,0.15,0.03,0.35,0.25,1.00
+A4QMW8,Alpha-enolase,ENO1,Y44,phosphorylation,AAVPSGASTGIyEALELR,0.09,0.33,0.58,0.52,0.72,0.43,1.00
+A8K4R4,Alsin,ALS2,S492,phosphorylation,LSLPGLLSQVsPR,0.91,0.55,0.54,0.66,0.67,0.74,1.00
+A8K4R4,Alsin,ALS2,"S483, S492",phosphorylation,RLsLPGLLSQVsPR,0.64,0.57,0.56,0.63,0.59,0.57,1.00
+Q01433,AMP deaminase 2,AMPD2,S168,phosphorylation,QIsQDVKLEPDILLR,0.81,0.77,0.80,0.75,1.08,1.33,1.00
+Q9H1A4,Anaphase-promoting complex subunit 1,ANAPC1,S688,phosphorylation,NFDFEGSLsPVIAPK,0.58,0.57,0.71,0.66,0.65,0.60,1.00
+A2RUC1,Ankyrin repeat and SAM domain-containing protein 1A,ANKS1A,S663,phosphorylation,SPsFASEWDEIEK,0.43,0.69,0.45,0.66,0.44,0.43,1.00
+B2R5H9,Ankyrin repeat domain-containing protein 39.,ANKRD39,Y65,phosphorylation,AEDPSQPDSAGyTALHYASR,0.06,0.02,0.07,0.13,0.20,0.31,1.00
+P46013,Antigen KI-67.,MKI67,S584,phosphorylation,AQSLVISPPAPsPR,0.53,0.70,0.51,0.56,0.55,0.55,1.00
+B7ZLC4,AP2-associated protein kinase 1,AAK1,S637,phosphorylation,ILsDVTHSAVFGVPASK,1.66,0.95,1.59,1.35,1.35,1.59,1.00
+Q9UKV3,Apoptotic chromatin condensation inducer in the nucleus,ACIN1,S1004,phosphorylation,TAQVPsPPR,0.75,0.66,0.64,0.58,0.60,0.64,1.00
+Q9Y2X7,ARF GTPase-activating protein GIT1,GIT1,S361/ S362*,phosphorylation,SLsSPTDNLELSLR,0.43,0.57,0.51,0.54,0.40,0.38,1.00
+P52594,Arf-GAP domain and FG repeats-containing protein 1,AGFG1,Y327,phosphorylation,AGLQTADKyAALANLDNIFSAGQGGDQGSGFGTTGK,0.02,0.02,0.03,0.10,0.30,0.11,1.00
+Q9NWB6,Arginine and glutamate-rich protein 1.,ARGLU1,S77,phosphorylation,ASsPPDRIDIFGR,0.93,0.61,0.79,0.84,0.86,0.89,1.00
+Q9NWB6,Arginine and glutamate-rich protein 1.,ARGLU1,S76,phosphorylation,AsSPPDRIDIFGR,0.42,0.66,0.58,0.48,0.71,0.49,1.00
+Q7L4I2,Arginine/serine-rich coiled-coil protein 2.,RSRC2,S32,phosphorylation,EQSEVSVsPR,1.24,0.74,0.49,0.74,0.97,0.93,1.00
+B1AKZ4,Astrocytic phosphoprotein PEA-15,PEA15,S116,phosphorylation,DIIRQPsEEEIIK,0.65,0.54,0.48,0.66,0.65,0.76,1.00
+Q8WWM7,Ataxin-2-like protein,ATXN2L,S339,phosphorylation,QGSGREsPSLASR,1.10,0.66,0.70,0.71,0.79,0.97,1.00
+Q8WWM7,Ataxin-2-like protein,ATXN2L,S32,phosphorylation,RPPGGTsPPNGGLPGPLATSAAPPGPPAAASPCLGPVAAAGSGLR,0.27,0.44,0.52,0.76,0.22,0.40,1.00
+Q8WWM7,Ataxin-2-like protein,ATXN2L,T31/ S32*,phosphorylation,RPPGGtSPPNGGLPGPLATSAAPPGPPAAASPCLGPVAAAGSGLR,0.50,0.62,0.71,0.40,0.63,0.67,1.00
+Q8NE71,ATP-binding cassette sub-family F member 1,ABCF1,S109,phosphorylation,LSVPTsDEEDEVPAPKPR,0.68,1.17,0.77,0.84,0.92,0.69,1.00
+Q8NE71,ATP-binding cassette sub-family F member 1,ABCF1,T108/ S109*,phosphorylation,LSVPtSDEEDEVPAPKPR,0.37,0.68,0.37,0.31,0.53,0.32,1.00
+P53396,ATP-citrate synthase,ACLY,Y682,phosphorylation,TTDGVyEGVAIGGDR,0.59,0.55,0.54,0.45,0.76,0.70,1.00
+B2RDN9,ATP-dependent DNA helicase 2 subunit 1,XRCC6,S477,phosphorylation,SDsFENPVLQQHFR,0.63,0.75,0.58,0.66,0.74,0.61,1.00
+B3KMI4,ATP-dependent RNA helicase DDX42,DDX42,"S109, S111",phosphorylation,QQFHSKPVDsDsDDDPLEAFMAEVEDQAAR,0.64,0.65,0.40,0.55,0.69,0.43,1.00
+Q8NHQ9,ATP-dependent RNA helicase DDX55,DDX55,S594,phosphorylation,TVDLGIsDLEDDC,0.57,0.52,0.42,0.55,0.54,0.62,1.00
+O75531,Barrier-to-autointegration factor,BANF1,Y43,phosphorylation,AyVVLGQFLVLK,0.07,0.04,0.01,0.02,0.13,0.04,1.00
+A4D123,Basic leucine zipper and W2 domain-containing protein 2.,BZW2,S412/ S414*,phosphorylation,FVEWLQNAEEEsESEGEEN,0.66,0.35,0.13,1.00,0.60,0.81,1.00
+Q9H165,B-cell lymphoma/leukemia 11A,BCL11A,"S625, S627",phosphorylation,LLLGsPsSLSPFSK,0.78,0.65,0.72,0.84,0.92,0.72,1.00
+A2RU75,Bcl-2-associated transcription factor 1,BCLAF1,Y383/ S385*,phosphorylation,AEGEWEDQEALDyFSDKESGK,1.04,1.06,0.85,0.95,0.96,0.93,1.00
+A2RU75,Bcl-2-associated transcription factor 1,BCLAF1,Y383/ S385/ S389*,phosphorylation,AEGEWEDQEALDyFSDKESGK,0.33,0.48,0.37,0.47,0.38,0.38,1.00
+A2RU75,Bcl-2-associated transcription factor 1,BCLAF1,S658,phosphorylation,IDIsPSTLR,0.92,0.71,0.89,0.73,0.80,0.92,1.00
+A2RU75,Bcl-2-associated transcription factor 1,BCLAF1,S512,phosphorylation,LKDLFDYsPPLHK,0.61,0.69,0.64,0.76,0.72,0.71,1.00
+Q13425,Beta-2-syntrophin,SNTB2,S95,phosphorylation,GLGPPsPPAPPR,0.83,0.68,0.87,0.73,0.75,0.87,1.00
+Q13425,Beta-2-syntrophin,SNTB2,S110,phosphorylation,GPAGEAGAsPPVRR,1.08,0.75,0.60,0.60,0.82,0.93,1.00
+B4DP50,Bifunctional aminoacyl-tRNA synthetase,EPRS,S886,phosphorylation,EYIPGQPPLSQSSDSsPTR,0.43,0.53,0.65,0.47,0.56,0.58,1.00
+B4DP50,Bifunctional aminoacyl-tRNA synthetase,EPRS,S885/ S886*,phosphorylation,EYIPGQPPLSQSSDsSPTR,0.96,0.75,1.01,0.75,0.90,0.80,1.00
+O60502,Bifunctional protein NCOAT,MGEA5,S364,phosphorylation,LENEGsDEDIETDVLYSPQMALK,0.53,0.49,0.52,0.54,0.36,0.62,1.00
+A4D1T4,B-Raf proto-oncogene serine/threonine-protein kinase,BRAF,S364,phosphorylation,SsSAPNVHINTIEPVNIDDLIR,1.01,0.63,0.92,0.55,0.79,0.72,1.00
+A4D1T4,B-Raf proto-oncogene serine/threonine-protein kinase,BRAF,S365,phosphorylation,SSsAPNVHINTIEPVNIDDLIR,1.02,0.82,0.75,0.82,0.63,0.60,1.00
+Q9UQB8,Brain-specific angiogenesis inhibitor 1-associated protein 2,BAIAP2,Y491,phosphorylation,QRPySVAVPAFSQGLDDYGAR,0.04,0.23,0.33,0.31,0.44,0.23,1.00
+Q9UHR4,Brain-specific angiogenesis inhibitor 1-associated protein 2-like protein 1,BAIAP2L1,S414,phosphorylation,LLEENETEAVTVPTPsPTPVR,0.60,0.51,0.37,0.83,0.66,0.53,1.00
+B4DS09,Bromodomain-containing protein 3,BRD3,S263,phosphorylation,SEsPPPLSDPK,0.81,0.84,0.78,0.80,0.91,1.07,1.00
+O60885,Bromodomain-containing protein 4,BRD4,S1117,phosphorylation,IHsPIIR,0.68,0.61,0.74,0.76,0.67,0.73,1.00
+Q9H0E9,bromodomain-containing protein 8 isoform 1,BRD8,T264,phosphorylation,AtPPPSPLLSELLK,0.48,0.55,0.51,0.53,0.59,0.48,1.00
+B3KY04,BTB/POZ domain-containing protein KCTD12,KCTD12,Y119,phosphorylation,EAEyFELPELVR,0.47,0.40,0.40,0.35,0.53,0.63,1.00
+B3KY04,BTB/POZ domain-containing protein KCTD12,KCTD12,S176,phosphorylation,EGSLGDELLPLGYSEPEQQEGASAGAPsPTLELASR,0.58,0.32,0.22,0.48,0.41,0.33,1.00
+Q4AC94,C2 domain-containing protein 3.,C2CD3,Y564,phosphorylation,KSyAGPPPK,0.48,0.48,0.63,0.52,0.65,0.66,1.00
+P53805,Calcipressin-1,RCAN1,S167,phosphorylation,QFLISPPAsPPVGWK,0.97,0.83,0.83,0.68,0.93,0.91,1.00
+P53805,Calcipressin-1,RCAN1,"S163, S167",phosphorylation,QFLIsPPAsPPVGWK,0.57,0.51,0.40,0.56,0.33,0.39,1.00
+Q9Y2V2,Calcium-regulated heat stable protein 1,CARHSP1,"S30, S32",phosphorylation,ERsPsPLRGNVVPSPLPTR,0.99,0.78,0.79,0.75,0.80,0.73,1.00
+Q9Y2V2,Calcium-regulated heat stable protein 1,CARHSP1,S52,phosphorylation,TFsATVR,0.73,0.73,0.78,0.72,0.77,0.88,1.00
+P27824,Calnexin,CANX,S583,phosphorylation,AEEDEILNRsPR,0.83,0.88,0.85,0.82,0.84,0.80,1.00
+B2R5T5,cAMP-dependent protein kinase type I-alpha regulatory subunit,PRKAR1A,S83,phosphorylation,TDSREDEIsPPPPNPVVK,0.65,0.64,0.60,0.63,0.48,0.58,1.00
+P13861,cAMP-dependent protein kinase type II-alpha regulatory subunit.,PRKAR2A,S99,phosphorylation,RVsVCAETYNPDEEEEDTDPR,0.89,0.60,0.89,0.79,0.81,0.92,1.00
+P13861,cAMP-dependent protein kinase type II-alpha regulatory subunit.,PRKAR2A,"S78, S80",phosphorylation,VADAKGDsEsEEDEDLEVPVPSR,0.88,0.67,0.80,0.70,0.89,0.88,1.00
+P56211,cAMP-regulated phosphoprotein 19,ARPP19,S62,phosphorylation,YFDsGDYNMAK,0.93,0.77,1.13,0.88,0.94,0.70,1.00
+Q9H078,Caseinolytic peptidase B protein homolog,CLPB,S23,phosphorylation,RsPTLR,0.29,0.30,0.21,0.17,0.19,0.17,1.00
+B7Z9H1,Caskin-2.,CASKIN2,Y253,phosphorylation,NTyNQTALDIVNQFTTSQASR,0.34,0.19,0.30,0.37,0.46,0.41,1.00
+B3KSR8,Catenin alpha-1,CTNNA1,S655,phosphorylation,SRTsVQTEDDQLIAGQSAR,0.74,0.92,0.77,0.80,0.69,0.91,1.00
+B3KSR8,Catenin alpha-1,CTNNA1,S641,phosphorylation,TPEELDDsDFETEDFDVR,0.53,0.57,0.86,0.49,0.55,0.49,1.00
+A8K1L7,Catenin beta-1,CTNNB1,S675,phosphorylation,RLsVELTSSLFR,0.63,0.59,0.80,0.70,0.89,0.68,1.00
+Q00587,Cdc42 effector protein 1,CDC42EP1,S121,phosphorylation,NAIsLPQLNQAAYDSLVVGK,0.98,0.84,0.94,0.65,0.84,0.93,1.00
+A9Z1X7,"CDNA FLJ61739, HIGHLY SIMILAR TO SERINE/ARGININE REPETITIVE MATRIX PROTEIN 1.",SRRM1,S550,phosphorylation,WQsPVTK,0.42,0.48,0.42,0.36,0.49,0.49,1.00
+Q14004,Cell division cycle 2-like protein kinase 5,CDC2L5,S662/ S664*,phosphorylation,CLLADLPLPPELPGGDDLsKSPEEK,0.46,0.37,0.28,0.37,0.44,0.30,1.00
+Q9NYV4,Cell division cycle 2-related protein kinase 7,CRKRS,"S681, S685",phosphorylation,HLLTDLPLPPELPGGDLsPPDsPEPK,0.31,0.30,0.14,0.24,0.19,0.17,1.00
+Q9NYV4,Cell division cycle 2-related protein kinase 7,CRKRS,"S382, S383/ S382, S385/ S383, S385 *",phosphorylation,HssISPVRLPLNSSLGAELSR,0.67,0.55,0.68,0.71,0.72,0.68,1.00
+Q9UJX2,Cell division cycle protein 23 homolog,CDC23,S588,phosphorylation,RVsPLNLSSVTP,0.65,0.85,0.36,0.63,0.59,0.66,1.00
+P24941,Cell division protein kinase 2,CDK2,T160,phosphorylation,TYtHEVVTLWYR,1.01,0.93,1.07,1.17,1.18,1.51,1.00
+Q00535,Cell division protein kinase 5,CDK5,Y15,phosphorylation,IGEGTyGTVFK,0.48,0.49,0.68,0.73,1.04,0.82,1.00
+P04637,Cellular tumor antigen p53,TP53,S314/ S315 *,phosphorylation,ALPNNTSsSPQPK,0.49,0.59,0.60,0.54,0.46,0.71,1.00
+Q7Z7K6,Centromere protein V,CENPV,T98,phosphorylation,AQEEGPGEPPPPELALLPPPPPPPPtPATPTSSASNLDLGEQR,0.66,0.51,0.48,0.21,0.27,0.54,1.00
+Q5SW79,Centrosomal protein of 170 kDa,CEP170,S838,phosphorylation,QGsFTIEKPSPNIPIELIPHINK,0.57,0.62,0.77,0.79,0.75,0.67,1.00
+B2R7X3,Chromatin assembly factor 1 subunit B,CHAF1B,S410,phosphorylation,GSsPGPRPVEGTPASR,0.77,0.66,0.50,0.59,0.65,0.78,1.00
+A8K6D6,Chromodomain Y-like protein,CDYL,S201,phosphorylation,ILVPKsPVK,0.54,0.43,0.56,0.59,0.55,0.43,1.00
+A8K6D6,Chromodomain Y-like protein,CDYL,S214/ S216/ S230 *,phosphorylation,TAVDGFQsESPEKLDPVEQGQEDTVAPEVAAEKPVGALLGPGAER,0.51,0.64,0.45,0.50,0.46,0.60,1.00
+O60271,C-jun-amino-terminal kinase-interacting protein 4,SPAG9,T217,phosphorylation,ERPISLGIFPLPAGDGLLtPDAQK,0.25,0.10,0.27,0.39,0.18,0.10,1.00
+Q00610,Clathrin heavy chain 1,CLTC,Y899/ Y900 *,phosphorylation,ENPyYDSR,0.00,0.07,0.03,0.00,0.08,0.10,1.00
+Q00610,Clathrin heavy chain 1,CLTC,Y1487,phosphorylation,TSIDAyDNFDNISLAQR,0.08,0.00,0.13,0.05,0.18,0.10,1.00
+B4DFQ5,Cleavage stimulation factor 77 kDa subunit,CSTF3,S691,phosphorylation,RPNEDsDEDEEKGAVVPPVHDIYR,0.54,0.52,0.62,0.54,0.54,0.60,1.00
+O75122,CLIP-associating protein 2,CLASP2,T594,phosphorylation,VLNtGSDVEEAVADALK,0.83,0.63,0.65,0.85,0.69,0.68,1.00
+O75122,CLIP-associating protein 2,CLASP2,T594/ S596 *,phosphorylation,VLNTGsDVEEAVADALK,0.86,0.77,0.52,0.64,0.52,0.61,1.00
+B4DZI8,Coatomer subunit beta',COPB2,S867/ T869 *,phosphorylation,STAQQELDGKPASPTPVIVAsHTANKEEK,0.27,0.56,0.34,0.60,0.53,0.45,1.00
+B4DY99,Coiled-coil domain-containing protein 86,CCDC86,S58,phosphorylation,AGLGsPERPPK,0.59,0.77,0.47,0.35,0.47,0.52,1.00
+B4DY99,Coiled-coil domain-containing protein 86,CCDC86,S37,phosphorylation,ALVEFEsNPEETREPGSPPSVQR,0.90,0.40,0.71,0.91,0.76,0.68,1.00
+B4DY99,Coiled-coil domain-containing protein 86,CCDC86,S37/ T42 *,phosphorylation,ALVEFEsNPEETREPGSPPSVQR,0.84,0.80,0.72,0.78,0.61,0.77,1.00
+B4DY99,Coiled-coil domain-containing protein 86,CCDC86,S18,phosphorylation,LGGLRPEsPESLTSVSR,0.64,0.79,0.63,0.71,0.68,0.68,1.00
+B4DY99,Coiled-coil domain-containing protein 86,CCDC86,S91,phosphorylation,LQQGAGLESPQGQPEPGAAsPQR,0.86,0.93,0.72,0.65,0.76,0.72,1.00
+P38432,Coilin,COIL,S301,phosphorylation,LGFsLTPSK,0.89,1.01,1.02,0.97,1.06,0.97,1.00
+P42695,Condensin-2 complex subunit D3,NCAPD3,S1384,phosphorylation,SLGVLPFTLNSGsPEK,0.56,0.63,0.69,0.63,0.62,0.63,1.00
+Q6IBW4,Condensin-2 complex subunit H2,NCAPH2,S284,phosphorylation,ESRsPQQSAALPR,0.77,0.61,0.62,0.59,0.57,0.65,1.00
+P12277,Creatine kinase B-type,CKB,T35,phosphorylation,VLtPELYAELR,0.72,0.56,0.46,0.40,0.45,0.44,1.00
+B4E3L4,CREB-binding protein.,CREBBP,S2063,phosphorylation,SIsPSALQDLLR,0.51,0.61,0.76,0.66,0.65,0.72,1.00
+Q53ET0,CREB-regulated transcription coactivator 2,CRTC2,S433,phosphorylation,RVPLsPLSLLAGPADAR,0.77,0.72,0.49,0.86,0.77,0.72,1.00
+Q6UUV7,CREB-regulated transcription coactivator 3,CRTC3,S370,phosphorylation,LFSLsNPSLSTTNLSGPSR,1.08,0.56,0.65,0.80,0.84,0.84,1.00
+P46109,Crk-like protein.,CRKL,Y207,phosphorylation,NSNSYGIPEPAHAyAQPQTTTPLPAVSGSPGAAITPLPSTQNGPVFAK,0.52,1.04,1.06,1.28,1.36,0.94,1.00
+O15320,Cutaneous T-cell lymphoma-associated antigen 5,CTAGE5,S536,phosphorylation,AFLsPPTLLEGPLR,0.72,0.66,0.64,0.81,0.74,0.70,1.00
+A1L3Z2,Cyclic AMP-dependent transcription factor ATF-2,ATF2,S112,phosphorylation,MPLDLsPLATPIIR,0.59,0.62,0.56,0.43,0.52,0.48,1.00
+P06493,Cyclin-dependent Kinase 1,CDK1,Y15,phosphorylation,IGEGTyGVVYK,0.94,1.22,1.27,1.24,1.30,1.18,1.00
+P06493,Cyclin-dependent Kinase 1,CDK1,T161,phosphorylation,VYtHEVVTLWYR,0.79,0.59,0.72,0.92,0.79,0.99,1.00
+A2RRG7,Cytoplasmic dynein 1 light intermediate chain 1,DYNC1LI1,S207,phosphorylation,DFQEYVEPGEDFPAsPQRR,0.78,0.73,0.65,0.71,0.74,0.79,1.00
+B2R6S4,Cytoplasmic protein NCK1,NCK1,Y112,phosphorylation,LYDLNMPAyVK,0.05,0.05,0.03,0.14,0.25,0.23,1.00
+A8K538,"DEAD (Asp-Glu-Ala-Asp) box polypeptide 3, X-linked.",DDX3X,Y104,phosphorylation,SDyDGIGSR,1.40,2.15,2.38,1.90,1.25,1.74,1.00
+B4E1I3,Death domain-associated protein 6,DAXX,S671,phosphorylation,ICTLPSPPsPLASLAPVADSSTR,0.45,0.69,0.40,0.51,0.57,0.47,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,Y481,phosphorylation,IFPLRPDyQEPSR,0.65,0.74,1.11,1.27,0.96,0.93,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,Y736,phosphorylation,NLySGDYYR,0.04,0.05,0.09,0.10,0.24,0.19,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,"Y736, Y740",phosphorylation,NLySGDyYR,0.06,0.03,0.10,0.17,0.33,0.33,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,Y740,phosphorylation,NLYSGDyYR,0.02,0.04,0.04,0.09,0.11,0.07,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,Y813,phosphorylation,QTyLPQPAICPDSVYK,0.07,0.08,0.31,0.25,0.22,0.22,1.00
+Q16832,Discoidin domain-containing receptor 2,DDR2,Y684,phosphorylation,TVSyTNLK,0.03,0.02,0.04,0.12,0.15,0.24,1.00
+Q92466,DNA damage-binding protein 2,DDB2,S26,phosphorylation,SRsPLELEPEAK,0.44,0.58,0.46,0.47,0.43,0.56,1.00
+B4DQG8,DNA methyltransferase 1-associated protein 1,DMAP1,T445,phosphorylation,DTIIDVVGAPLtPNSR,0.73,0.74,0.56,0.77,0.66,0.69,1.00
+P52701,DNA mismatch repair protein Msh6,MSH6,S137,phosphorylation,VHVQFFDDsPTR,0.77,0.69,0.68,0.79,0.82,0.91,1.00
+B3KXZ4,DNA replication licensing factor MCM2,MCM2,S139,phosphorylation,GLLYDsDEEDEERPAR,0.89,0.72,0.68,0.75,0.74,0.84,1.00
+B3KXZ4,DNA replication licensing factor MCM2,MCM2,S27,phosphorylation,GNDPLTSsPGR,0.77,0.77,0.56,0.68,0.72,0.88,1.00
+B3KXZ4,DNA replication licensing factor MCM2,MCM2,S26/ S27 * ,phosphorylation,GNDPLTsSPGR,0.55,0.65,0.47,0.39,0.54,0.48,1.00
+B3KXZ4,DNA replication licensing factor MCM2,MCM2,T39,phosphorylation,RTDALtSSPGR,0.62,0.57,0.51,0.21,0.31,0.31,1.00
+P25205,DNA replication licensing factor MCM3,MCM3,Y708/ S711/ T713 * ,phosphorylation,DGDSYDPyDFSDTEEEMPQVHTPK,0.98,0.65,0.71,0.87,0.96,0.89,1.00
+B4DRF6,DNA replication licensing factor MCM6,MCM6,S762,phosphorylation,EIESEIDsEEELINK,0.65,0.84,0.71,0.68,0.79,0.57,1.00
+P11388,DNA topoisomerase 2-alpha,TOP2A,S1247,phosphorylation,IKNENTEGsPQEDGVELEGLK,0.56,0.53,0.65,0.74,0.75,0.66,1.00
+P11388,DNA topoisomerase 2-alpha,TOP2A,S1387/ T1406 *,phosphorylation,SVVSDLEADDVKGsVPLSSSPPATHFPDETEITNPVPK,0.21,0.42,0.51,0.59,0.70,0.40,1.00
+P11388,DNA topoisomerase 2-alpha,TOP2A,S1387/ S1391/ S1392/ S1393/ S1403/ S1406 *,phosphorylation,SVVSDLEADDVKGsVPLSSSPPATHFPDETEITNPVPK,0.73,0.67,0.79,0.64,0.80,0.71,1.00
+P11388,DNA topoisomerase 2-alpha,TOP2A,S1213,phosphorylation,TQMAEVLPsPR,0.81,0.63,0.82,0.83,0.88,0.80,1.00
+P11388,DNA topoisomerase 2-alpha,TOP2A,S1525,phosphorylation,YLEEsDEDDLF,0.62,0.62,0.41,0.59,0.54,0.38,1.00
+Q02880,DNA topoisomerase 2-beta,TOP2B,S1581,phosphorylation,KTSFDQDsDVDIFPSDFPTEPPSLPR,0.83,0.80,0.68,0.91,0.85,0.96,1.00
+Q02880,DNA topoisomerase 2-beta,TOP2B,S1476,phosphorylation,SEDDSAKFDSNEEDSASVFsPSFGLK,0.94,0.77,0.93,0.92,0.88,0.87,1.00
+Q02880,DNA topoisomerase 2-beta,TOP2B,S1466/ S1471/ S1473 *,phosphorylation,SEDDSAKFDsNEEDSASVFSPSFGLK,0.22,0.63,0.32,0.53,0.36,0.55,1.00
+Q02880,DNA topoisomerase 2-beta,TOP2B,"S1524, S1526",phosphorylation,VVEAVNSDsDsEFGIPK,0.48,0.54,0.56,0.46,0.61,0.61,1.00
+A6NN93,DNA-directed RNA polymerase II subunit RPB1,POLR2A,T1912/ S1913 *,phosphorylation,YSPtSPTYSPTSPK,0.51,0.42,0.37,0.35,0.44,0.40,1.00
+A8KAG0,DnaJ homolog subfamily B member 6,DNAJB6,S277,phosphorylation,HAPHCLsEEEGEQDRPR,1.19,1.05,1.40,1.18,1.21,1.04,1.00
+Q9H3Z4,DnaJ homolog subfamily C member 5,DNAJC5,S8,phosphorylation,sLSTSGESLYHVLGLDK,0.82,1.10,0.79,0.98,1.07,0.80,1.00
+Q6DEN2,DPYSL3 protein.,DPYSL3,S102,phosphorylation,EESREPAPAsPAPAGVEIR,0.73,0.45,0.45,0.65,0.77,0.84,1.00
+B3KSQ7,Drebrin,DBN1,S141/ S142 * ,phosphorylation,LsSPVLHR,0.98,0.85,0.85,0.90,0.99,0.83,1.00
+Q13627,Dual specificity tyrosine-phosphorylation-regulated kinase 1A,DYRK1A,Y321,phosphorylation,IYQyIQSR,1.06,1.10,1.02,1.08,0.93,1.05,1.00
+Q92630,Dual specificity tyrosine-phosphorylation-regulated kinase 2.,DYRK2,Y382,phosphorylation,VYTyIQSR,0.77,0.91,1.01,1.03,0.61,0.88,1.00
+P49792,E3 SUMO-protein ligase RanBP2,RANBP2,S2510,phosphorylation,AVVsPPKFVFGSESVK,0.70,0.58,0.61,0.79,0.84,0.51,1.00
+P49792,E3 SUMO-protein ligase RanBP2,RANBP2,S2917,phosphorylation,VGEDEDGSDEEVVHNEDIHFEPIVsLPEVEVK,0.45,0.59,0.49,0.56,0.56,0.54,1.00
+Q7Z6Z7,E3 ubiquitin-protein ligase HUWE1,HUWE1,S1907,phosphorylation,GSGTAsDDEFENLR,0.67,0.76,0.54,0.66,0.70,0.67,1.00
+Q15717,ELAV-like protein 1,ELAVL1,S202,phosphorylation,NVALLSQLYHsPAR,0.83,0.86,0.73,0.69,0.66,0.88,1.00
+A4D1M6,Elongation factor 1-beta,EEF1B2,S95,phosphorylation,YGPADVEDTTGSGATDsKDDDDIDLFGSDDEEESEEAKR,0.90,0.94,0.87,1.03,0.91,0.84,1.00
+A4D1M6,Elongation factor 1-beta,EEF1B2,T87/ T88/ S90/ T93/ S106 * ,phosphorylation,YGPADVEDtTGSGATDSKDDDDIDLFGSDDEEESEEAKR,0.36,0.87,0.45,0.54,0.50,0.48,1.00
+P29692,Elongation factor 1-delta,EEF1D,S133,phosphorylation,ATAPQTQHVsPMR,0.96,0.84,1.01,0.80,0.86,0.89,1.00
+Q96JJ3,Engulfment and cell motility protein 2,ELMO2,Y48,phosphorylation,EVCDGWSLPNPEyYTLR,0.09,0.03,0.10,0.23,0.23,0.27,1.00
+B7Z7V8,Enhancer of mRNA-decapping protein 4,EDC4,S723,phosphorylation,GPGQVPTATSALSLELQEVEPLGLPQAsPSR,0.23,0.21,0.16,0.28,0.30,0.13,1.00
+B7Z7V8,Enhancer of mRNA-decapping protein 4,EDC4,S729,phosphorylation,TRsPDVISSASTALSQDIPEIASEALSR,0.08,0.06,0.00,0.10,0.07,0.03,1.00
+Q9UBC2,Epidermal growth factor receptor substrate 15-like 1,EPS15L1,Y74,phosphorylation,QGFyVALR,0.09,0.05,0.03,0.10,0.26,0.34,1.00
+Q9UBC2,Epidermal growth factor receptor substrate 15-like 1,EPS15L1,S229,phosphorylation,TVFPGAVPVLPAsPPPKDSLR,0.87,0.86,0.68,0.98,1.19,0.89,1.00
+Q08345,Epithelial discoidin domain-containing receptor 1,DDR1,Y792,phosphorylation,NLyAGDYYR,0.00,0.02,0.05,0.05,0.12,0.11,1.00
+Q08345,Epithelial discoidin domain-containing receptor 1,DDR1,Y796,phosphorylation,NLYAGDyYR,0.03,0.16,0.18,0.19,0.40,0.29,1.00
+Q9BY44,Eukaryotic translation initiation factor 2A,EIF2A,S506,phosphorylation,SDKsPDLAPTPAPQSTPR,1.00,0.72,0.82,0.88,0.71,0.97,1.00
+A4D210,Eukaryotic translation initiation factor 3 subunit B,EIF3B,S78,phosphorylation,TEPAAEAEAAsGPSESPSPPAAEELPGSHAEPPVPAQGEAPGEQAR,0.61,0.41,0.79,0.63,0.54,0.70,1.00
+A1KYQ7,Eukaryotic translation initiation factor 3 subunit C,EIF3C,S39,phosphorylation,QPLLLsEDEEDTKR,0.57,0.70,0.62,0.69,0.81,0.70,1.00
+A8K5K5,Eukaryotic translation initiation factor 3 subunit G,EIF3G,S42,phosphorylation,GIPLATGDTsPEPELLPGAPLPPPK,0.40,0.66,0.34,0.52,0.23,0.51,1.00
+A8K5K5,Eukaryotic translation initiation factor 3 subunit G,EIF3G,T41/ S42 *,phosphorylation,GIPLATGDtSPEPELLPGAPLPPPK,1.08,0.75,1.04,1.00,0.97,1.25,1.00
+Q04637,Eukaryotic translation initiation factor 4 gamma 1,EIF4G1,S1232,phosphorylation,EAALPPVsPLK,0.45,0.45,0.42,0.52,0.52,0.50,1.00
+P78344,Eukaryotic translation initiation factor 4 gamma 2,EIF4G2,T508,phosphorylation,TQtPPLGQTPQLGLK,0.85,0.76,1.01,0.84,0.77,0.80,1.00
+Q9NRA8,Eukaryotic translation initiation factor 4E transporter,EIF4ENIF1,S950,phosphorylation,SsSPVGLAK,0.79,0.70,0.58,0.62,0.68,0.71,1.00
+B2R502,Eukaryotic translation initiation factor 4E-binding protein 1,EIF4EBP1,"T45, T46",phosphorylation,VVLGDGVQLPPGDYSTTPGGTLFSttPGGTR,0.62,0.61,0.66,0.54,0.57,0.43,1.00
+Q08945,FACT complex subunit SSRP1,SSRP1,Y438/ Y441/ S444 *,phosphorylation,EGMNPSyDEYADSDEDQHDAYLER,0.70,0.68,0.62,0.76,0.69,0.66,1.00
+Q08945,FACT complex subunit SSRP1,SSRP1,S437/ Y438/ Y441/ S444 *,phosphorylation,EGMNPsYDEYADSDEDQHDAYLER,0.49,0.66,0.50,0.42,0.42,0.50,1.00
+Q92945,Far upstream element-binding protein 2,KHSRP,S181,phosphorylation,VQIsPDSGGLPER,0.59,0.70,0.69,0.65,0.72,0.61,1.00
+P49327,Fatty acid synthase,FASN,Y130,phosphorylation,DPETLVGySMVGCQR,0.21,0.02,0.09,0.17,0.14,0.17,1.00
+P49327,Fatty acid synthase,FASN,S974/ T976 *,phosphorylation,LFDHPEsPTPNPTEPLFLAQAEVYK,0.77,0.95,0.48,0.52,0.66,0.61,1.00
+P85037,Forkhead box protein K1,FOXK1,S445,phosphorylation,EGsPIPHDPEFGSK,0.59,0.73,0.64,0.63,0.68,0.58,1.00
+B3KNP0,Formin-binding protein 4,FNBP4,S18,phosphorylation,RPILQLsPPGPR,0.60,0.72,0.74,0.67,0.68,0.67,1.00
+Q96PY5,Formin-like protein 2,FMNL2,S171,phosphorylation,sIEDLHR,0.81,0.70,0.61,0.65,0.77,0.76,1.00
+Q9UEY8,Gamma-adducin,ADD3,S681/ S673/ S679 *,phosphorylation,IEEVLSPEGSPSKsPSK,0.52,0.57,0.40,0.57,0.45,0.36,1.00
+Q96CW5,Gamma-tubulin complex component 3,TUBGCP3,Y114,phosphorylation,VSSyATLFAQALPR,0.04,0.11,0.10,0.09,0.20,0.10,1.00
+Q53QN0,General transcription factor 3C polypeptide 2,GTF3C2,T910,phosphorylation,LLPtP,0.50,0.40,0.49,0.33,0.52,0.68,1.00
+P29083,General transcription factor IIE subunit 1,GTF2E1,Y91,phosphorylation,HNyYFINYR,0.04,0.00,0.05,0.04,0.15,0.09,1.00
+B4DH52,General transcription factor II-I,GTF2I,S210,phosphorylation,SILsPGGSCGPIK,0.80,0.71,0.63,0.69,0.72,0.75,1.00
+Q3V6T2,Girdin,CCDC88A,Y1799,phosphorylation,DSNPyATLPR,0.32,0.04,0.31,0.07,0.12,0.39,1.00
+Q3V6T2,Girdin,CCDC88A,S1702,phosphorylation,SSsQENLLDEVMK,0.72,0.98,0.73,0.64,0.70,0.67,1.00
+Q3V6T2,Girdin,CCDC88A,S1701,phosphorylation,SsSQENLLDEVMK,1.09,0.97,1.00,0.77,0.94,1.06,1.00
+Q06210,Glucosamine--fructose-6-phosphate aminotransferase [isomerizing] 1,GFPT1,S261,phosphorylation,VDsTTCLFPVEEK,1.17,1.27,1.21,1.16,1.33,1.27,1.00
+B2R825,"Glycogen phosphorylase, liver form.",PYGL,S15,phosphorylation,RQIsIR,1.66,1.14,1.78,1.95,3.27,2.61,1.00
+P49841,Glycogen synthase kinase-3 beta,GSK3B,Y216,phosphorylation,GEPNVSyICSR,0.70,0.76,0.86,0.82,0.91,0.86,1.00
+Q9H3P7,Golgi resident protein GCP60,ACBD3,S43,phosphorylation,LEVSVDGLTLSPDPEERPGAEGAPLLPPPLPPPsPPGSGR,0.17,0.00,0.08,0.17,0.27,0.20,1.00
+B2RDW9,GTP-binding protein 1,GTPBP1,"S44, S47",phosphorylation,LHGGFDsDCsEDGEALNGEPELDLTSK,0.77,0.83,0.60,0.91,0.86,0.71,1.00
+O60832,H/ACA ribonucleoprotein complex subunit 4,DKC1,S513,phosphorylation,EVELVsE,0.88,0.78,0.72,0.90,0.97,0.88,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,Y115,phosphorylation,AFyPEEISSMVLTK,0.46,0.34,0.32,0.61,0.46,0.45,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,Y611,phosphorylation,ELEQVCNPIISGLyQGAGGPGPGGFGAQGPK,1.39,0.52,1.38,0.73,2.02,1.83,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,S631,phosphorylation,GGsGSGPTIEEVD,0.55,0.66,0.65,0.54,0.47,0.49,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,S633,phosphorylation,GGSGsGPTIEEVD,0.71,0.64,0.62,0.54,0.52,0.66,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,T429/ T430/ Y431 *,phosphorylation,QTQIFtTYSDNQPGVLIQVYEGER,0.11,0.08,0.17,0.14,0.15,0.14,1.00
+A8K5I0,Heat shock 70 kDa protein 1,HSPA1A,Y41,phosphorylation,TTPSyVAFTDTER,0.21,0.14,0.26,0.35,0.30,0.53,1.00
+B4DR68,"Heat shock protein 75 kDa, mitochondrial",TRAP1,Y498,phosphorylation,NIyYLCAPNR,0.04,0.13,0.09,0.11,0.14,0.15,1.00
+P08238,Heat shock protein HSP 90-beta,HSP90B,"T595, Y596",phosphorylation,LVSSPCCIVTStYGWTANMER,0.06,0.04,0.06,0.15,0.12,0.15,1.00
+Q15477,Helicase SKI2W,SKIV2L,S256,phosphorylation,ASsLEDLVLK,0.70,0.53,0.70,0.72,0.73,0.80,1.00
+B2R6K3,Hematological and neurological expressed 1 protein,HN1,S87/ S88 *,phosphorylation,RNsSEASSGDFLDLK,0.92,0.76,0.72,0.89,0.80,1.03,1.00
+B2RDE8,Hepatoma-derived growth factor,HDGF,S165,phosphorylation,AGDLLEDsPKRPK,0.68,0.72,0.57,0.63,0.72,0.61,1.00
+P09651,Heterogeneous nuclear ribonucleoprotein A1,HNRNPA1,S6,phosphorylation,SEsPKEPEQLR,0.44,0.53,0.41,0.37,0.43,0.47,1.00
+Q14103,Heterogeneous nuclear ribonucleoprotein D0,HNRNPD,S83,phosphorylation,IDASKNEEDEGHSNSsPR,0.80,0.53,0.43,0.51,0.65,0.74,1.00
+B4E352,Heterogeneous nuclear ribonucleoprotein G,RBMX,S208,phosphorylation,DVYLsPR,0.70,0.70,0.59,0.51,0.68,0.66,1.00
+P31943,Heterogeneous nuclear ribonucleoprotein H,HNRNPH1,S104,phosphorylation,HTGPNsPDTANDGFVR,0.72,0.70,0.67,0.69,0.71,0.79,1.00
+P61978,Heterogeneous nuclear ribonucleoprotein K,HNRNPK,S214/ S216 *,phosphorylation,IILDLIsESPIK,0.52,0.65,0.44,0.46,0.53,0.35,1.00
+P61978,Heterogeneous nuclear ribonucleoprotein K,HNRNPK,S214,phosphorylation,IILDLIsESPIKGR,1.02,0.91,0.86,1.02,1.10,0.75,1.00
+P61978,Heterogeneous nuclear ribonucleoprotein K,HNRNPK,S116/ S127 *,phosphorylation,IIPTLEEGLQLPsPTATSQLPLESDAVECLNYQHYK,0.02,0.03,0.00,0.05,0.03,0.00,1.00
+P61978,Heterogeneous nuclear ribonucleoprotein K,HNRNPK,S116/ T118/ T120/ S121/ S127 *,phosphorylation,IIPTLEEGLQLPsPTATSQLPLESDAVECLNYQHYK,3.20,0.86,0.57,1.85,2.27,2.67,1.00
+Q00839,Heterogeneous nuclear ribonucleoprotein U,HNRNPU,S59,phosphorylation,LQAALDDEEAGGRPAMEPGNGsLDLGGDSAGR,0.79,0.72,0.62,0.60,0.66,0.46,1.00
+Q8WVB3,Hexosaminidase D,HEXDC,T476,phosphorylation,LQALLQDLSEVSAPPLPPtSPGRDVAQDP,0.24,0.18,0.14,0.56,0.37,0.44,1.00
+Q8WVB3,Hexosaminidase D,HEXDC,S466/ S469/ S477,phosphorylation,LQALLQDLsEVSAPPLPPTSPGRDVAQDP,2.76,1.69,1.85,2.98,2.30,3.04,1.00
+B2R6A9,HIRA-interacting protein 3.,HIRIP3,S125,phosphorylation,NGVAAEVsPAKEENPRR,0.90,0.74,0.80,0.79,0.78,0.75,1.00
+B2R6A9,HIRA-interacting protein 3.,HIRIP3,S530,phosphorylation,TLDsDEERPRPAPPDWSHMR,0.84,0.82,0.64,0.62,0.66,0.72,1.00
+O14686,Histone-lysine N-methyltransferase MLL2,MLL2,S4463,phosphorylation,ALsPVIPLIPR,0.66,0.73,0.72,0.65,0.77,0.77,1.00
+Q9H2X6,Homeodomain-interacting protein kinase 2,HIPK2,Y361,phosphorylation,AVCSTyLQSR,0.67,0.80,0.40,0.51,0.99,0.88,1.00
+Q9H422,Homeodomain-interacting protein kinase 3,HIPK3,Y359,phosphorylation,TVCSTyLQSR,0.93,0.98,1.22,1.22,1.56,1.56,1.00
+P51610,Host cell factor,HCFC1,S669,phosphorylation,TITLVKSPIsVPGGSALISNLGK,0.70,0.66,0.79,0.70,0.76,0.67,1.00
+P51610,Host cell factor,HCFC1,S674,phosphorylation,TITLVKSPISVPGGsALISNLGK,0.47,0.44,0.37,0.45,0.47,0.40,1.00
+A8K3C9,Huntingtin,HTT,S434,phosphorylation,SGSIVELIAGGGSSCsPVLSR,0.67,0.68,0.40,0.50,0.41,0.40,1.00
+A8K3C9,Huntingtin,HTT,S431/ S432/ S434 *,phosphorylation,SGSIVELIAGGGsSCSPVLSR,0.87,0.96,0.68,0.88,0.68,1.05,1.00
+Q01581,"Hydroxymethylglutaryl-CoA synthase, cytoplasmic",HMGCS1,S495,phosphorylation,RPTPNDDTLDEGVGLVHSNIATEHIPsPAK,1.03,0.57,0.61,0.71,0.75,0.82,1.00
+Q9UPR0,Inactive phospholipase C-like protein 2,PLCL2,Y784,phosphorylation,GDVVDPYVyVEIHGIPADCAEQR,0.14,0.14,0.08,0.08,0.28,0.25,1.00
+P06213,Insulin receptor,INSR,Y1189/ Y1190 *,phosphorylation,DIYETDyYR,0.97,1.61,2.45,1.20,3.66,2.13,1.00
+Q9Y4H2,Insulin receptor substrate 2,IRS2,Y823,phosphorylation,APYTCGGDSDQyVLMSSPVGR,0.42,0.24,0.49,0.55,0.81,1.62,1.00
+Q9Y4H2,Insulin receptor substrate 2,IRS2,T520,phosphorylation,SNtPESIAETPPAR,0.84,0.59,0.61,0.76,0.77,0.75,1.00
+Q9Y4H2,Insulin receptor substrate 2,IRS2,S915,phosphorylation,sPGEYINIDFGEPGAR,0.46,0.56,0.55,0.64,0.59,0.53,1.00
+Q9Y6M1,Insulin-like growth factor 2 mRNA-binding protein 2,IGF2BP2,Y40,phosphorylation,SGyAFVDYPDQNWAIR,0.12,0.18,0.23,0.29,0.44,0.34,1.00
+O00425,Insulin-like growth factor 2 mRNA-binding protein 3,IGF2BP3,Y39,phosphorylation,TGyAFVDCPDESWALK,0.06,0.01,0.09,0.18,0.29,0.16,1.00
+Q12906,Interleukin enhancer-binding factor 3,ILF3,T592,phosphorylation,LFPDtPLALDANK,0.43,0.69,0.45,0.44,0.48,0.41,1.00
+Q15811,Intersectin-1,ITSN1,Y1054,phosphorylation,AGVFPSNyVR,0.11,0.07,0.09,0.15,0.24,0.15,1.00
+Q15811,Intersectin-1,ITSN1,Y1132,phosphorylation,QIGWFPANyVK,0.05,0.02,0.06,0.13,0.38,0.31,1.00
+B4E1K0,ISOFORM 2 OF KINESIN-LIKE PROTEIN KIF23.,KIF23,S684,phosphorylation,SVsPSPVPLLFQPDQNAPPIR,0.53,0.40,0.41,0.66,0.25,0.49,1.00
+B4DX93,ISOFORM 2C OF CYTOPLASMIC DYNEIN 1 INTERMEDIATE CHAIN 2.,DYNC1I2,S81,phosphorylation,EAEALLQSMGLTPESPIVPPPMsPSSK,0.66,0.40,0.43,0.66,0.46,0.58,1.00
+C9J7F5,ISOFORM 3 OF BROMODOMAIN-CONTAINING PROTEIN 8.,BRD8,"T124, S128",phosphorylation,AtPPPsPLLSELLK,0.69,0.51,0.54,0.57,0.52,0.57,1.00
+A8K6V7,ISOFORM B OF RAS GTPASE-ACTIVATING PROTEIN-BINDING PROTEIN 2.,G3BP2,S225/ T226/ T227/ S235 *,phosphorylation,NLEELEEKsTTPPPAEPVSLPQEPPKPR,0.51,0.80,0.79,0.92,0.93,0.67,1.00
+A8K6V7,ISOFORM B OF RAS GTPASE-ACTIVATING PROTEIN-BINDING PROTEIN 2.,G3BP2,T226/ T227 *,phosphorylation,StTPPPAEPVSLPQEPPKPR,0.84,0.68,1.11,1.12,1.09,1.03,1.00
+A8K6V7,ISOFORM B OF RAS GTPASE-ACTIVATING PROTEIN-BINDING PROTEIN 2.,G3BP2,S225/ T226/ T227 *,phosphorylation,sTTPPPAEPVSLPQEPPKPR,0.46,0.46,0.41,0.59,0.56,0.42,1.00
+B2R7B5,"KH domain-containing, RNA-binding, signal transduction-associated protein 1",KHDRBS1,S58,phosphorylation,AsPATQPPPLLPPSATGPDATVGGPAPTPLLPPSATASVK,0.49,0.45,0.52,0.52,0.56,0.55,1.00
+Q9H0B6,Kinesin light chain 2,KLC2,S581,phosphorylation,AsSLNFLNK,2.92,1.90,1.96,1.91,2.52,2.43,1.00
+Q9H0B6,Kinesin light chain 2,KLC2,S582,phosphorylation,ASsLNFLNK,0.68,0.79,0.80,0.76,0.77,0.72,1.00
+Q9NSK0,Kinesin light chain 4,KLC4,S590,phosphorylation,AAsLNYLNQPSAAPLQVSR,0.87,0.73,0.70,0.81,0.78,0.77,1.00
+Q12756,Kinesin-like protein KIF1A,KIF1A,S1370,phosphorylation,SDsLILDHQWELEK,0.98,0.56,0.80,0.83,1.08,1.01,1.00
+P42167,"Lamina-associated polypeptide 2, isoforms beta/gamma",TMPO,S67,phosphorylation,GPPDFSsDEEREPTPVLGSGAAAAGR,0.59,0.53,0.70,0.57,0.73,0.70,1.00
+P42167,"Lamina-associated polypeptide 2, isoforms beta/gamma",TMPO,"S67, S66/ S67, T74/ T74, S66 *",phosphorylation,GPPDFssDEEREPTPVLGSGAAAAGR,0.78,0.85,0.72,0.78,0.79,0.76,1.00
+P42167,"Lamina-associated polypeptide 2, isoforms beta/gamma",TMPO,S66/ S67/ T74 *,phosphorylation,GPPDFsSDEEREPTPVLGSGAAAAGR,0.69,0.44,0.75,0.80,0.71,0.62,1.00
+P42167,"Lamina-associated polypeptide 2, isoforms beta/gamma",TMPO,S306,phosphorylation,HAsPILPITEFSDIPR,0.66,0.67,0.64,0.60,0.65,0.66,1.00
+P42167,"Lamina-associated polypeptide 2, isoforms beta/gamma",TMPO,S159,phosphorylation,SsTPLPTISSSAENTR,0.89,0.77,0.77,0.74,0.79,0.74,1.00
+Q6PKG0,La-related protein 1,LARP1,T526,phosphorylation,AVtPVPTKTEEVSNLK,0.56,0.55,0.56,0.72,0.71,0.68,1.00
+Q6PKG0,La-related protein 1,LARP1,S90,phosphorylation,ESPRPLQLPGAEGPAIsDGEEGGGEPGAGGGAAGAAGAGR,0.37,0.47,0.34,0.50,0.51,0.50,1.00
+Q6PKG0,La-related protein 1,LARP1,S548,phosphorylation,GLSAsLPDLDSENWIEVK,0.83,0.62,0.60,0.64,1.05,0.72,1.00
+Q6PKG0,La-related protein 1,LARP1,T769,phosphorylation,SLPtTVPESPNYR,0.67,0.66,0.69,0.61,0.61,0.57,1.00
+Q6PKG0,La-related protein 1,LARP1,S774,phosphorylation,SLPTTVPEsPNYR,0.86,0.77,0.68,0.83,0.75,0.79,1.00
+B2RB09,LIM domain and actin-binding protein 1,LIMA1,S490,phosphorylation,ETPHsPGVEDAPIAK,0.66,0.50,0.51,0.56,0.60,0.67,1.00
+B2RB09,LIM domain and actin-binding protein 1,LIMA1,S362,phosphorylation,SEVQQPVHPKPLsPDSR,0.64,0.72,0.65,0.63,0.60,0.63,1.00
+Q6ZN17,Lin-28 homolog B.,LIN28B,S203,phosphorylation,EVGGGHGCTsPPFPQEAR,0.84,0.80,0.82,0.65,0.93,1.00,1.00
+A1L4L6,Lipoma-preferred partner,LPP,Y296,phosphorylation,yYEGYYAAGPGYGGR,0.00,0.08,0.33,0.21,0.44,0.23,1.00
+Q9P260,LisH domain and HEAT repeat-containing protein KIAA1468.,KIAA1468,S180,phosphorylation,AGsISTLDSLDFAR,0.41,0.47,0.78,0.57,0.77,0.58,1.00
+P07195,L-lactate dehydrogenase B chain,LDHB,Y240,phosphorylation,MVVESAyEVIK,0.53,0.28,0.50,0.50,0.77,0.70,1.00
+B5BUB5,Lupus La protein,SSB,S366,phosphorylation,FAsDDEHDEHDENGATGPVKR,0.70,0.80,0.65,0.75,0.83,0.74,1.00
+B5BUB5,Lupus La protein,SSB,S366,phosphorylation,TKFAsDDEHDEHDENGATGPVKR,0.46,0.84,0.59,0.72,0.76,0.64,1.00
+P49006,MARCKS-related protein,MARCKSL1,S22,phosphorylation,GDVTAEEAAGAsPAKANGQENGHVK,1.00,0.87,0.86,1.10,1.01,1.02,1.00
+A6P3A7,Maternal embryonic leucine zipper kinase,MELK,S529,phosphorylation,VFGsLER,0.62,0.58,0.80,0.78,0.79,0.89,1.00
+Q14676,Mediator of DNA damage checkpoint protein 1,MDC1,S793,phosphorylation,AIPGDQHPEsPVHTEPMGIQGR,0.61,0.62,0.66,0.68,0.64,0.72,1.00
+Q14676,Mediator of DNA damage checkpoint protein 1,MDC1,S780,phosphorylation,ESEDSETQPFDTHLEAYGPCLsPPR,0.71,0.75,0.65,0.70,0.82,0.74,1.00
+Q14676,Mediator of DNA damage checkpoint protein 1,MDC1,S168,phosphorylation,LLLAEDsEEEVDFLSER,0.89,1.03,0.57,0.77,0.97,0.93,1.00
+Q15648,Mediator of RNA polymerase II transcription subunit 1,MED1,T1051,phosphorylation,SQtPPGVATPPIPK,0.33,0.53,0.49,0.49,0.42,0.52,1.00
+O00264,Membrane-associated progesterone receptor component 1,PGRMC1,S181,phosphorylation,EGEEPTVYsDEEEPKDESAR,1.02,0.92,0.76,0.87,0.99,0.87,1.00
+Q13330,Metastasis-associated protein MTA1.,MTA1,S576,phosphorylation,VAPVINNGsPTILGK,0.78,0.67,0.72,0.76,0.92,0.73,1.00
+P54105,Methylosome subunit pICln,CLNS1A,S102,phosphorylation,FEEESKEPVADEEEEDsDDDVEPITEFR,0.62,0.72,0.71,0.79,0.75,0.80,1.00
+P55081,Microfibrillar-associated protein 1.,MFAP1,"S116, S118",phosphorylation,IVEPEVVGEsDsEVEGDAWR,0.75,0.68,0.56,0.71,0.68,0.60,1.00
+P55081,Microfibrillar-associated protein 1.,MFAP1,T267,phosphorylation,SLAALDALNtDDENDEEEYEAWK,0.64,0.58,0.51,0.77,0.62,0.64,1.00
+A2BDK6,Microtubule-associated protein 1B,MAP1B,S1400,phosphorylation,VLSPLRsPPLIGSESAYESFLSADDK,0.35,0.44,0.25,0.42,0.35,0.45,1.00
+A2BDK6,Microtubule-associated protein 1B,MAP1B,S1779,phosphorylation,VQSLEGEKLsPK,0.64,0.61,0.59,0.66,0.70,0.60,1.00
+Q66K74,Microtubule-associated protein 1S,MAP1S,"S640, S632/ T638, S640/ S640, S631 *",phosphorylation,ALELPLAASsIPRPRTPsPESHR,1.02,1.26,1.24,0.95,1.10,0.86,1.00
+Q66K74,Microtubule-associated protein 1S,MAP1S,"S640, S643/ S643, S632/ T638, S643/ S643, S631 *",phosphorylation,ALELPLAASSIPRPRTPsPEsHR,0.59,0.34,0.59,0.49,0.55,0.58,1.00
+Q66K74,Microtubule-associated protein 1S,MAP1S,S592,phosphorylation,CGEAsPPSAACGSPASQLVATPSLELGPIPAGEEK,0.46,0.70,0.54,0.49,0.54,0.37,1.00
+Q66K74,Microtubule-associated protein 1S,MAP1S,S657,phosphorylation,LSLsPLR,0.62,0.67,0.60,0.56,0.60,0.59,1.00
+P27816,Microtubule-associated protein 4,MAP4,S280,phosphorylation,DMEsPTKLDVTLAK,0.83,0.80,0.77,1.21,0.66,0.71,1.00
+P27816,Microtubule-associated protein 4,MAP4,S1073,phosphorylation,VGsLDNVGHLPAGGAVK,0.81,0.63,0.77,0.72,0.99,0.78,1.00
+Q16539,Mitogen-activated protein kinase 14,MAPK14,Y182,phosphorylation,HTDDEMTGyVATR,0.30,0.26,0.22,0.37,0.33,0.33,1.00
+B0LPG3,Mitogen-activated protein kinase 3,ERK1,Y204,phosphorylation,IADPEHDHTGFLTEyVATR,0.12,0.05,0.17,0.25,0.37,0.25,1.00
+O95819,Mitogen-activated protein kinase kinase kinase kinase 4,MAP4K4,S631,phosphorylation,TTSRsPVLSR,1.03,0.83,0.59,0.59,0.93,1.08,1.00
+Q9Y6X9,MORC family CW-type zinc finger protein 2,MORC2,S615,phosphorylation,RPQRPRsPPLPAVIR,0.35,0.52,0.43,0.45,0.37,0.36,1.00
+Q96T58,Msx2-interacting protein,SPEN,S727,phosphorylation,SQsPVHLR,0.80,0.79,0.67,0.63,0.81,0.80,1.00
+Q9BU76,Multiple myeloma tumor-associated protein 2,MMTAG2,S220,phosphorylation,RPAEATSSPTsPERPR,0.71,0.55,0.43,0.49,0.50,0.68,1.00
+B4DE42,Myb-binding protein 1A.,MYBBP1A,S11,phosphorylation,DPAQPMsPGEATQSGARPADR,0.70,0.58,0.50,0.67,0.70,0.59,1.00
+B4DE42,Myb-binding protein 1A.,MYBBP1A,S1163,phosphorylation,EIPSATQsPISK,0.68,0.59,0.62,0.64,0.75,0.64,1.00
+B4DE42,Myb-binding protein 1A.,MYBBP1A,S1308,phosphorylation,LSLVIRsPSLLQSGAK,1.17,1.00,1.36,0.86,0.89,1.14,1.00
+B4DE42,Myb-binding protein 1A.,MYBBP1A,S1308/ S1310 *,phosphorylation,LSLVIRsPSLLQSGAK,0.28,0.61,0.54,0.48,0.50,0.52,1.00
+Q9P2K5,Myelin expression factor 2,MYEF2,T13/ S17 *,phosphorylation,AEVPGAtGGDSPHLQPAEPPGEPR,0.78,0.69,0.70,0.77,0.84,0.68,1.00
+A8K5D4,Myelin protein zero-like protein 1,MPZL1,Y263,phosphorylation,SESVVyADIR,0.28,0.38,0.47,0.35,0.53,0.81,1.00
+A8K1F4,Myeloid leukemia factor 2,MLF2,S238,phosphorylation,LAIQGPEDsPSR,0.66,0.56,0.61,0.62,0.60,0.60,1.00
+P24844,Myosin regulatory light polypeptide 9,MYL9,T19,phosphorylation,AtSNVFAMFDQSQIQEFK,1.50,1.36,1.07,1.27,2.39,1.48,1.00
+P35580,Myosin-10,MYH10,T1960,phosphorylation,QLHLEGASLELSDDDtESK,0.44,0.49,0.42,0.46,0.57,0.56,1.00
+A8K6E4,Myosin-9,MYH9,S1943,phosphorylation,KGAGDGsDEEVDGKADGAEAKPAE,0.27,0.40,0.29,0.28,0.36,0.48,1.00
+Q9C0I1,Myotubularin-related protein 12,MTMR12,S564,phosphorylation,QLsLPLTQSK,0.79,0.62,0.67,0.71,0.78,0.85,1.00
+B2R6A3,Na(+)/H(+) exchange regulatory cofactor NHE-RF1,SLC9A3R1,S280,phosphorylation,EALAEAALEsPRPALVR,0.73,0.82,0.73,0.82,0.79,0.70,1.00
+Q96EB6,NAD-dependent deacetylase sirtuin-1,SIRT1,S47,phosphorylation,RDGPGLERsPGEPGGAAPER,0.71,0.54,0.51,0.61,0.57,0.65,1.00
+B2R4P8,Nascent polypeptide-associated complex subunit alpha,NACA,S166,phosphorylation,VQGEAVSNIQENTQTPTVQEEsEEEEVDETGVEVK,1.35,1.01,0.77,0.87,1.24,0.67,1.00
+B2R4P8,Nascent polypeptide-associated complex subunit alpha,NACA,T157/ T159/ T161/ S166 *,phosphorylation,VQGEAVSNIQENtQTPTVQEESEEEEVDETGVEVK,0.54,0.60,0.36,0.59,0.30,0.37,1.00
+O00401,Neural Wiskott-Aldrich syndrome protein,WASL,Y256,phosphorylation,VIyDFIEK,0.20,0.23,0.28,0.53,0.50,0.58,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S736,phosphorylation,AEsPVKEEAVAEVVTITK,0.74,0.80,0.57,0.64,0.64,0.52,1.00
+P07197,Neurofilament medium polypeptide,NEFM,"S680, S685",phosphorylation,AKsPVPKsPVEEAK,0.51,0.41,0.32,0.34,0.50,0.38,1.00
+P07197,Neurofilament medium polypeptide,NEFM,"S615, S620",phosphorylation,AKsPVPKsPVEEK,0.47,0.29,0.26,0.34,0.36,0.51,1.00
+P07197,Neurofilament medium polypeptide,NEFM,"S628, S633",phosphorylation,GKsPVPKsPVEEK,0.51,0.44,0.29,0.44,0.46,0.57,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S633,phosphorylation,GKSPVPKsPVEEK,0.44,0.36,0.30,0.39,0.41,0.39,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S837,phosphorylation,GVVTNGLDLsPADEK,0.73,0.60,0.54,0.52,0.58,0.47,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S346,phosphorylation,QLsDIEER,0.53,0.77,0.74,0.67,0.68,0.63,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S685,phosphorylation,SPVPKsPVEEAK,0.29,0.54,0.32,0.38,0.41,0.32,1.00
+P07197,Neurofilament medium polypeptide,NEFM,S620,phosphorylation,SPVPKsPVEEK,0.38,0.41,0.26,0.27,0.37,0.42,1.00
+Q04721,Neurogenic locus notch homolog protein 2,NOTCH2,S2081,phosphorylation,LLDEYNVTPSPPGTVLTSALsPVICGPNR,0.33,0.39,0.37,0.32,0.40,0.45,1.00
+A0PJ73,NF-kappa-B-activating protein.,NKAP,S149,phosphorylation,IGELGAPEVWGLsPK,0.90,0.74,0.69,0.78,0.64,0.67,1.00
+Q5VVW6,Niban-like protein 1,FAM129B,"S678, S679/ S679, S683/ S678, S683 *",phosphorylation,AAPEAssPPASPLQHLLPGK,0.30,0.28,0.24,0.60,0.57,0.45,1.00
+Q6XQN6,Nicotinate phosphoribosyltransferase,NAPRT1,S531,phosphorylation,LQALVNsLCAGQSP,0.56,0.64,0.57,0.48,0.65,0.57,1.00
+A2RRA7,Nipped-B-like protein,NIPBL,S2658,phosphorylation,AITSLLGGGsPK,0.77,0.69,0.76,0.75,0.88,0.89,1.00
+A8K525,Non-POU domain-containing octamer-binding protein,NONO,T450,phosphorylation,FGQAATMEGIGAIGGtPPAFNR,0.63,0.48,0.45,0.55,0.45,0.69,1.00
+A1L3A7,Nuclear fragile X mental retardation-interacting protein 2,NUFIP2,S629/ T631 *,phosphorylation,DYEIESQNPLAsPTNTLLGSAK,0.52,0.32,0.48,0.61,0.67,0.56,1.00
+A1L3A7,Nuclear fragile X mental retardation-interacting protein 2,NUFIP2,S629/ T631/ T633 *,phosphorylation,DYEIESQNPLAsPTNTLLGSAK,0.42,0.64,0.35,0.63,0.76,0.55,1.00
+A1L3A7,Nuclear fragile X mental retardation-interacting protein 2,NUFIP2,S652,phosphorylation,NDsWGSFDLR,0.75,0.80,0.98,0.73,0.76,0.75,1.00
+Q14980,Nuclear mitotic apparatus protein 1,NUMA1,S1757,phosphorylation,TQPDGTSVPGEPAsPISQR,0.73,0.66,0.68,0.66,0.70,0.67,1.00
+P49790,Nuclear pore complex protein Nup153,NUP153,S333/ S334 *,phosphorylation,RIPSIVsSPLNSPLDR,0.70,0.60,0.60,0.55,0.51,0.57,1.00
+Q12769,Nuclear pore complex protein Nup160,NUP160,S1147,phosphorylation,LIRPEYAWIVQPVsGAVYDRPGASPKR,0.39,0.49,0.43,0.53,0.48,0.40,1.00
+B4DPW8,Nuclear receptor coactivator 2,NCOA2,S698/ S699 *,phosphorylation,LLQDSsSPVDLAK,0.74,0.70,0.77,0.72,0.73,0.72,1.00
+B4DJ25,Nuclear receptor corepressor 1,NCOR1,S2189,phosphorylation,NDARSPGSIsYLPSFFTK,0.82,0.61,0.65,0.68,0.69,0.69,1.00
+B4DJ25,Nuclear receptor corepressor 1,NCOR1,S2187/ S2189 *,phosphorylation,NDARSPGsISYLPSFFTK,1.03,0.94,0.72,0.76,0.89,1.11,1.00
+B4DJ25,Nuclear receptor corepressor 1,NCOR1,S2184,phosphorylation,sPGSISYLPSFFTK,0.95,0.74,0.72,0.79,0.78,0.71,1.00
+Q54AC0,Nuclear ubiquitous casein and cyclin-dependent kinases substrate,NUCKS1,S19,phosphorylation,VVDYSQFQEsDDADEDYGR,0.73,0.74,0.71,0.67,0.63,0.73,1.00
+A0JLU4,Nuclease-sensitive element-binding protein 1,YBX1,S165/ S167/ S174 *,phosphorylation,NYQQNYQNsESGEKNEGSESAPEGQAQQR,1.19,1.10,0.44,1.07,1.33,1.45,1.00
+B3KNC3,Nucleolar complex protein 2 homolog,NOC2L,"S672, S673",phosphorylation,QFKDLFDLNssEEDDTEGFSER,0.30,0.36,0.13,0.26,0.33,0.19,1.00
+Q14978,Nucleolar phosphoprotein p130,NOLC1,S698,phosphorylation,GGSISVQVNSIKFDsE,0.61,0.80,0.61,0.74,0.67,0.89,1.00
+B3KN82,Nucleolar protein 58,NOP58,T510,phosphorylation,HIKEEPLSEEEPCTStAIASPEK,0.74,0.72,0.76,0.75,0.88,0.80,1.00
+B3KM80,Nucleolin,NCL,S67,phosphorylation,VVVsPTK,0.62,0.58,0.46,0.60,0.40,0.56,1.00
+A0PJC9,Nucleoprotein TPR.,TPR,S2155,phosphorylation,TDGFAEAIHsPQVAGVPR,0.62,0.69,0.57,0.55,0.62,0.62,1.00
+B7Z9C2,Nucleosome assembly protein 1-like 1,NAP1L1,T62,phosphorylation,LDGLVEtPTGYIESLPR,0.84,0.67,0.90,0.73,0.73,0.91,1.00
+Q96G74,OTU domain-containing protein 5,OTUD5,S508,phosphorylation,ATsPLVSLYPALECR,0.51,0.58,0.60,0.62,0.72,0.59,1.00
+A4D167,Oxysterol-binding protein-related protein 3,OSBPL3,S303/ S304 *,phosphorylation,LHsSNPNLSTLDFGEEK,0.66,0.35,0.63,0.49,0.45,0.55,1.00
+P49023,Paxillin.,PXN,S321/ S322 *,phosphorylation,TGSsSPPGGPPKPGSQLDSMLGSLQSDLNK,0.41,0.87,0.52,0.86,0.81,0.66,1.00
+Q9BTK6,PAXIP1-associated protein 1,PA1,S237,phosphorylation,DLFSLDSEDPSPAsPPLR,0.92,0.73,0.71,0.96,0.92,0.81,1.00
+Q13427,Peptidyl-prolyl cis-trans isomerase G,PPIG,"S356, T358",phosphorylation,FRRsEtPPHWR,0.93,0.89,0.70,0.48,0.60,0.51,1.00
+Q13427,Peptidyl-prolyl cis-trans isomerase G,PPIG,T358,phosphorylation,RSEtPPHWR,1.18,0.95,1.34,0.67,1.05,0.88,1.00
+Q13427,Peptidyl-prolyl cis-trans isomerase G,PPIG,S397,phosphorylation,SELNEIKENQRsPVR,0.80,0.70,0.82,0.82,0.91,0.93,1.00
+Q13427,Peptidyl-prolyl cis-trans isomerase G,PPIG,T358,phosphorylation,SEtPPHWR,0.84,0.71,0.59,0.42,0.50,0.48,1.00
+Q9Y237,Peptidyl-prolyl cis-trans isomerase NIMA-interacting 4,PIN4,Y122,phosphorylation,FGyHIIMVEGR,0.16,0.04,0.11,0.13,0.19,0.24,1.00
+B3KRR4,Peptidyl-prolyl cis-trans isomerase-like 4,PPIL4,S178,phosphorylation,INHTVILDDPFDDPPDLLIPDRsPEPTR,0.36,0.55,0.47,0.64,0.61,0.66,1.00
+Q6Y7W6,PERQ amino acid-rich with GYF domain-containing protein 2,PERQ2,S26,phosphorylation,ALSSGGSITsPPLSPALPK,0.66,0.54,0.90,0.60,0.70,0.75,1.00
+B7ZM65,PHD and RING finger domain-containing protein 1.,PHRF1,S915,phosphorylation,GAVAAEGAsDTEREEPTESQGLAAR,1.14,0.82,1.04,0.92,0.94,0.84,1.00
+B7ZM65,PHD and RING finger domain-containing protein 1.,PHRF1,S973,phosphorylation,TVTCVTVVEPEAPPsPDVLQAATHR,0.82,0.56,0.98,0.75,0.95,0.76,1.00
+Q9UBF8,Phosphatidylinositol 4-kinase beta,PI4KB,S428,phosphorylation,sVENLPECGITHEQR,0.76,0.71,0.67,0.52,0.73,0.75,1.00
+O15357,"Phosphatidylinositol-3,4,5-trisphosphate 5-phosphatase 2",SHIP-2,Y986,phosphorylation,NSFNNPAyYVLEGVPHQLLPPEPPSPAR,0.09,0.15,0.03,0.08,0.21,0.13,1.00
+O15357,"Phosphatidylinositol-3,4,5-trisphosphate 5-phosphatase 2",SHIP-2,Y1135,phosphorylation,TLSEVDyAPAGPAR,0.89,1.25,1.32,0.82,3.73,2.65,1.00
+B0LPH2,Phosphatidylinositol-4-phosphate 3-kinase C2 domain-containing alpha polypeptide,PIK3C2A,Y1595,phosphorylation,DLVTEDGADPNPyVK,0.02,0.01,0.05,0.05,0.07,0.10,1.00
+Q9BVG9,Phosphatidylserine synthase 2,PTDSS2,S16,phosphorylation,DAGGPRPEsPVPAGR,0.93,0.79,0.65,0.58,0.74,0.75,1.00
+P36871,Phosphoglucomutase-1,PGM1,S117,phosphorylation,AIGGIILTAsHNPGGPNGDFGIK,0.36,0.63,0.53,0.64,0.50,0.48,1.00
+P36871,Phosphoglucomutase-1,PGM1,T115/ S117 *,phosphorylation,AIGGIILtASHNPGGPNGDFGIK,1.27,0.97,1.12,1.04,1.22,1.38,1.00
+A8K4W6,Phosphoglycerate kinase 1,PGK1,S203,phosphorylation,ALEsPERPFLAILGGAK,0.47,0.64,0.62,0.74,0.51,0.61,1.00
+B2R7R5,Phosphoribosyl pyrophosphate synthetase-associated protein 2,PRPSAP2,S227,phosphorylation,LGIAVIHGEAQDAESDLVDGRHsPPMVR,0.73,0.61,0.84,0.85,0.75,0.69,1.00
+Q9Y617,Phosphoserine aminotransferase,PSAT1,Y346,phosphorylation,ASLyNAVTIEDVQK,0.06,0.05,0.17,0.09,0.13,0.16,1.00
+A8K964,Pinin,PNN,S100,phosphorylation,QEsDPEDDDVKKPALQSSVVATSK,1.07,1.13,1.03,1.00,1.09,1.20,1.00
+Q9Y446,Plakophilin-3.,PKP3,Y176,phosphorylation,ADyDTLSLR,0.60,0.51,0.49,0.62,0.94,0.99,1.00
+Q8NC51,Plasminogen activator inhibitor 1 RNA-binding protein,SERBP1,S330,phosphorylation,SKsEEAHAEDSVMDHHFR,1.06,1.04,0.69,0.95,0.96,1.14,1.00
+P13796,Plastin-2,LCP1,Y28,phosphorylation,VDTDGNGyISFNELNDLFK,0.02,0.00,0.03,0.02,0.05,0.01,1.00
+Q15365,Poly(rC)-binding protein 1,PCBP1,S173,phosphorylation,QICLVMLETLSQsPQGR,0.64,0.47,0.53,0.65,0.50,0.62,1.00
+Q15365,Poly(rC)-binding protein 1,PCBP1,S190,phosphorylation,VMTIPYQPMPASsPVICAGGQDR,0.72,0.62,0.58,0.58,0.59,0.68,1.00
+Q15366,Poly(rC)-binding protein 2,PCBP2,S187/ S188/ S189 *,phosphorylation,GVTIPYRPKPsSSPVIFAGGQDR,1.11,1.07,1.10,1.17,1.20,1.25,1.00
+Q15366,Poly(rC)-binding protein 2,PCBP2,T169/ S171/ S173 *,phosphorylation,QICVVMLEtLSQSPPK,0.69,0.59,0.64,0.69,0.67,0.66,1.00
+B4DZW4,Polyadenylate-binding protein 1,PABPC1,Y54,phosphorylation,SLGyAYVNFQQPADAER,0.02,0.11,0.14,0.35,0.41,0.58,1.00
+Q9BY77,Polymerase delta-interacting protein 3,POLDIP3,S127,phosphorylation,RSsPAAFINPPIGTVTPALK,1.00,1.11,1.14,1.13,1.49,1.22,1.00
+O15212,Prefoldin subunit 6,PFDN6,Y82,phosphorylation,LDyITAEIK,0.01,0.02,0.04,0.04,0.10,0.09,1.00
+Q6UN15,Pre-mRNA 3'-end-processing factor FIP1,FIP1L1,S492,phosphorylation,DHsPTPSVFNSDEER,0.94,0.85,0.79,0.80,0.80,1.02,1.00
+Q9Y3B4,Pre-mRNA branch site protein p14,SF3B14,Y61,phosphorylation,GTAyVVYEDIFDAK,0.07,0.03,0.06,0.10,0.12,0.12,1.00
+Q9Y3B4,Pre-mRNA branch site protein p14,SF3B14,Y86,phosphorylation,yLVVLYYNANR,0.05,0.08,0.12,0.15,0.24,0.19,1.00
+B3KPJ2,Probable cation-transporting ATPase 13A1.,ATP13A1,S899,phosphorylation,RRPRDsPTLSNSGIR,1.16,0.82,0.94,0.57,0.99,1.16,1.00
+Q53EL6,Programmed cell death protein 4,PDCD4,S94,phosphorylation,SGLTVPTsPK,0.49,0.73,0.50,0.62,0.53,0.62,1.00
+Q9ULL5,PROLINE RICH 12.,PRR12,S651,phosphorylation,TEDEEFLIQHLLQAPsPPR,0.65,0.37,0.44,0.60,0.70,0.77,1.00
+Q8IZL8,"Proline-, glutamic acid- and leucine-rich protein 1",PELP1,S743/ T745 * ,phosphorylation,AGSNEDPILAPsGTPPPTIPPDETFGGR,0.74,0.93,0.70,0.89,0.72,0.84,1.00
+Q96B36,Proline-rich AKT1 substrate 1,AKT1S1,S183,phosphorylation,sLPVSVPVWGFK,1.17,0.64,1.27,0.85,1.90,1.50,1.00
+Q92733,Proline-rich protein PRCC,PRCC,"S157, S159",phosphorylation,IAAPELHKGDsDsEEDEPTK,0.77,0.79,0.94,0.94,0.94,0.98,1.00
+Q15185,Prostaglandin E synthase 3,PTGES3,S113,phosphorylation,DWEDDsDEDMSNFDR,0.80,0.78,0.71,0.78,0.64,0.80,1.00
+P25787,Proteasome subunit alpha type-2,PSMA2,Y57,phosphorylation,SILyDER,0.39,0.34,0.51,0.35,0.50,0.62,1.00
+Q96RK0,Protein capicua homolog.,CIC,"S1382, S1373/ T1375, S1382 *",phosphorylation,FAELPEFRPEEVLPsPTLQSLATsPR,0.19,0.25,0.24,0.22,0.29,0.21,1.00
+Q6P1L5,Protein FAM117B,FAM117B,S220,phosphorylation,TSsLDTLAAPYLAGHWPR,0.71,0.68,0.83,0.78,0.89,0.66,1.00
+Q9H019,Protein FAM54B.,FAM54B,S238,phosphorylation,ASsFADMMGILK,1.11,1.14,1.04,1.15,1.25,1.16,1.00
+Q8N9T8,Protein KRI1 homolog.,KRI1,S177,phosphorylation,AFVEDsEDEDGAGEGGSSLLQK,0.68,0.70,0.78,0.76,0.81,0.75,1.00
+Q8ND56,Protein LSM14 homolog A,LSM14A,T201/ S203 *,phosphorylation,SPTMEQAVQtASAHLPAPAAVGR,0.61,0.66,0.78,0.69,0.79,0.76,1.00
+Q8ND56,Protein LSM14 homolog A,LSM14A,"S192, T194/ S192, T201/ T194, T201 *",phosphorylation,SSPQLDPLRKsPtMEQAVQTASAHLPAPAAVGR,0.60,0.42,0.44,0.66,0.61,0.63,1.00
+P61326,Protein mago nashi homolog.,MAGOH,Y123,phosphorylation,VFyYLVQDLK,0.09,0.06,0.11,0.07,0.06,0.06,1.00
+B3KR80,Protein NDRG1,NDRG1,S330,phosphorylation,TAsGSSVTSLDGTR,0.49,0.39,0.33,0.34,0.39,0.38,1.00
+Q86TB9,Protein PAT1 homolog 1,PATL1,S179,phosphorylation,RSTsPIIGSPPVR,0.83,0.64,0.58,0.59,0.62,0.50,1.00
+B2RAH5,Protein phosphatase 1 regulatory subunit 12A,PPP1R12A,S445,phosphorylation,TGsYGALAEITASK,0.67,0.70,0.85,0.78,0.77,0.78,1.00
+P48634,Protein PRRC2A ,PRC2A,S796,phosphorylation,LAWVGDVFTATPAEPRPLTsPLR,0.38,0.46,0.40,0.51,0.55,0.45,1.00
+Q14160,Protein scribble homolog,SCRIB,S1348,phosphorylation,AFAAVPTSHPPEDAPAQPPTPGPAAsPEQLSFR,0.87,0.71,0.71,0.76,0.51,0.79,1.00
+Q14160,Protein scribble homolog,SCRIB,T1549,phosphorylation,LAEAPSPAPTPSPtPVEDLGPQTSTSPGRLSPDFAEELR,1.17,0.49,0.80,0.97,0.87,0.98,1.00
+Q14160,Protein scribble homolog,SCRIB,"T1558, T1549",phosphorylation,LAEAPSPAPTPSPtPVEDLGPQtSTSPGRLSPDFAEELR,0.84,0.53,0.76,0.77,1.07,0.94,1.00
+Q14160,Protein scribble homolog,SCRIB,"T1560, S1566/ S1561, S1566/ S1566, S1547/ S1566, T1558/ S1566, T1549/ S1559, S1566 *",phosphorylation,LAEAPSPAPTPSPTPVEDLGPQTStSPGRLsPDFAEELR,0.86,0.65,0.71,0.70,0.98,0.82,1.00
+Q14160,Protein scribble homolog,SCRIB,S853,phosphorylation,LPLLPPEsPGPLR,0.76,0.92,1.00,0.72,0.80,0.85,1.00
+Q14160,Protein scribble homolog,SCRIB,Y1360,phosphorylation,QKyFELEVR,0.08,0.09,0.16,0.16,0.43,0.27,1.00
+Q14160,Protein scribble homolog,SCRIB,S1448,phosphorylation,QSPAsPPPLGGGAPVR,0.70,0.51,0.64,0.65,0.73,0.61,1.00
+P18583,Protein SON,SON,S1697,phosphorylation,DTEEPLPVKESDQTLAALLsPK,0.40,0.43,0.45,0.37,0.61,0.28,1.00
+P18583,Protein SON,SON,S1697,phosphorylation,ESDQTLAALLsPK,0.47,0.69,0.56,0.54,0.55,0.57,1.00
+O94979,Protein transport protein Sec31A,SEC31A,S799,phosphorylation,AQGEPVAGHEsPKIPYEK,0.89,0.61,0.66,0.77,0.88,0.73,1.00
+Q06124,"Protein tyrosine phosphatase, non-receptor type 11",SHP2,Y62,phosphorylation,IQNTGDyYDLYGGEK,0.06,0.10,0.07,0.09,0.17,0.12,1.00
+Q06124,"Protein tyrosine phosphatase, non-receptor type 11",SHP2,Y584,phosphorylation,VyENVGLMQQQK,1.05,1.56,2.48,4.09,0.71,1.43,1.00
+A4D1C5,"Protein tyrosine phosphatase, non-receptor type 12",PTPN12,S435,phosphorylation,NLsFEIK,0.25,0.51,0.44,0.49,0.39,0.35,1.00
+P18433,"protein tyrosine phosphatase, receptor type, A isoform 1 precursor",PTPRA,Y798,phosphorylation,VVQEYIDAFSDyANFK,0.66,0.25,0.77,1.02,2.03,1.90,1.00
+Q9P035,Protein tyrosine phosphatase-like protein PTPLAD1,PTPLAD1,S114,phosphorylation,WLDEsDAEMELR,0.73,0.69,0.57,0.56,0.59,0.66,1.00
+Q58FF8,Putative heat shock protein HSP 90-beta 2,HSP90AB2P,S177,phosphorylation,IEDVGsDEEDDSGKDK,0.51,0.37,0.30,0.35,0.34,0.53,1.00
+P46087,Putative ribosomal RNA methyltransferase NOP2,NOP2,S732,phosphorylation,GTDTQTPAVLsPSK,0.69,0.64,0.61,0.67,0.70,0.59,1.00
+A1A693,Putative RNA-binding protein 15,RBM15,T568,phosphorylation,DRtPPLLYR,0.73,0.57,0.65,0.62,0.62,0.63,1.00
+A1A693,Putative RNA-binding protein 15,RBM15,"S670, S674",phosphorylation,HCAPsPDRsPELSSSR,0.64,0.69,0.51,0.59,0.65,0.66,1.00
+A1A693,Putative RNA-binding protein 15,RBM15,S294,phosphorylation,SLsPGGAALGYR,0.57,0.68,0.68,0.58,0.64,0.63,1.00
+A4QPG7,Putative RNA-binding protein 15B,RBM15B,T551/ S552 *,phosphorylation,TFLEGDWtSPSK,0.93,0.70,0.82,0.71,0.85,0.81,1.00
+Q9H6K5,putative uncharacterized protein FLJ22184 ,FLJ22184,S1310,phosphorylation,WAELLsPLDESR,0.52,0.51,0.46,0.49,0.57,0.57,1.00
+P50395,Rab GDP dissociation inhibitor beta,GDI2,Y203,phosphorylation,TDDYLDQPCyETINR,0.68,0.50,0.82,0.64,0.52,0.72,1.00
+B4DY16,Ran GTPase-activating protein 1,RANGAP1,S435/ T436 *,phosphorylation,ILDPNTGEPAPVLSSPPPADVsTFLAFPSPEK,0.11,0.18,0.14,0.28,0.24,0.15,1.00
+P43487,Ran-specific GTPase-activating protein,RANBP1,S60,phosphorylation,FAsENDLPEWK,1.00,1.19,1.01,1.31,1.16,0.89,1.00
+B7Z8K4,Ras GTPase-activating protein-binding protein 1,G3BP1,S232,phosphorylation,SSsPAPADIAQTVQEDLR,0.83,0.78,0.75,0.84,0.79,0.72,1.00
+B7Z8K4,Ras GTPase-activating protein-binding protein 1,G3BP1,S149,phosphorylation,YQDEVFGGFVTEPQEEsEEEVEEPEER,0.88,0.79,0.72,0.78,0.90,0.94,1.00
+B7Z8K4,Ras GTPase-activating protein-binding protein 1,G3BP1,T143/ S149 *,phosphorylation,YQDEVFGGFVtEPQEESEEEVEEPEER,1.32,1.16,0.71,1.01,0.64,0.73,1.00
+Q92766,Ras-responsive element-binding protein 1,RREB1,S1653,phosphorylation,VTAGWPSEPGQGDLNPEsPAALGQDLLEPR,0.57,0.53,0.72,0.48,0.63,0.44,1.00
+Q8IY67,RAVER1.,RAVER1,T480,phosphorylation,EALGLGPPAAQLtPPPAPVGLR,0.40,0.38,0.39,0.50,0.50,0.39,1.00
+Q8IY67,RAVER1.,RAVER1,S634,phosphorylation,HKMsPPPSGFGER,0.79,0.80,0.72,1.07,0.99,0.96,1.00
+Q8IY67,RAVER1.,RAVER1,S584,phosphorylation,LLsPLSSAR,0.70,0.77,0.73,0.70,0.76,0.66,1.00
+Q9NQG5,Regulation of nuclear pre-mRNA domain-containing protein 1B,RPRD1B,Y161/ S171 * ,phosphorylation,TFQQIQEEEDDDyPGSYSPQDPSAGPLLTEELIK,1.45,0.40,0.51,0.73,0.63,0.53,1.00
+Q5VT52,Regulation of nuclear pre-mRNA domain-containing protein 2.,RPRD2,S908/ S909 *,phosphorylation,LSsSPGLFGAFSVR,1.29,1.14,0.84,1.42,1.17,1.29,1.00
+P35251,Replication factor C subunit 1,RFC1,"S69, S71",phosphorylation,IIYDsDsESEETLQVK,0.62,0.61,0.63,0.41,0.52,0.50,1.00
+P35251,Replication factor C subunit 1,RFC1,S156/ T161/ T163/ S164 *,phosphorylation,NKPLsPIKLTPTSVLDYFGTGSVQR,0.62,0.38,0.61,0.74,0.55,0.49,1.00
+Q07960,Rho GTPase-activating protein 1,ARHGAP1,S51,phosphorylation,SSsPELVTHLK,0.68,0.59,0.52,0.64,0.75,0.64,1.00
+B7Z3C7,Rho guanine nucleotide exchange factor 6,ARHGEF6,S488,phosphorylation,MsGFIYQGK,0.93,0.95,1.03,0.92,1.04,1.29,1.00
+P31350,Ribonucleoside-diphosphate reductase subunit M2,RRM2,S20,phosphorylation,VPLAPITDPQQLQLsPLK,0.38,0.51,0.55,0.35,0.33,0.45,1.00
+A0PJ87,Ribosomal L1 domain-containing protein 1,RSL1D1,S361,phosphorylation,ATNEsEDEIPQLVPIGK,0.66,0.56,0.89,0.65,0.59,0.72,1.00
+B2R779,Ribosomal protein S6 kinase beta-1,RPS6KB1,S447,phosphorylation,TPVsPVKFSPGDFWGR,0.56,0.65,0.63,0.75,0.75,0.57,1.00
+Q8IXT5,RNA binding motif protein 12B,RBM12B,S638,phosphorylation,RPLEEDFRRsPTEDFR,0.46,0.81,0.80,0.35,0.64,0.42,1.00
+P98175,RNA-binding protein 10,RBM10,S89,phosphorylation,HRHsPTGPPGFPR,0.73,0.89,0.94,0.82,0.83,0.86,1.00
+P98175,RNA-binding protein 10,RBM10,S723,phosphorylation,LASDDRPsPPR,0.85,0.72,0.61,0.61,0.73,0.85,1.00
+B3KMN4,RNA-binding protein 14,RBM14,T206,phosphorylation,QPtPPFFGR,0.51,0.66,0.54,0.56,0.56,0.57,1.00
+A2RRD3,RNA-binding protein 39,RBM39,S136,phosphorylation,DKsPVREPIDNLTPEER,0.43,0.62,0.44,0.44,0.47,0.39,1.00
+A2RRD3,RNA-binding protein 39,RBM39,S136,phosphorylation,KDKsPVREPIDNLTPEER,1.08,0.93,1.19,1.02,1.23,0.85,1.00
+Q9UKM9,RNA-binding protein Raly,RALY,S135,phosphorylation,GRLsPVPVPR,0.67,0.81,0.81,0.66,0.78,0.73,1.00
+Q15287,RNA-binding protein with serine-rich domain 1,RNPS1,Y205,phosphorylation,GyAYVEFENPDEAEK,0.09,0.09,0.12,0.20,0.30,0.37,1.00
+O14828,Secretory carrier-associated membrane protein 3,SCAMP3,Y86,phosphorylation,NYGSySTQASAAAATAELLK,0.30,0.30,0.65,0.43,0.66,0.81,1.00
+O14828,Secretory carrier-associated membrane protein 3,SCAMP3,Y35,phosphorylation,QyATLDVYNPFETR,0.43,0.32,0.63,0.67,0.57,0.51,1.00
+Q9NZH5,Securin-2,PTTG2,S165,phosphorylation,LFQLGPPsPVK,0.83,1.03,0.89,0.81,0.78,0.69,1.00
+Q9H4L4,Sentrin-specific protease 3,SENP3,S169,phosphorylation,NHLsPQQGGATPQVPSPCCR,0.98,1.06,1.15,0.92,0.87,0.95,1.00
+Q9H4L4,Sentrin-specific protease 3,SENP3,S232,phosphorylation,WTPKsPLDPDSGLLSCTLPNGFGGQSGPEGER,0.48,1.18,0.27,0.68,0.53,0.58,1.00
+Q9H4L4,Sentrin-specific protease 3,SENP3,T244,phosphorylation,WTPKSPLDPDSGLLSCtLPNGFGGQSGPEGER,0.27,0.48,0.43,0.37,0.32,0.43,1.00
+Q15019,Septin-2, SEPT2,S218,phosphorylation,IYHLPDAEsDEDEDFKEQTR,0.64,0.73,0.72,0.63,0.64,0.74,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,S738,phosphorylation,AAsPSPQSVR,0.70,0.57,0.47,0.35,0.42,0.54,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,S695/ S696 *,phosphorylation,APQTSsSPPPVR,1.10,0.77,0.45,0.62,0.90,0.95,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,T220,phosphorylation,EKtPELPEPSVK,0.67,0.73,0.70,0.79,0.67,0.69,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,"S402, T406",phosphorylation,HRPsPPAtPPPK,0.99,0.88,0.55,0.84,0.91,0.94,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,S874,phosphorylation,KETEsEAEDNLDDLEK,0.63,0.80,0.78,0.88,0.70,0.99,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,"S389, S393",phosphorylation,RLsPSAsPPR,0.57,0.80,0.79,0.63,0.76,0.77,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,"S713, S715",phosphorylation,RQsPsPSTRPIR,1.13,0.75,0.64,0.61,0.77,0.95,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,"T572, T574",phosphorylation,RRtPtPPPR,1.48,0.76,0.72,0.74,1.08,1.24,1.00
+Q8IYB3,Serine/arginine repetitive matrix protein 1,SRRM1,S597,phosphorylation,RYsPPIQR,0.66,0.75,0.86,0.48,0.71,0.67,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1403/ S1404 *,phosphorylation,AGMSSNQSIsSPVLDAVPR,0.88,0.54,0.83,0.85,1.01,0.88,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S924,phosphorylation,AIIsPR,0.79,0.83,0.69,0.70,0.77,0.82,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T1492,phosphorylation,ALPQtPRPR,0.63,0.73,0.72,0.58,0.49,0.62,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T1003,phosphorylation,AQtPPGPSLSGSK,0.79,0.61,0.73,0.73,0.69,0.76,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S2407, T2409",phosphorylation,ARsRtPPSAPSQSR,0.50,0.38,0.45,0.38,0.33,0.49,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S2132,phosphorylation,CRsPGMLEPLGSSR,0.66,0.81,0.62,0.69,0.60,0.72,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T1208,phosphorylation,DTLRtPPRER,1.69,1.15,0.92,0.95,1.39,1.39,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1320,phosphorylation,ELSNsPLRENSFGSPLEFR,0.60,0.74,0.74,0.66,0.71,0.73,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S1318, S1320, S1329",phosphorylation,ELsNsPLRENSFGsPLEFR,0.87,0.46,0.83,0.72,0.73,0.61,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S1320, S1329",phosphorylation,ELSNsPLRENSFGsPLEFR,0.68,0.75,0.68,0.62,0.65,0.69,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1326,phosphorylation,ELSNSPLRENsFGSPLEFR,0.74,0.28,0.78,0.39,0.74,0.67,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1124,phosphorylation,GEFSAsPMLK,0.86,0.82,0.88,0.88,0.86,0.88,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S322/ S323 *,phosphorylation,GEGDAPFSEPGTTSTQRPsSPETATK,1.08,1.01,0.92,0.79,0.92,0.85,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S895,phosphorylation,HSCSGSsPPR,0.66,0.51,0.54,0.50,0.57,0.80,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1179,phosphorylation,MALPPQEDATAsPPR,0.66,0.60,0.66,0.66,0.49,0.54,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S2100, T2104, S2102",phosphorylation,NHsGsRtPPVALNSSR,0.62,0.48,0.55,0.56,0.61,0.58,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S2100, T2104 ",phosphorylation,NHsGSRtPPVALNSSR,0.71,0.71,0.54,0.57,0.50,0.55,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S2102,phosphorylation,NHSGsRTPPVALNSSR,0.92,0.73,0.60,0.66,0.74,0.74,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S2100,phosphorylation,NHsGSRTPPVALNSSR,0.92,0.73,0.60,0.66,0.74,0.74,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1083,phosphorylation,QSHSEsPSLQSK,1.26,0.63,0.58,0.80,0.98,1.12,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S2581,phosphorylation,RVPsPTPAPK,0.80,0.78,0.54,0.69,0.83,0.90,1.00
+Q9UQ35,Serine/arginine repetitive matrix protein 2,SRRM2,S875/ S876 *,phosphorylation,SCFEsSPDPELK,1.06,0.84,0.86,1.14,0.86,0.95,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S2067, T2069",phosphorylation,sLtRSPPAIR,0.26,0.64,0.41,0.51,0.45,0.36,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1916,phosphorylation,SRAsPVSR,1.35,0.67,0.83,0.87,0.72,0.84,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,"S2044, S2046",phosphorylation,sRsPLAIR,0.52,0.57,0.43,0.47,0.41,0.43,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T2409,phosphorylation,SRtPPSAPSQSR,0.94,0.60,0.49,0.52,0.70,0.76,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1987,phosphorylation,SRTsPVTR,1.72,0.88,0.70,1.12,1.35,1.65,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S1694,phosphorylation,SSRSsPELTR,2.19,1.34,1.18,1.69,1.94,2.32,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T1043,phosphorylation,SStPPGESYFGVSSLQLK,0.92,0.91,0.69,0.86,0.87,0.77,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,S2272,phosphorylation,TPAAAAAMNLAsPR,0.64,0.79,0.61,0.60,0.54,0.49,1.00
+A0AUK8,Serine/arginine repetitive matrix protein 2,SRRM2,T1531,phosphorylation,TVARtPLGQR,1.10,0.95,0.95,0.65,0.93,0.88,1.00
+Q7KZI7,Serine/threonine-protein kinase MARK2,MARK2,S486,phosphorylation,SRNsPLLER,0.73,0.83,0.71,0.68,0.65,0.80,1.00
+B4DQ21,Serine/threonine-protein kinase N2,PKN2,S306,phosphorylation,IIIEELSLVAASPTLsPR,0.44,0.50,0.56,0.51,0.74,0.55,1.00
+Q00536,Serine/threonine-protein kinase PCTAIRE-1,PCTK1,S119,phosphorylation,RLsLPADIR,0.45,0.83,0.96,0.51,0.92,0.82,1.00
+A8K1U6,Serine/threonine-protein kinase PCTAIRE-2,PCTK2,S9,phosphorylation,RLsLTLR,0.27,0.56,0.54,0.53,0.30,0.47,1.00
+B4DZQ5,Serine/threonine-protein kinase PRP4 homolog,PRPF4B,Y849,phosphorylation,LCDFGSASHVADNDITPyLVSR,0.63,1.04,0.69,0.73,0.84,0.72,1.00
+Q8IV63,Serine/threonine-protein kinase VRK3,VRK3,"S82, S83",phosphorylation,LSLFSDGDssESEDTLSSSER,0.49,0.37,0.50,0.61,0.62,0.43,1.00
+Q2L6I0,Serine/threonine-protein phosphatase 1 regulatory subunit 10,PPP1R10,S313,phosphorylation,VLsPTAAKPSPFEGK,0.46,0.59,0.65,0.68,0.56,0.60,1.00
+Q5H9R7,Serine/threonine-protein phosphatase 6 regulatory subunit 3,SAPS3,S617,phosphorylation,IQQFDDGGsDEEDIWEEK,0.75,0.82,1.02,0.58,1.16,0.90,1.00
+Q9BXP5,Serrate RNA effector molecule homolog,SRRT,S67,phosphorylation,RFsPPR,1.02,1.02,1.27,0.85,0.82,0.81,1.00
+Q9BXP5,Serrate RNA effector molecule homolog,SRRT,S540,phosphorylation,TQLWAsEPGTPPLPTSLPSQNPILK,0.70,1.04,0.94,0.90,0.82,0.80,1.00
+Q9BXP5,Serrate RNA effector molecule homolog,SRRT,S540/ T544/ T549/ S550 *,phosphorylation,TQLWAsEPGTPPLPTSLPSQNPILK,0.44,1.06,0.53,0.72,0.49,0.73,1.00
+B4DZR9,Sex comb on midleg-like protein 2.,SCML2,S511,phosphorylation,RSPQQTVPYVVPLsPK,0.59,0.47,0.73,0.91,0.85,0.69,1.00
+P29353,SHC-transforming protein 1,SHC1,Y427,phosphorylation,ELFDDPSyVNVQNLDK,0.12,0.25,0.59,0.93,1.07,0.89,1.00
+Q9NTI5,Sister chromatid cohesion protein PDS5 homolog B,PDS5B,S1358,phosphorylation,AEsPESSAIESTQSTPQK,0.52,0.77,0.46,0.50,0.61,0.51,1.00
+B1AK66,Smad nuclear-interacting protein 1.,SNIP1,S35,phosphorylation,QERLsPEVAPPAHR,0.62,0.61,0.74,0.37,0.61,0.64,1.00
+B1AK66,Smad nuclear-interacting protein 1.,SNIP1,S52,phosphorylation,RPDHSGGsPSPPTSEPAR,0.82,0.86,0.34,0.75,0.97,0.77,1.00
+O00193,Small acidic protein.,SMAP,S17,phosphorylation,SAsPDDDLGSSNWEAADLGNEER,0.79,0.62,0.86,0.76,0.69,0.57,1.00
+P05023,Sodium/potassium-transporting ATPase subunit alpha-1,ATP1A1,Y260,phosphorylation,GIVVyTGDR,0.57,0.64,0.57,1.03,1.55,0.91,1.00
+P05023,Sodium/potassium-transporting ATPase subunit alpha-1,ATP1A1,Y55,phosphorylation,yGTDLSR,0.38,0.35,0.43,1.07,0.24,0.38,1.00
+Q9NQQ7,Solute carrier family 35 member C2,SLC35C2,S335,phosphorylation,GLGsSPDLELLLR,0.42,0.52,0.53,0.57,0.53,0.43,1.00
+Q9Y5X1,Sorting nexin-9,SNX9,Y269,phosphorylation,SyIEYQLTPTNTNR,0.11,0.18,0.12,0.24,0.29,0.34,1.00
+Q13813,"Spectrin alpha chain, brain",SPTAN1,S1029/ S1031 *,phosphorylation,KLDPAQsASRENLLEEQGSIALR,1.22,0.91,1.07,0.93,1.19,1.52,1.00
+Q13813,"Spectrin alpha chain, brain",SPTAN1,S1217,phosphorylation,WRsLQQLAEER,1.53,1.17,1.21,1.15,1.64,1.48,1.00
+B2ZZ89,"Spectrin beta chain, brain 1",SPTBN1,T2331/ S2332 *,phosphorylation,AQTLPtSVVTITSESSPGKR,0.57,0.93,0.72,0.89,1.00,0.74,1.00
+B2ZZ89,"Spectrin beta chain, brain 1",SPTBN1,S2340/ S2341 *,phosphorylation,AQTLPTSVVTITSEsSPGKR,0.49,0.48,0.48,0.51,0.62,0.50,1.00
+Q15637,Splicing factor 1,SF1,"S80, S82",phosphorylation,TGDLGIPPNPEDRsPsPEPIYNSEGK,0.72,0.70,0.80,0.82,0.68,0.97,1.00
+O75533,Splicing factor 3B subunit 1,SF3B1,S129,phosphorylation,TMIIsPERLDPFADGGK,0.61,0.69,0.40,0.35,0.46,0.42,1.00
+B5BU25,Splicing factor U2AF 65 kDa subunit,U2AF2,S79,phosphorylation,GAKEEHGGLIRsPR,0.73,0.85,0.73,0.76,0.74,0.73,1.00
+A8K1L8,"Splicing factor, arginine/serine-rich 1",SFRS1,Y189,phosphorylation,SHEGETAyIR,0.25,0.25,0.23,0.27,0.22,0.35,1.00
+O95104,"Splicing factor, arginine/serine-rich 15",SFRS15,S154,phosphorylation,IEIIQPLLDMAAGTSNAAPVAENVTNNEGsPPPPVK,0.35,0.06,0.24,0.26,0.25,0.15,1.00
+B3KSZ8,"Splicing factor, arginine/serine-rich 16",SFRS16,S154,phosphorylation,KIsPPSYAR,0.91,0.77,0.86,0.80,1.02,0.85,1.00
+Q3B7B6,"Splicing factor, arginine/serine-rich 18",SFRS18,S211,phosphorylation,QRsPIALPVK,0.59,0.47,0.37,0.42,0.42,0.36,1.00
+Q9H7N4,"Splicing factor, arginine/serine-rich 19",SCAF1,S239,phosphorylation,FDIYDPFHPTDEAYsPPPAPEQK,0.57,0.77,0.68,0.78,0.70,0.48,1.00
+B3KUY1,"Splicing factor, arginine/serine-rich 2",SFRS2,S26,phosphorylation,VDNLTYRTsPDTLR,1.06,0.69,0.62,0.90,0.93,1.05,1.00
+B3KUY1,"Splicing factor, arginine/serine-rich 2",SFRS2,T22/ Y23/ T25/ S26 *,phosphorylation,VDNLtYRTSPDTLR,1.26,1.21,1.18,1.25,0.99,0.97,1.00
+A8K588,"Splicing factor, arginine/serine-rich 6",SFRS6,S303,phosphorylation,SNsPLPVPPSK,0.70,0.70,0.65,0.64,0.61,0.64,1.00
+A8K3M9,"Splicing factor, arginine/serine-rich 9",SFRS9,S211,phosphorylation,GsPHYFSPFRPY,0.57,0.62,0.54,0.54,0.58,0.57,1.00
+A8K3M9,"Splicing factor, arginine/serine-rich 9",SFRS9,"S211, S216",phosphorylation,GsPHYFsPFRPY,1.24,0.96,1.08,1.11,1.04,1.01,1.00
+Q14247,Src substrate cortactin,CTTN,S418,phosphorylation,LPSsPVYEDAASFK,0.57,0.49,0.45,0.40,0.50,0.55,1.00
+Q14247,Src substrate cortactin,CTTN,T411/ S417/ S418 *,phosphorylation,TQTPPVSPAPQPtEERLPSSPVYEDAASFK,0.69,0.48,0.57,0.42,0.68,0.47,1.00
+Q14247,Src substrate cortactin,CTTN,Y545,phosphorylation,YGLFPANyVELR,0.00,0.14,0.01,0.18,0.38,0.34,1.00
+B5BU83,Stathmin,STMN1,"S16, S25",phosphorylation,AsGQAFELILsPR,1.01,1.21,0.96,1.31,1.23,1.10,1.00
+B5BU83,Stathmin,STMN1,S25,phosphorylation,ASGQAFELILsPR,1.30,1.74,1.34,2.03,1.67,1.73,1.00
+B5BU83,Stathmin,STMN1,S38,phosphorylation,ESVPEFPLsPPK,0.84,0.33,0.77,0.85,0.76,0.73,1.00
+B5BU83,Stathmin,STMN1,S16,phosphorylation,RAsGQAFELILSPR,1.37,1.06,1.48,1.21,1.52,1.35,1.00
+A2IDB9,STIP1 homology and U box-containing protein 1,STUB1,S19,phosphorylation,LGAGGGsPEKSPSAQELK,1.06,0.76,0.87,0.90,0.88,1.11,1.00
+A2IDB9,STIP1 homology and U box-containing protein 1,STUB1,S23,phosphorylation,LGAGGGSPEKsPSAQELK,0.41,0.78,0.71,0.66,0.68,0.65,1.00
+Q13586,Stromal interaction molecule 1,STIM1,S567,phosphorylation,LIEGVHPGsLVEKLPDSPALAK,0.62,0.88,0.69,0.78,0.90,0.66,1.00
+Q9NTJ3,Structural maintenance of chromosomes protein 4,SMC4,S41,phosphorylation,TEsPATAAETASEELDNR,0.79,0.68,0.92,0.78,0.85,0.79,1.00
+Q9NQ55,Suppressor of SWI4 1 homolog,PPAN,S238/ S240 *,phosphorylation,LQDISELLATGAGLsESEAEPDGDHNITELPQAVAGR,0.25,0.26,0.32,0.22,0.25,0.23,1.00
+Q9NQ55,Suppressor of SWI4 1 homolog,PPAN,"S238, T233/ S238, S240/ S240, T233 *",phosphorylation,LQDISELLAtGAGLsESEAEPDGDHNITELPQAVAGR,0.38,0.29,0.16,0.32,0.41,0.40,1.00
+Q9NQ55,Suppressor of SWI4 1 homolog,PPAN,S359,phosphorylation,VGGsDEEASGIPSR,1.11,0.68,0.70,0.76,0.77,0.90,1.00
+B3KNS8,Surfeit locus protein 6.,SURF6,S138,phosphorylation,ELsPAALEK,0.74,0.73,0.69,0.74,0.57,0.72,1.00
+Q16637,Survival motor neuron protein,SMN1,S28,phosphorylation,GTGQsDDSDIWDDTALIK,0.58,0.55,0.56,0.52,0.57,0.52,1.00
+Q16637,Survival motor neuron protein,SMN1,"S28, S31",phosphorylation,GTGQsDDsDIWDDTALIK,0.70,0.77,0.49,0.64,0.66,0.62,1.00
+Q8TAQ2,SWI/SNF complex subunit SMARCC2,SMARCC2,S283,phosphorylation,TLTDEVNsPDSDRR,0.74,0.63,0.59,0.62,0.64,0.70,1.00
+B4DZC0,SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily A m,SMARCA5,S50,phosphorylation,GGPEGVAAQAVASAAsAGPADAEMEEIFDDASPGKQK,0.90,0.61,0.86,0.90,0.66,0.51,1.00
+B4DZC0,SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily A m,SMARCA5,S47/ S50/ S66 *,phosphorylation,GGPEGVAAQAVAsAASAGPADAEMEEIFDDASPGKQK,0.67,0.48,0.46,0.54,0.55,0.37,1.00
+B4DZC0,SWI/SNF-related matrix-associated actin-dependent regulator of chromatin subfamily A m,SMARCA5,"T113, T115/ T113, S116/ T115, S116 *",phosphorylation,QTELFAHFIQPAAQKtPtSPLK,0.63,0.63,0.64,0.62,0.64,0.76,1.00
+B2RBI2,Synapse-associated protein 1.,SYAP1,T248,phosphorylation,EQDLPLAEAVRPKtPPVVIK,0.66,0.62,0.64,0.57,0.67,0.60,1.00
+B2RBI2,Synapse-associated protein 1.,SYAP1,S267/ S269/ S273/ S277 *,phosphorylation,TQEDEEEIsTSPGVSEFVSDAFDACNLNQEDLRK,0.27,0.14,0.19,0.29,0.24,0.06,1.00
+O00560,Syntenin-1,SDCBP,Y50,phosphorylation,LyPELSQYMGLSLNEEEIR,0.00,0.00,0.17,0.14,0.29,0.13,1.00
+O60343,TBC1 domain family member 4,TBC1D4,S666,phosphorylation,AQGVRsPLLR,1.14,0.90,0.95,0.92,0.94,0.98,1.00
+O60343,TBC1 domain family member 4,TBC1D4,S570,phosphorylation,SLTSsLENIFSR,0.54,0.54,0.44,0.65,0.66,0.61,1.00
+O60343,TBC1 domain family member 4,TBC1D4,S569/ S570 *,phosphorylation,SLTsSLENIFSR,0.69,0.65,0.62,0.65,0.44,0.86,1.00
+Q8TC07  ,"TBC1 domain family, member 15, isoform CRA_c",TBC1D15,S227,phosphorylation,SLSQsFENLLDEPAYGLIQK,0.30,0.32,0.13,0.27,0.35,0.15,1.00
+P0C1Z6,TCF3 fusion partner,TFPT,S252,phosphorylation,LLPYPTLASPAsD,0.65,0.54,0.46,0.58,0.46,0.41,1.00
+P0C1Z6,TCF3 fusion partner,TFPT,"S249, S252",phosphorylation,LLPYPTLAsPAsD,0.51,0.59,0.61,0.76,0.60,0.47,1.00
+C6ZGQ9,Telomerase Cajal body protein 1,WDR79,T489/ S491 *,phosphorylation,VFPEPtESGDEGEELGLPLLSTR,0.51,0.48,0.33,0.51,0.57,0.30,1.00
+Q9Y4R8,Telomere length regulation protein TEL2 homolog,TELO2,S836,phosphorylation,LLPPAsP,0.64,0.51,0.59,0.52,0.56,0.47,1.00
+Q15554,Telomeric repeat-binding factor 2,TERF2,S323,phosphorylation,DLVLPTQALPAsPALK,0.92,0.79,0.89,0.83,0.79,0.77,1.00
+B4DQN4,Telomeric repeat-binding factor 2-interacting protein 1,TERF2IP,S203,phosphorylation,YLLGDAPVsPSSQK,0.66,0.74,0.68,0.76,0.62,0.71,1.00
+Q05D20,Thyroid hormone receptor-associated protein 3,THRAP3,S243,phosphorylation,ASAVSELsPR,0.75,0.73,0.67,0.61,0.71,0.80,1.00
+Q05D20,Thyroid hormone receptor-associated protein 3,THRAP3,"S248, S253",phosphorylation,ERsPALKsPLQSVVVR,0.61,0.72,0.56,0.73,0.68,0.66,1.00
+Q05D20,Thyroid hormone receptor-associated protein 3,THRAP3,S248,phosphorylation,ERsPALKSPLQSVVVR,0.49,0.54,0.49,0.66,0.66,0.61,1.00
+Q05D20,Thyroid hormone receptor-associated protein 3,THRAP3,S379,phosphorylation,GSFsDTGLGDGK,0.64,0.49,0.64,0.57,0.51,0.59,1.00
+Q05D20,Thyroid hormone receptor-associated protein 3,THRAP3,S682,phosphorylation,RIDIsPSTFR,0.69,0.81,0.88,0.66,0.81,0.71,1.00
+Q5JTD0,Tight junction-associated protein 1,TJAP1,S300,phosphorylation,GsPEEELPLPAFEK,0.64,0.56,0.52,0.45,0.42,0.47,1.00
+B4E1M9,TOM1-like protein 1,TOM1L1,S323,phosphorylation,EATNTTSEPSAPSQDLLDLSPsPR,0.40,0.51,0.47,0.54,0.53,0.40,1.00
+Q5JTV8,Torsin-1A-interacting protein 1.,TOR1AIP1,S143,phosphorylation,LQQQHSEQPPLQPsPVMTR,0.56,0.65,0.54,0.48,0.66,0.83,1.00
+A7E2A3,TRAF2 and NCK-interacting protein kinase.,TNIK,S769,phosphorylation,SEGsPVLPHEPAK,0.82,0.58,0.82,0.88,0.82,0.94,1.00
+A8K5L6,TRAF-type zinc finger domain-containing protein 1,TRAFD1,T414/ S415 *,phosphorylation,LDSQPQEtSPELPR,0.83,0.74,0.79,0.65,0.61,0.71,1.00
+P23193,Transcription elongation factor A protein 1,TCEA1,S100,phosphorylation,KKEPAITSQNsPEAR,0.70,0.62,0.42,0.57,0.69,0.67,1.00
+B4DZJ7,Transcription elongation factor SPT5,SUPT5H,S666,phosphorylation,DVTNFTVGGFAPMsPR,0.76,0.71,0.82,0.83,0.79,0.69,1.00
+P05412,Transcription factor AP-1,JUN,S73,phosphorylation,LAsPELER,0.28,0.18,0.24,0.26,0.30,0.30,1.00
+P05412,Transcription factor AP-1,JUN,S243,phosphorylation,LQALKEEPQTVPEMPGETPPLsPIDMESQER,0.94,0.52,0.73,0.84,0.58,0.87,1.00
+P05412,Transcription factor AP-1,JUN,S63,phosphorylation,NSDLLTsPDVGLLK,0.49,0.34,0.36,0.44,0.35,0.43,1.00
+Q01664,Transcription factor AP-4,TFAP4,S123/ S124 * ,phosphorylation,FIQELSGsSPK,0.51,0.58,0.61,0.74,0.85,0.53,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,S828,phosphorylation,FSAVLVEPPPMSLPGAGLSSQELsGGPGDGP,0.67,0.47,0.49,0.57,0.44,0.35,1.00
+Q13263,Transcription intermediary factor 1-beta,TRIM28,S594,phosphorylation,LAsPSGSTSSGLEVVAPEGTSAPGGGPGTLDDSATICR,0.39,1.25,0.83,0.61,1.13,0.26,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,"S594, S596",phosphorylation,LAsPsGSTSSGLEVVAPEGTSAPGGGPGTLDDSATICR,0.43,0.88,0.75,0.83,0.73,0.60,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,"S594, S598, T599",phosphorylation,LAsPSGstSSGLEVVAPEGTSAPGGGPGTLDDSATICR,1.20,1.18,0.45,1.27,1.33,1.33,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,"S596, T599/ S598, T599 *",phosphorylation,LASPsGStSSGLEVVAPEGTSAPGGGPGTLDDSATICR,0.74,0.38,0.69,0.54,0.63,0.62,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,"S594, S596/ S594, S598 *",phosphorylation,LAsPsGSTSSGLEVVAPEGTSAPGGGPGTLDDSATICR,0.54,0.57,0.43,0.27,0.51,0.62,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,S473,phosphorylation,SRsGEGEVSGLMR,0.55,0.67,0.57,0.57,0.57,0.56,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,S41/ S43/ S45/ S49/ S50 *,phosphorylation,STAPSAAAsASASAAASSPAGGGAEALELLEHCGVCR,0.88,0.57,0.72,0.67,0.73,0.67,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,Y517,phosphorylation,VFPGSTTEDyNLIVIER,1.47,1.71,2.22,1.49,2.31,3.32,1.00
+B2R8R5,Transcription intermediary factor 1-beta,TRIM28,S489,phosphorylation,VsLERLDLDLTADSQPPVFK,0.72,0.69,0.57,0.81,0.65,0.47,1.00
+Q04726,Transducin-like enhancer protein 3,TLE3,S203,phosphorylation,ESSANNSVsPSESLR,1.30,0.83,0.59,0.70,1.12,1.14,1.00
+A8K6Q8,Transferrin receptor protein 1,TFRC,Y20,phosphorylation,SAFSNLFGGEPLSyTR,0.45,0.61,0.70,0.62,1.01,1.19,1.00
+Q9Y4A5,Transformation/transcription domain-associated protein,TRRAP,S1630/ T1633 *,phosphorylation,FITLLLPGGAQTAVRPGSPsTSTMR,0.94,0.95,0.59,0.84,0.61,0.49,1.00
+B2RDQ3,Transformer-2 protein homolog beta,TRA2B,"S264, S266",phosphorylation,RRsPsPYYSR,0.79,0.56,0.48,0.39,0.59,0.66,1.00
+Q13428,Treacle protein,TCOF1,S1228,phosphorylation,LDSsPSVSSTLAAK,0.62,0.59,0.40,0.52,0.52,0.43,1.00
+Q13428,Treacle protein,TCOF1,S1378,phosphorylation,LGAGEGGEASVsPEKTSTTSK,0.60,0.63,0.48,0.54,0.62,0.60,1.00
+Q13428,Treacle protein,TCOF1,T581/ S582/ S583 *,phosphorylation,SLGNILQAKPtSSPAKGPPQK,0.33,0.64,0.42,0.62,0.63,0.39,1.00
+Q13428,Treacle protein,TCOF1,S375,phosphorylation,TSQVGAAsAPAKESPR,1.00,0.67,0.44,0.60,0.74,0.91,1.00
+Q13428,Treacle protein,TCOF1,S156,phosphorylation,TVANLLSGKsPR,0.73,0.78,0.76,0.83,0.76,0.86,1.00
+O15417,Trinucleotide repeat-containing gene 18 protein,TNRC18,S1857,phosphorylation,ALsPGLEESGLGLLAR,0.76,0.88,0.90,0.68,0.70,0.81,1.00
+P60174,Triosephosphate isomerase,TPI1,S21,phosphorylation,KQsLGELIGTLNAAK,0.77,1.00,1.11,1.18,1.16,0.96,1.00
+A8K0B8,Tubulin alpha-1A chain,TUBA1A,S48,phosphorylation,TIGGGDDsFNTFFSETGAGK,0.94,0.95,0.94,1.14,1.08,0.97,1.00
+P68363,Tubulin alpha-1B chain,TUBA1B,S340,phosphorylation,sIQFVDWCPTGFK,0.75,0.67,0.68,0.86,0.76,0.71,1.00
+P07437,Tubulin beta chain,TUBB,Y340,phosphorylation,NSSyFVEWIPNNVK,0.12,0.11,0.21,0.28,0.29,0.35,1.00
+Q14166,Tubulin--tyrosine ligase-like protein 12.,TTLL12,S16,phosphorylation,SsPGQTPEEGAQALAEFAALHGPALR,0.80,0.77,0.66,0.79,0.72,0.66,1.00
+P55327,Tumor protein D52,TPD52,S176,phosphorylation,NSPTFKsFEEK,0.50,0.50,0.34,0.43,0.38,0.27,1.00
+Q12888,Tumor suppressor p53-binding protein 1,TP53BP1,S380,phosphorylation,STPFIVPSsPTEQEGR,0.61,0.72,0.55,0.57,0.60,0.53,1.00
+Q9UIG0,Tyrosine-protein kinase BAZ1B,BAZ1B,S349,phosphorylation,SLSGsPLK,0.98,0.93,0.77,0.73,0.79,0.80,1.00
+A8K379,Tyrosine-protein kinase Lyn.,LYN,Y306,phosphorylation,LyAVVTR,0.10,0.13,0.16,0.16,0.17,0.39,1.00
+Q9H792,Tyrosine-protein kinase SgK269,SGK269,Y531,phosphorylation,yQEVWTSSTSPR,0.25,0.33,0.47,0.85,0.64,0.56,1.00
+P43405,Tyrosine-protein kinase SYK,SYK,Y323,phosphorylation,QESTVSFNPyEPELAPWAADKGPQR,1.88,1.03,1.35,2.26,3.20,2.80,1.00
+P08621,U1 small nuclear ribonucleoprotein 70 kDa,SNRNP70,Y146,phosphorylation,GyAFIEYEHER,0.24,0.06,0.19,0.29,0.55,0.75,1.00
+Q8WWY3,U4/U6 small nuclear ribonucleoprotein Prp31,PRPF31,Y205,phosphorylation,IyEYVESR,0.22,0.30,0.52,0.60,0.51,0.59,1.00
+B7Z7L9,U4/U6.U5 tri-snRNP-associated protein 2,USP39,S46,phosphorylation,DREREPEAASSRGsPVR,1.59,0.63,1.13,0.72,0.97,1.28,1.00
+Q6ZU65,Ubinuclein-2.,UBN2,S13,phosphorylation,RVAFISLsPVR,0.89,0.81,0.74,0.66,0.77,0.76,1.00
+Q14694,Ubiquitin carboxyl-terminal hydrolase 10,USP10,S211,phosphorylation,TCNsPQNSTDSVSDIVPDSPFPGALGSDTR,0.74,0.87,0.72,0.64,0.61,0.78,1.00
+Q9UPU5,UBIQUITIN CARBOXYL-TERMINAL HYDROLASE 24.,USP24,S2561,phosphorylation,TIsAQDTLAYATALLNEK,0.45,0.38,0.43,0.41,0.44,0.32,1.00
+Q96K76,Ubiquitin carboxyl-terminal hydrolase 47,USP47,S832,phosphorylation,LFVLLPEQsPVSYSK,0.58,0.58,0.53,0.59,0.49,0.56,1.00
+Q14157,Ubiquitin-associated protein 2-like,UBAP2L,S608,phosphorylation,RYPSSISsSPQKDLTQAK,0.89,0.51,0.97,0.96,0.69,0.75,1.00
+Q14157,Ubiquitin-associated protein 2-like,UBAP2L,S454,phosphorylation,SPAVATSTAAPPPPSsPLPSK,0.67,0.73,0.72,0.67,0.72,0.62,1.00
+B3KPX8,Uncharacterized protein C9orf78,C9orf78,Y147,phosphorylation,NAEDCLyELPENIR,0.32,0.39,1.09,0.60,0.88,0.98,1.00
+B3KPX8,Uncharacterized protein C9orf78,C9orf78,S261,phosphorylation,VGDTEKPEPERsPPNR,0.82,0.52,0.36,0.48,0.68,0.75,1.00
+B4DUP7,Uncharacterized protein C9orf82.,C9orf82,S311/ S312 *,phosphorylation,SVNEILGLAEsSPNEPK,0.43,0.47,0.47,0.58,0.44,0.56,1.00
+Q8IXQ4,Uncharacterized protein KIAA1704,KIAA1704,S105,phosphorylation,QDDsPPRPIIGPALPPGFIK,0.54,0.65,0.49,0.65,0.51,0.55,1.00
+P46939,Utrophin,UTRN,Y3111,phosphorylation,LHyPMVEYCIPTTSGEDVR,0.07,0.09,0.11,0.04,0.11,0.13,1.00
+B7Z4W4,UV excision repair protein RAD23 homolog B,RAD23B,T155/ T159/ S160 *,phosphorylation,QEKPAEKPAEtPVATSPTATDSTSGDSSR,0.29,0.23,0.26,0.28,0.31,0.37,1.00
+C9JJN9,Vacuolar protein sorting-associated protein 8 homolog.,VPS8,Y1257,phosphorylation,QDyCSICLQQYK,0.24,0.42,0.43,0.34,0.59,0.52,1.00
+B0YJC4,Vimentin.,VIM,Y117,phosphorylation,FANyIDK,0.25,0.06,0.11,0.34,0.30,0.36,1.00
+O43379,WD repeat-containing protein 62.,WDR62,S1228,phosphorylation,SIsLGDSEGPIVATLAQPLR,0.78,0.60,0.53,0.64,0.69,0.50,1.00
+A8K330,WD repeat-containing protein 75.,WDR75,S796,phosphorylation,VQDTsNTGLGEDIIHQLSK,1.04,0.86,1.25,1.33,1.28,1.11,1.00
+A7E2B5,Wings apart-like protein homolog,WAPAL,S221,phosphorylation,RPEsPSEISPIK,0.83,0.61,0.58,0.68,0.75,0.77,1.00
+Q9BTA9,WW domain-containing adapter protein with coiled-coil.,WAC,T495,phosphorylation,QGPVSQSAtQQPVTADKQQGHEPVSPR,1.04,0.80,0.69,1.15,1.27,1.16,1.00
+Q96MU7,YTH domain-containing protein 1,YTHDC1,S308,phosphorylation,GIsPIVFDR,0.48,0.45,0.49,0.53,0.59,0.53,1.00
+Q5T200,Zinc finger CCCH domain-containing protein 13.,ZC3H13,S64,phosphorylation,FVHGPsPR,1.74,1.37,1.28,1.34,1.65,1.51,1.00
+Q5T200,Zinc finger CCCH domain-containing protein 13.,ZC3H13,S877,phosphorylation,SLsPSHLTEDR,0.70,0.72,0.64,0.69,0.64,0.65,1.00
+Q86VM9,Zinc finger CCCH domain-containing protein 18,ZC3H18,S536,phosphorylation,LGVSVSPsR,0.97,0.80,0.93,0.65,0.86,0.83,1.00
+Q5VUA4,Zinc finger protein 318,ZNF318,S173,phosphorylation,LGsPVDNLEDMDRDDLTDDSVFTR,0.83,0.98,0.63,0.66,0.77,0.86,1.00
+A8K583,Zinc finger protein 638,ZNF638,S1401,phosphorylation,AVIVSsPK,0.67,0.61,0.63,0.79,0.70,0.76,1.00
+Q8N1G0,Zinc finger protein 687.,ZNF687,S253,phosphorylation,ATDIPASAsPPPVAGVPFFK,0.73,0.57,0.43,0.47,0.47,0.26,1.00
+B3KU06,Zinc finger protein 828.,ZNF828,S416,phosphorylation,AVPPVsPELR,0.52,0.48,0.43,0.69,0.56,0.46,1.00
+B3KU06,Zinc finger protein 828.,ZNF828,S476,phosphorylation,GGsPDLWK,0.78,0.79,0.70,0.78,0.81,0.65,1.00
+O95218,Zinc finger Ran-binding domain-containing protein 2,ZRANB2,S120,phosphorylation,ENVEYIEREEsDGEYDEFGR,0.77,0.62,0.76,0.67,0.77,0.73,1.00
+O95218,Zinc finger Ran-binding domain-containing protein 2,ZRANB2,S153,phosphorylation,EVEDKEsEGEEEDEDEDLSK,0.48,0.46,0.35,0.36,0.30,0.45,1.00
