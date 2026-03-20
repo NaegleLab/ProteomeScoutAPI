@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Look at overlap with ProteomeScout Dataset &#8212; ProteomeScoutAPI 1.1.0 documentation</title>
+    <title>Look at overlap with ProteomeScout Dataset &#8212; ProteomeScoutAPI 3.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=051bfb12"></script>
+    <script src="../_static/documentation_options.js?v=6a41c08d"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">ProteomeScoutAPI 1.1.0 documentation</p>
+    <p class="title logo__title">ProteomeScoutAPI 3.0.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -159,6 +159,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="peruse_protein.html">Explore features of a protein of interest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotate_dataset.html">Annotate phosphoproteomic dataset</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Look at overlap with ProteomeScout Dataset</a></li>
 </ul>
@@ -384,22 +385,13 @@ document.write(`
 </pre></div>
 </div>
 <div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Setup the workspace,
-from proteomeScoutAPI.proteomeScoutAPI import ProteomeScoutAPI
-import numpy as np
-from scipy import stats
+from proteomeScoutAPI.api import ProteomeScoutAPI
 import matplotlib.pyplot as plt
 from pylab import *
 import pandas as pd
-from scipy import stats
-import pickle
-import re
 
-# Establish the API to the current data file
-
-# define input file for ProteomeScout data
-proteomeScoutFile = &#39;../../data/proteomescout_everything_20161218/data.tsv&#39;
-# read in ProteomeScout data
-PTM_API = ProteomeScoutAPI(proteomeScoutFile)
+# read in ProteomeScout data and initialize api
+PTM_API = ProteomeScoutAPI()
 
 # Open up and load the file of interest, this file may have redundant sites, so uniquify it.
 dataFile = &#39;Overlap_exampleList.txt&#39;

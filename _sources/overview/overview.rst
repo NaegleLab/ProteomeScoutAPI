@@ -2,7 +2,7 @@ Getting Started
 =================
 
 
-A lightweight API to talk to ProteomeScout flatfiles in Python. 
+A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phosphoproteomic datasets with protein and site-specific information
 
 About
 -----
@@ -16,11 +16,27 @@ Overview
 --------
 ProteomeScoutAPI is a Python module which can be used to connect to and parse ProteomeScout flatfiles. Specifically, the goal of this module is to allow anyone to interact with ProteomeScout data without the need to
 
-1. Repeatedly interact with ProteomeScout web interface
+1. Repeatedly query the ProteomeScout sever
 
 2. Have any knowledge of SQL, or use an SQL-Python ORM
 
 3. Facilitate rapid exploration of the ProteomeScout dataset
+
+Available Information
+---------------------
+
+The ProteomeScout flat file contains information associated with all proteins in the human proteome, including:
+- Protein sequence
+- Protein domains (from InterPro or UniProt)
+- Protein structures (alpha helices, beta strands, etc)
+- Macromolecular structures (disorder, etc.)
+- PTMs
+- Gene Ontology terms
+
+Usage
+-----
+1. Explore properties of an individual protein of interest (domains, PTMs, structure, etc.)
+2. Annotate a phosphoproteomic dataset with additional information about the proteins and sites in the dataset (e.g. domains, GO terms, etc.)
 
 Installation
 ------------

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting Started &#8212; ProteomeScoutAPI 1.1.0 documentation</title>
+    <title>Getting Started &#8212; ProteomeScoutAPI 3.0.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=051bfb12"></script>
+    <script src="../_static/documentation_options.js?v=6a41c08d"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">ProteomeScoutAPI 1.1.0 documentation</p>
+    <p class="title logo__title">ProteomeScoutAPI 3.0.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -157,6 +157,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../examples/peruse_protein.html">Explore features of a protein of interest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/annotate_dataset.html">Annotate phosphoproteomic dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/Overlap_withPhosphoProteome.html">Look at overlap with ProteomeScout Dataset</a></li>
 </ul>
@@ -356,6 +357,8 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about">About</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-information">Available Information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pip">Pip</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarball">Tarball</a></li>
@@ -377,7 +380,7 @@ document.write(`
                   
   <section id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
-<p>A lightweight API to talk to ProteomeScout flatfiles in Python.</p>
+<p>A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phosphoproteomic datasets with protein and site-specific information</p>
 <section id="about">
 <h2>About<a class="headerlink" href="#about" title="Link to this heading">#</a></h2>
 <p>Version 2.0 - June 2020</p>
@@ -388,9 +391,26 @@ document.write(`
 <h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>ProteomeScoutAPI is a Python module which can be used to connect to and parse ProteomeScout flatfiles. Specifically, the goal of this module is to allow anyone to interact with ProteomeScout data without the need to</p>
 <ol class="arabic simple">
-<li><p>Repeatedly interact with ProteomeScout web interface</p></li>
+<li><p>Repeatedly query the ProteomeScout sever</p></li>
 <li><p>Have any knowledge of SQL, or use an SQL-Python ORM</p></li>
 <li><p>Facilitate rapid exploration of the ProteomeScout dataset</p></li>
+</ol>
+</section>
+<section id="available-information">
+<h2>Available Information<a class="headerlink" href="#available-information" title="Link to this heading">#</a></h2>
+<p>The ProteomeScout flat file contains information associated with all proteins in the human proteome, including:
+- Protein sequence
+- Protein domains (from InterPro or UniProt)
+- Protein structures (alpha helices, beta strands, etc)
+- Macromolecular structures (disorder, etc.)
+- PTMs
+- Gene Ontology terms</p>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Explore properties of an individual protein of interest (domains, PTMs, structure, etc.)</p></li>
+<li><p>Annotate a phosphoproteomic dataset with additional information about the proteins and sites in the dataset (e.g. domains, GO terms, etc.)</p></li>
 </ol>
 </section>
 <section id="installation">
@@ -497,6 +517,8 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about">About</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-information">Available Information</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pip">Pip</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarball">Tarball</a></li>

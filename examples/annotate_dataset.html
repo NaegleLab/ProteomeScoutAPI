@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Annotate phosphoproteomic dataset &#8212; ProteomeScoutAPI 1.1.0 documentation</title>
+    <title>Annotate phosphoproteomic dataset &#8212; ProteomeScoutAPI 3.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=051bfb12"></script>
+    <script src="../_static/documentation_options.js?v=6a41c08d"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Look at overlap with ProteomeScout Dataset" href="Overlap_withPhosphoProteome.html" />
-    <link rel="prev" title="API Reference" href="../overview/Functions.html" />
+    <link rel="prev" title="Explore features of a protein of interest" href="peruse_protein.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -136,7 +136,7 @@
   
   
   
-    <p class="title logo__title">ProteomeScoutAPI 1.1.0 documentation</p>
+    <p class="title logo__title">ProteomeScoutAPI 3.0.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -160,6 +160,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="peruse_protein.html">Explore features of a protein of interest</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Annotate phosphoproteomic dataset</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Overlap_withPhosphoProteome.html">Look at overlap with ProteomeScout Dataset</a></li>
 </ul>
@@ -536,7 +537,7 @@ Annotation information has been appended to the dataset DataFrame as new columns
 <p>This will append two types of information, either based on the entire gene (gene name, domains, GO terms) or the individual ptms (position, modification, if in domain or macromolecular structure)</p>
 <p>Gene level information will look like this:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">dataset</span><span class="p">[[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">,</span> <span class="s1">&#39;domains&#39;</span><span class="p">,</span> <span class="s1">&#39;domain_architecture&#39;</span><span class="p">,</span> <span class="s1">&#39;GO_terms&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -544,7 +545,7 @@ Annotation information has been appended to the dataset DataFrame as new columns
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -621,15 +622,15 @@ Annotation information has been appended to the dataset DataFrame as new columns
 </ul>
 <p>PTM-level information will look like this:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">dataset</span><span class="p">[[</span><span class="s1">&#39;aligned_peps&#39;</span><span class="p">,</span> <span class="s1">&#39;modification_sites&#39;</span><span class="p">,</span> <span class="s1">&#39;documented_phosphosites&#39;</span><span class="p">,</span> <span class="s1">&#39;site_in_domain&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataset</span><span class="o">.</span><span class="n">dataset</span><span class="p">[[</span><span class="s1">&#39;aligned_peps&#39;</span><span class="p">,</span> <span class="s1">&#39;modification_sites&#39;</span><span class="p">,</span> <span class="s1">&#39;documented_phosphosites&#39;</span><span class="p">,</span> <span class="s1">&#39;site_in_domain:name&#39;</span><span class="p">,</span> <span class="s1">&#39;site_in_domain:interpro&#39;</span><span class="p">,</span> <span class="s1">&#39;site_in_macro&#39;</span><span class="p">,</span> <span class="s1">&#39;site_in_structure&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -654,7 +655,10 @@ Annotation information has been appended to the dataset DataFrame as new columns
       <th>aligned_peps</th>
       <th>modification_sites</th>
       <th>documented_phosphosites</th>
-      <th>site_in_domain</th>
+      <th>site_in_domain:name</th>
+      <th>site_in_domain:interpro</th>
+      <th>site_in_macro</th>
+      <th>site_in_structure</th>
     </tr>
   </thead>
   <tbody>
@@ -664,12 +668,18 @@ Annotation information has been appended to the dataset DataFrame as new columns
       <td>S672</td>
       <td>1</td>
       <td></td>
+      <td></td>
+      <td>Acidic;Disordered</td>
+      <td></td>
     </tr>
     <tr>
       <th>1</th>
       <td>WLDDLLAsPPPSGGG</td>
       <td>S691</td>
       <td>1</td>
+      <td></td>
+      <td></td>
+      <td>Acidic;Disordered</td>
       <td></td>
     </tr>
     <tr>
@@ -678,6 +688,9 @@ Annotation information has been appended to the dataset DataFrame as new columns
       <td>Y132</td>
       <td>1</td>
       <td>Prot_ATP_ID_OB_2nd</td>
+      <td>IPR032501</td>
+      <td></td>
+      <td>STRAND</td>
     </tr>
     <tr>
       <th>3</th>
@@ -685,12 +698,18 @@ Annotation information has been appended to the dataset DataFrame as new columns
       <td>S241</td>
       <td>1</td>
       <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
       <th>4</th>
       <td>PKDEILPtTPISEQK</td>
       <td>T220</td>
       <td>1</td>
+      <td></td>
+      <td></td>
+      <td>Disordered</td>
       <td></td>
     </tr>
   </tbody>
@@ -704,6 +723,7 @@ Annotation information has been appended to the dataset DataFrame as new columns
 <li><p><code class="docutils literal notranslate"><span class="pre">documented_phosphosites</span></code>: indicates whether the specific site is found in ProteomeScout (1) or not (0)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">site_in_domain</span></code>: protein domains from Interpro that contain the phosphosite</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">site_in_macro</span></code>: macromolecular structures that contain the phosphosite</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">site_in_structure</span></code>: secondary structures associated with phosphosite</p></li>
 </ul>
 </section>
 </section>
@@ -720,12 +740,12 @@ Annotation information has been appended to the dataset DataFrame as new columns
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../overview/Functions.html"
+       href="peruse_protein.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Explore features of a protein of interest</p>
       </div>
     </a>
     <a class="right-next"

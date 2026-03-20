@@ -16,6 +16,7 @@ ProteomeScoutAPI
    :maxdepth: 3
    :caption: Examples
 
+   examples/peruse_protein.ipynb
    examples/annotate_dataset.ipynb
    examples/Overlap_withPhosphoProteome.ipynb
 
