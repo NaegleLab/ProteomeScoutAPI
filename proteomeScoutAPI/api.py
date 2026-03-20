@@ -1259,6 +1259,7 @@ class ProteomicDataset(ProteomeScoutAPI):
                 aligned_peptides = np.nan
                 documented_sites = np.nan
                 sites_in_domain = np.nan
+                sites_in_macro = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
