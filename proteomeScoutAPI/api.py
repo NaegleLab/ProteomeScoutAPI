@@ -1077,6 +1077,81 @@ class ProteomeScoutAPI:
                     }
         
         return species_dict, species_reference_bool
+
+    def search_by_peptide(self, peptide):
+        """
+        Search the ProteomeScout dataset for proteins containing a specific peptide sequence.
+
+        Parameters
+        ----------
+        peptide : str
+            Peptide sequence to search for (case-insensitive). Modification indicators (lowercased residues) are ignored for matching.
+
+        Returns
+        -------
+        tuple
+            A tuple containing:
+            - list of str: UniProt accessions (IDs) of proteins containing the peptide
+            - dict: Dictionary with accessions as keys and protein information as values. Each value contains:
+                - 'species': Species of the protein
+                - 'num_ptms': Number of PTMs (modifications) in the protein
+                - 'gene_name': Gene name associated with the protein
+                - 'protein_name': Name of the protein
+                - 'protein_sequence': Full protein sequence
+
+        Notes
+        -----
+        The search is case-insensitive and removes modification notation (lowercased residues) from the input peptide before searching.
+        For example, a peptide "sPEPTIDE" will be converted to "SPEPTIDE" before searching.
+
+        Examples
+        --------
+        >>> accessions, info_dict = api.search_by_peptide('PEPTIDE')
+        >>> print(accessions)
+        ['P12345', 'P67890']
+        >>> print(info_dict['P12345'])
+        {'species': 'Homo sapiens', 'num_ptms': 5, 'gene_name': 'GENE1', 'protein_name': 'Protein One', 'protein_sequence': 'MXXXXX...'}
+        """
+        # Normalize the search peptide: convert to uppercase for case-insensitive search
+        search_peptide = peptide.upper()
+        
+        # Remove modification indicators (lowercased residues in the original peptide)
+        # by keeping only uppercase letters
+        search_peptide_clean = ''.join([c for c in search_peptide if c.isalpha()])
+        
+        matching_accessions = []
+        matching_info = {}
+        
+        # Search through all proteins in the database
+        for accession in self.uniqueKeys:
+            record = self.database[accession]
+            
+            # Get the protein sequence and convert to uppercase for comparison
+            sequence = record.get("sequence", "").upper()
+            
+            # Check if the peptide is in the sequence
+            if search_peptide_clean in sequence:
+                matching_accessions.append(accession)
+                
+                # Get PTM count
+                modifications = record.get("modifications", "")
+                if modifications and modifications.strip() != "":
+                    mods_list = helpers.clean_PTM_string(modifications)
+                    num_ptms = len(mods_list)
+                else:
+                    num_ptms = 0
+                
+                # Compile information for this accession
+                matching_info[accession] = {
+                    'species': record.get("species", ""),
+                    'num_ptms': num_ptms,
+                    'gene_name': record.get("acc_gene", ""),
+                    'protein_name': record.get("protein_name", ""),
+                    'protein_sequence': record.get("sequence", "")
+                }
+        
+        return matching_accessions, matching_info
+
     
 class ProteomicDataset(ProteomeScoutAPI):
     """
