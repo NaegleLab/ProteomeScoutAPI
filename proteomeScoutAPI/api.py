@@ -1294,6 +1294,33 @@ class ProteomicDataset(ProteomeScoutAPI):
 
         site_in_macro = ';'.join(in_macro_arr)
         return site_in_macro
+    
+    def get_structure_with_site(self, structure, positions):
+        """
+        Check if positions are within any macro-molecular structures
+
+        Parameters
+        ----------
+        macro_mol : list of tuples
+            List of macro-molecular structures (macro_name, start_position, end_position)
+        positions : list of int
+            List of positions to check
+
+        Returns
+        -------
+        str
+            Semicolon-separated string of macro-molecular structure names that contain the positions
+        """
+        in_macro_arr = []
+        for pos in positions:
+            for macro in structure:
+                macro_name, macro_start, macro_stop = macro
+                if pos >= int(macro_start) and pos <= int(macro_stop):
+                    in_macro_arr.append(macro_name)
+                    continue #continue back to the next position
+
+        site_in_macro = ';'.join(in_macro_arr)
+        return site_in_macro
 
     def annotate_peptide(self, accession, peptide):
         """
@@ -1333,6 +1360,7 @@ class ProteomicDataset(ProteomeScoutAPI):
 
         domains = self.get_domains(accession, domain_type = self.domain_source)
         macro = self.get_macro_molecular(accession)
+        structure = self.get_structure(accession)
 
         #DOMAINS
         #get domains and the domain strings
@@ -1351,7 +1379,9 @@ class ProteomicDataset(ProteomeScoutAPI):
                 aligned_peptides = np.nan
                 documented_sites = np.nan
                 sites_in_domain = np.nan
+                sites_in_domain_id = np.nan
                 sites_in_macro = np.nan
+                sites_in_structure = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
@@ -1366,6 +1396,9 @@ class ProteomicDataset(ProteomeScoutAPI):
 
                 #or if it's in a macro-molecular structure
                 sites_in_macro = self.get_macro_with_site(macro, seqPosArr)
+
+                #or if it's in a structure
+                sites_in_structure = self.get_structure_with_site(structure, seqPosArr)
 
 
                 #now check if it's been annotated as a known modification site before
@@ -1383,7 +1416,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'documented_phosphosites': documented_sites,
                 'site_in_domain:name': sites_in_domain,
                 'site_in_domain:interpro': sites_in_domain_id,
-                'site_in_macro': sites_in_macro
+                'site_in_macro': sites_in_macro,
+                'site_in_structure': sites_in_structure
                 }
         else:
             output = {
