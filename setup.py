@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 # read the contents of your README file
 from pathlib import Path
 this_directory = Path(__file__).parent
-long_description = (this_directory / "readme.md").read_text()
+long_description = (this_directory / "README.md").read_text()
 
 # Run setup
 setup(
@@ -14,7 +14,7 @@ setup(
     url="https://github.com/NaegleLab/ProteomeScoutAPI",
     install_requires=['pandas>=2', 'requests'],
     keywords=['proteomescout', 'bioinformatics', 'proteomics', 'phosphoproteomics', 'data parsing', 'PTM'],
-    license='GNU General Public License v3',
+    license='Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International',
     description='ProteomeScoutAPI: Parser to interact with ProteomeScout data',
     long_description=long_description,
     long_description_content_type="text/markdown",
