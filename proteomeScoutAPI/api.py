@@ -76,8 +76,7 @@
 #    print PTM_API.get_phosphosites(ID)
 #
 # ===============================================================================
-import os, json, contextlib, io, sys
-import site
+import os, json, contextlib
 import pandas as pd
 import numpy as np
 
@@ -115,12 +114,17 @@ class ProteomeScoutAPI:
     """
     def __init__(self, version = config.VERSION, update = config.UPDATE):
         #initialize figshare interface       
-        self.figshare_interface = figshare.FigshareInterface(config.FIGSHARE_ID)
-
-        #get latest version
-        self.latest_version = self.figshare_interface.get_latest_dataset_version()
-        #set version number, default to latest if None
-        self.version = version if version is not None else self.latest_version
+        try:
+            self.figshare_interface = figshare.FigshareInterface(config.FIGSHARE_ID)
+            #get latest version
+            self.latest_version = self.figshare_interface.get_latest_dataset_version()
+            #set version number, default to latest if None
+            self.version = version if version is not None else self.latest_version
+        except Exception as e:
+            print(f"Unable to connect to FigShare to assess available versions (Error: {e}). Will rely on local version if available.")
+            self.version = version
+            self.figshare_interface = None
+            self.latest_version = None
 
         #look in package directory for dataset
         self.dataset_dir = config.DATASET_DIR
@@ -131,8 +135,11 @@ class ProteomeScoutAPI:
         self.datafile = os.path.join(self.dataset_dir, "ProteomeScout_Dataset", "data.tsv")
         self.meta_file = os.path.join(self.dataset_dir, "ProteomeScout_Dataset", "metadata.json")
         if not os.path.isfile(self.datafile):
-            print("ProteomeScout dataset file not found. Downloading data to %s"%(self.dataset_dir))
-            self.download_data(version = self.version)
+            if self.figshare_interface is not None:
+                print("ProteomeScout dataset file not found. Downloading data to %s"%(self.dataset_dir))
+                self.download_data(version = self.version)
+            else:
+                raise RuntimeError("No ProteomeScout data file found locally, and unable to connect to FigShare to download. Please try again later.")
         else:
             self.__checkDatasetVersion(update = self.update)
 
@@ -159,7 +166,10 @@ class ProteomeScoutAPI:
             Whether to update the dataset if the versions do not match. Defaults to False.
         """
         #check to make sure the dataset is the expected version
-        if os.path.isfile(self.meta_file):
+        if self.version is None:
+            print('No version specified and could not assess available versions. Proceeding without version check.')
+            return
+        elif os.path.isfile(self.meta_file):
             #load metadata to get version
             with open(self.meta_file, 'r') as f:
                 self.metadata = json.load(f)
@@ -284,7 +294,9 @@ class ProteomeScoutAPI:
         --------------
         If a newer version is available, prints statement indicating the newest version available. If update is True, downloads and updates to the latest version.
         """
-        if self.version is None or self.latest_version > self.version:
+        if self.version is None and self.latest_version is None:
+            print('Unable to check for updates because unable to connect to FigShare.')
+        elif self.version is None or self.latest_version > self.version:
             print(f"A newer version ({self.latest_version}) of the ProteomeScout dataset is available. You are using version {self.version}. Run update_to_latest() to download the latest version.")
             if update:
                 self.__update()
@@ -1224,7 +1236,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         documented_sites = ';'.join(found_arr)
         return documented_sites
     
-    def get_domains_with_site(self, domains, positions):
+    def get_domains_with_site(self, domains, positions, domain_descriptor = 'name'):
         """
         Check if positions are within any domains
 
@@ -1245,7 +1257,12 @@ class ProteomicDataset(ProteomeScoutAPI):
             for domain in domains:
                 domain_name, domain_start, domain_stop, domain_id = domain
                 if pos >= int(domain_start) and pos <= int(domain_stop):
-                    in_domain_arr.append(domain_name)
+                    if domain_descriptor == 'name':
+                        in_domain_arr.append(domain_name)
+                    elif domain_descriptor == 'id':
+                        in_domain_arr.append(domain_id)
+                    else:
+                        raise ValueError("domain_descriptor must be 'name' or 'id'")
                     continue #continue back to the next position
 
         site_in_domain = ';'.join(in_domain_arr)
@@ -1345,6 +1362,7 @@ class ProteomicDataset(ProteomeScoutAPI):
 
                 #now for each modification, ask if it's in a domain:
                 sites_in_domain = self.get_domains_with_site(domains, seqPosArr)
+                sites_in_domain_id = self.get_domains_with_site(domains, seqPosArr, domain_descriptor='id')
 
                 #or if it's in a macro-molecular structure
                 sites_in_macro = self.get_macro_with_site(macro, seqPosArr)
@@ -1363,7 +1381,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'aligned_peps': aligned_peptides,
                 'modification_sites': mod_sites,
                 'documented_phosphosites': documented_sites,
-                'site_in_domain': sites_in_domain,
+                'site_in_domain:name': sites_in_domain,
+                'site_in_domain:interpro': sites_in_domain_id,
                 'site_in_macro': sites_in_macro
                 }
         else:
@@ -1402,13 +1421,15 @@ class ProteomicDataset(ProteomeScoutAPI):
             annotation = self.annotate_peptide(acc, pep)
             if annotation == -1:
                 #if sequence not found, skip
-                continue
+                new_info.append(pd.Series())
             else:
                 #if found, convert to series and add to list
                 annotation = pd.Series(annotation, name=i)
                 if self.find_site:
                     if annotation['aligned_peps'] != annotation['aligned_peps']:  # Check for NaN
                         annotation['PScout_Errors'] = f"Peptide not found in sequence"
+                    else:
+                        annotation['PScout_Errors'] = np.nan
                 new_info.append(annotation)
 
         #combine row information and add to dataframe
