@@ -1152,6 +1152,212 @@ class ProteomeScoutAPI:
         
         return matching_accessions, matching_info
 
+
+class SpeciesReferenceDataset(ProteomeScoutAPI):
+    """
+    Build PTM-centric reference datasets for nonredundant ProteomeScout species.
+
+    Each row in the output represents one PTM site on one UniProt protein and
+    includes sequence context plus feature overlap annotations.
+    """
+
+    OUTPUT_COLUMNS = [
+        'species',
+        'gene_name',
+        'uniprot_id',
+        'site',
+        'ptm_type',
+        'oriented_peptide',
+        'in_interpro_domain',
+        'interpro_domains',
+        'in_structure',
+        'structures',
+        'in_macro_molecular_structure',
+        'macro_molecular_structures',
+    ]
+
+    def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
+        super().__init__(version=version, update=update)
+        self.flank = flank
+
+    def _build_oriented_peptide(self, sequence, position, residue):
+        if not sequence:
+            return ""
+
+        sequence = sequence.upper()
+        if position < 1 or position > len(sequence):
+            return ""
+
+        zero_based_position = position - 1
+        left = sequence[max(0, zero_based_position - self.flank):zero_based_position]
+        right = sequence[zero_based_position + 1:zero_based_position + self.flank + 1]
+
+        left = "_" * (self.flank - len(left)) + left
+        right = right + "_" * (self.flank - len(right))
+
+        center_residue = sequence[zero_based_position]
+        if residue and center_residue != str(residue).upper():
+            center_residue = str(residue).upper()
+
+        return f"{left}{center_residue.lower()}{right}"
+
+    def _get_overlapping_feature_names(self, features, position):
+        overlapping_features = []
+        for feature in features:
+            if len(feature) < 3:
+                continue
+
+            feature_name, start_position, end_position = feature[:3]
+            try:
+                start_position = int(start_position)
+                end_position = int(end_position)
+            except (TypeError, ValueError):
+                continue
+
+            if start_position <= position <= end_position:
+                overlapping_features.append(feature_name)
+
+        return ";".join(overlapping_features)
+
+    def _species_to_filename(self, species):
+        safe_species = "".join(
+            character.lower() if character.isalnum() else "_"
+            for character in species
+        )
+        while "__" in safe_species:
+            safe_species = safe_species.replace("__", "_")
+        return safe_species.strip("_") + "_reference_dataset.csv"
+
+    def build_protein_reference_dataset(self, uniprot_id):
+        """
+        Build a PTM-centric reference table for a single UniProt accession.
+
+        Parameters
+        ----------
+        uniprot_id : str
+            UniProt accession to convert into PTM-centric rows.
+
+        Returns
+        -------
+        pd.DataFrame or int
+            DataFrame with one row per PTM site. Returns -1 if the accession is
+            not found.
+        """
+        try:
+            record = self.database[uniprot_id]
+        except KeyError:
+            return -1
+
+        modifications = self.get_PTMs(uniprot_id, output_format='list')
+        if modifications == -1:
+            return -1
+        if not modifications:
+            return pd.DataFrame(columns=self.OUTPUT_COLUMNS)
+
+        sequence = self.get_sequence(uniprot_id)
+        gene_name = self.get_gene_name(uniprot_id)
+        species = record.get('species', '')
+
+        interpro_domains = self.get_domains(uniprot_id, domain_type='interpro', output_format='list')
+        structures = self.get_structure(uniprot_id, output_format='list')
+        macro_molecular = self.get_macro_molecular(uniprot_id, output_format='list')
+
+        if interpro_domains in (-1, -2):
+            interpro_domains = []
+        if structures == -1:
+            structures = []
+        if macro_molecular == -1:
+            macro_molecular = []
+
+        reference_rows = []
+        for position, residue, ptm_type in modifications:
+            try:
+                site_position = int(position)
+            except (TypeError, ValueError):
+                continue
+
+            interpro_hits = self._get_overlapping_feature_names(interpro_domains, site_position)
+            structure_hits = self._get_overlapping_feature_names(structures, site_position)
+            macro_hits = self._get_overlapping_feature_names(macro_molecular, site_position)
+
+            reference_rows.append({
+                'species': species,
+                'gene_name': gene_name,
+                'uniprot_id': uniprot_id,
+                'site': f"{residue}{site_position}",
+                'ptm_type': ptm_type,
+                'oriented_peptide': self._build_oriented_peptide(sequence, site_position, residue),
+                'in_interpro_domain': bool(interpro_hits),
+                'interpro_domains': interpro_hits,
+                'in_structure': bool(structure_hits),
+                'structures': structure_hits,
+                'in_macro_molecular_structure': bool(macro_hits),
+                'macro_molecular_structures': macro_hits,
+            })
+
+        return pd.DataFrame(reference_rows, columns=self.OUTPUT_COLUMNS)
+
+    def build_species_reference_dataset(self, species, output_file=None):
+        """
+        Build a PTM-centric reference table for a nonredundant species.
+
+        Parameters
+        ----------
+        species : str
+            Species name present in return_species_nr_uniprot_ids().
+        output_file : str, optional
+            If provided, write the resulting DataFrame to CSV.
+
+        Returns
+        -------
+        pd.DataFrame
+            PTM-centric reference table for the requested species.
+        """
+        species_dict, _ = self.return_species_nr_uniprot_ids()
+        if species not in species_dict:
+            raise KeyError(f"Species '{species}' not found in nonredundant species list")
+
+        protein_reference_tables = []
+        for uniprot_id in species_dict[species]:
+            protein_reference_table = self.build_protein_reference_dataset(uniprot_id)
+            if isinstance(protein_reference_table, pd.DataFrame) and not protein_reference_table.empty:
+                protein_reference_tables.append(protein_reference_table)
+
+        if protein_reference_tables:
+            species_reference_table = pd.concat(protein_reference_tables, ignore_index=True)
+        else:
+            species_reference_table = pd.DataFrame(columns=self.OUTPUT_COLUMNS)
+
+        if output_file is not None:
+            species_reference_table.to_csv(output_file, index=False)
+
+        return species_reference_table
+
+    def write_all_species_reference_datasets(self, output_dir):
+        """
+        Write one PTM-centric reference CSV per nonredundant species.
+
+        Parameters
+        ----------
+        output_dir : str
+            Directory where species-specific CSV files should be written.
+
+        Returns
+        -------
+        dict
+            Mapping of species name to the written CSV path.
+        """
+        os.makedirs(output_dir, exist_ok=True)
+
+        species_dict, _ = self.return_species_nr_uniprot_ids()
+        output_files = {}
+        for species in sorted(species_dict):
+            output_path = os.path.join(output_dir, self._species_to_filename(species))
+            self.build_species_reference_dataset(species, output_file=output_path)
+            output_files[species] = output_path
+
+        return output_files
+
     
 class ProteomicDataset(ProteomeScoutAPI):
     """
