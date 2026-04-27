@@ -1,5 +1,9 @@
 from setuptools import setup, find_packages
 
+# read the contents of your README file
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 # Run setup
 setup(
@@ -9,10 +13,11 @@ setup(
     author_email="kmn4mj@virginia.edu",
     url="https://github.com/NaegleLab/ProteomeScoutAPI",
     install_requires=['pandas>=2', 'requests'],
-    keywords=['proteomescout', 'bioinformatics', 'proteomics', 'data parsing', 'PTM'],
-    license='GNU General Public License v3',
+    keywords=['proteomescout', 'bioinformatics', 'proteomics', 'phosphoproteomics', 'data parsing', 'PTM'],
+    license='Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International',
     description='ProteomeScoutAPI: Parser to interact with ProteomeScout data',
-    long_description="""ProteomeScoutAPI is a Python module which can be used to interact with flatfiles from ProteomeScout, such as for annotating datasets with additional context.""",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     project_urls = {
         'Homepage': 'https://github.com/NaegleLab/ProteomeScoutAPI',
         'Documentation': 'https://naeglelab.github.io/ProteomeScoutAPI/'},
