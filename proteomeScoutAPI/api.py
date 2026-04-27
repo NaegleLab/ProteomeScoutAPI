@@ -1688,7 +1688,8 @@ class ProteomicDataset(ProteomeScoutAPI):
             - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
             - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
             - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
-
+            - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
+            - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
             Returns -1 if unable to find the accession in the database.
         """
         seq = self.get_sequence(accession)
@@ -1793,6 +1794,8 @@ class ProteomicDataset(ProteomeScoutAPI):
         - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
         - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
         - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
+        - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
+        - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
         """
         new_info = []
         for i, row in self.dataset.iterrows():
