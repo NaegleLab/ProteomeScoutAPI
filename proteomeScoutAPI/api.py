@@ -221,6 +221,11 @@ class ProteomeScoutAPI:
             if len(headers) < 17 or not required_headers.issubset(set(headers)):
                 raise BadProteomeScoutFile("N/A")
             
+            optional_headers = {"activation_loop", "exons"}
+            missing_optional = optional_headers - set(headers)
+            if missing_optional:
+                print(f"WARNING: The following optional headers are missing from the API: {', '.join(missing_optional)}. This likely means you are using an older version of the API dataset. If you would like to use these, please update the dataset with `update_to_latest()` and/or set the update parameter to True.")
+            
                 
         except:
             raise BadProteomeScoutFile("Invalid ProteomeScout flat file %s.\nFile is invalid or corrupted" % str(filename))
@@ -660,6 +665,66 @@ class ProteomeScoutAPI:
             loops_clean = pd.DataFrame(loops_clean, columns=['Quality', 'Start_Position', 'End_Position'])
 
         return loops_clean
+    
+    def get_exons(self, ID, output_format = 'list'):
+        """
+        Return all exons associated with the ID in question, based on the primary APPRIS and/or MANE transcript associated with protein.
+
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+        output_format : str, optional
+            Format of the output ('list' or 'table'). Defaults to 'list'.
+
+        Returns
+        -------
+        list of tuples, dict, int, or pandas.DataFrame
+            tuples for each exon associated with the ID (exon_id, start_position_in_protein, end_position_in_protein, constitutive [1 = constitutive, 0 = alternative]). If output_format is 'table', returns a pandas DataFrame with columns ['Exon_Name', 'Start_Position', 'End_Position', 'Exon_ID'] instead of list.
+
+            Returns an empty list if no exons are found
+
+
+        Postconditions
+        --------------
+        Returns -1 if unable to find the ID
+
+        """
+        
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+        
+        exons = record.get("exons", "")
+        
+        if not exons or exons.strip() == "":
+            return []
+                
+        exons_raw = exons.split(";")
+        exons_clean = []
+        for i in exons_raw:
+            if i:
+                tmp = i.strip()
+                parts = tmp.split(":")
+                if len(parts) >= 3:
+                    name = parts[0]
+                    start = parts[1]
+                    stop = parts[2]
+                    constitutive = parts[3]
+                    try:
+                        float(start)
+                        float(stop)
+                    except ValueError:
+                        continue
+                    exons_clean.append((name, start, stop, constitutive))
+                else:
+                    print("ERROR: the exon structure did not match expected format %s"%(i))
+
+        if output_format == 'table':
+            exons_clean = pd.DataFrame(exons_clean, columns=['Exon_Name', 'Start_Position', 'End_Position', 'Constitutive'])
+        return exons_clean
     
     def get_Scansite(self, ID):
         """
@@ -1661,6 +1726,34 @@ class ProteomicDataset(ProteomeScoutAPI):
 
         site_in_activation_loop = ';'.join(in_activation_loop_arr)
         return site_in_activation_loop
+    
+    def get_exons_with_site(self, exons, positions):
+        """
+        Check if positions are within any exon regions.
+
+        Parameters
+        ----------
+        exons : list of tuples
+            List of exons (exon_id, start_position, end_position, constitutive)
+        positions : list of int
+            List of positions to check
+
+        Returns
+        -------
+        str
+            Semicolon-separated string of exon IDs for matching positions.
+        """
+        in_exon_arr = []
+        for pos in positions:
+            for exon in exons:
+                exon_id, exon_start, exon_stop, constitutive = exon
+                if pos >= float(exon_start) and pos <= float(exon_stop):
+                    in_exon_arr.append(exon_id)
+                    continue
+
+        site_in_exon = ';'.join(in_exon_arr)
+        return site_in_exon
+
 
     def annotate_peptide(self, accession, peptide):
         """
@@ -1680,6 +1773,7 @@ class ProteomicDataset(ProteomeScoutAPI):
             - 'gene_name': Gene name associated with the protein accession.
             - 'domains': Semicolon-separated string of domain names associated with the protein.
             - 'domain_architecture': String representation of the domain architecture (order of domains)
+            - 'exons': Semicolon-separated string of exon IDs associated with the protein.
             - 'GO_terms': Semicolon-separated string of GO terms associated with the protein.
 
             If find_site is True, additional keys are included:
@@ -1690,6 +1784,7 @@ class ProteomicDataset(ProteomeScoutAPI):
             - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
             - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
             - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
+            - 'site_in_exon': Semicolon-separated string of exon IDs for matching positions
             Returns -1 if unable to find the accession in the database.
         """
         seq = self.get_sequence(accession)
@@ -1703,6 +1798,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         macro = self.get_macro_molecular(accession)
         structure = self.get_structure(accession)
         activation_loops = self.get_activation_loops(accession)
+        exons = self.get_exons(accession)
 
         #DOMAINS
         #get domains and the domain strings
@@ -1725,6 +1821,7 @@ class ProteomicDataset(ProteomeScoutAPI):
                 sites_in_macro = np.nan
                 sites_in_structure = np.nan
                 sites_in_activation_loop = np.nan
+                sites_in_exon = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
@@ -1746,6 +1843,9 @@ class ProteomicDataset(ProteomeScoutAPI):
                 #or if it's in an activation loop
                 sites_in_activation_loop = self.get_activation_loops_with_site(activation_loops, seqPosArr)
 
+                #and the primary exon it is located in
+                sites_in_exon = self.get_exons_with_site(exons, seqPosArr)
+
 
                 #now check if it's been annotated as a known modification site before
                 documented_sites = self.check_phosphosites(accession, seqPosArr)
@@ -1764,7 +1864,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'site_in_domain:interpro': sites_in_domain_id,
                 'site_in_macro': sites_in_macro,
                 'site_in_structure': sites_in_structure,
-                'site_in_activation_loop': sites_in_activation_loop
+                'site_in_activation_loop': sites_in_activation_loop,
+                'site_in_exon': sites_in_exon
                 }
         else:
             output = {
