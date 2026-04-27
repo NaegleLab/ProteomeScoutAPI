@@ -198,9 +198,17 @@ class ProteomeScoutAPI:
         
         try:
             with open(filename, 'r') as f:
-                first_line = f.readline()
-                
-            if not len(first_line.split("\t")) == 17:
+                first_line = f.readline().strip()
+
+            headers = [header.strip() for header in first_line.split("\t") if header.strip()]
+            required_headers = {
+                "protein_id", "accessions", "acc_gene", "protein_name", "species",
+                "sequence", "modifications", "evidence", "uniprot_domains",
+                "macro_molecular", "structure", "GO_terms", "uniprot_id",
+                "updated", "error_code", "Interpro_domains", "swissprot_nr"
+            }
+
+            if len(headers) < 17 or not required_headers.issubset(set(headers)):
                 raise BadProteomeScoutFile("N/A")
             
                 
@@ -229,11 +237,16 @@ class ProteomeScoutAPI:
         
         # read the flatfile headers and parse
         # the contents
-        headers_raw = content[0].split('\t')
+        headers_raw = content[0].strip().split('\t')
 
         headers=[]
         for i in headers_raw:
             headers.append(i.strip())
+
+        try:
+            uniprot_id_index = headers.index("uniprot_id")
+        except ValueError:
+            uniprot_id_index = 12
 
         # remove the header line from the read in data
         content.pop(0)
@@ -252,14 +265,14 @@ class ProteomeScoutAPI:
             ProteomeScoutID = record[0]
             
             # Use uniprot_id as the primary lookup key
-            uniprot_id = record[12].strip() if len(record) > 12 and record[12].strip() else ProteomeScoutID
+            uniprot_id = record[uniprot_id_index].strip() if len(record) > uniprot_id_index and record[uniprot_id_index].strip() else ProteomeScoutID
                 
             # add to the list of unique keys
             self.uniqueKeys.append(uniprot_id)
 
             # now construct the object dictionary
             OBJ={}
-            for i in range(1,17):
+            for i in range(1, len(headers)):
                 OBJ[headers[i]] = record[i].strip() if i < len(record) else ""
 
             # ALWAYS add the record via uniprot_id (or ProteomeScoutID if no uniprot_id)
@@ -570,6 +583,71 @@ class ProteomeScoutAPI:
             doms_clean = pd.DataFrame(doms_clean, columns=['Domain_Name', 'Start_Position', 'End_Position', 'Domain_ID'])
 
         return doms_clean
+
+    def get_activation_loops(self, ID, output_format='list'):
+        """
+        Return activation loop regions associated with the ID.
+
+        Activation loop entries are expected in the format start:stop:quality,
+        separated by semicolons.
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+        output_format : str, optional
+            Format of the output ('list' or 'table'). Defaults to 'list'.
+
+        Returns
+        -------
+        list of tuples, pd.DataFrame, or int
+            List of tuples in the form (quality, start_position, end_position).
+            If output_format is 'table', returns a DataFrame with columns
+            ['Quality', 'Start_Position', 'End_Position'].
+
+            Returns an empty list when activation_loop data are absent.
+
+        Postconditions
+        --------------
+        If ID is not found, returns -1
+        """
+        if output_format not in ['list', 'table']:
+            raise ValueError("output_format must be 'list' or 'table'")
+
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+
+        loops = record.get("activation_loop", "")
+        if not loops or loops.strip() == "":
+            return []
+
+        loops_raw = loops.split(";")
+        loops_clean = []
+        for loop in loops_raw:
+            if not loop:
+                continue
+
+            parts = loop.strip().split(":")
+            if len(parts) < 3:
+                continue
+
+            start = parts[0]
+            stop = parts[1]
+            quality = parts[2]
+            try:
+                int(start)
+                int(stop)
+            except ValueError:
+                continue
+
+            loops_clean.append((quality, start, stop))
+
+        if output_format == 'table':
+            loops_clean = pd.DataFrame(loops_clean, columns=['Quality', 'Start_Position', 'End_Position'])
+
+        return loops_clean
     
     def get_Scansite(self, ID):
         """
@@ -805,10 +883,16 @@ class ProteomeScoutAPI:
         macro_mol = self.get_macro_molecular(ID, output_format='table')
         macro_mol = macro_mol.astype({'Start_Position': int, 'End_Position': int})
 
+        activation_loops = self.get_activation_loops(ID, output_format='table')
+        if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
+            activation_loops = activation_loops.astype({'Start_Position': int, 'End_Position': int})
+
         site_domain_name = {'interpro': [], 'uniprot': []}
         site_interpro_ids = []
         site_structures = []
         site_macro = []
+        site_activation_loop = []
+        site_activation_loop_quality = []
         for i, row in mods.iterrows():
             pos = int(row['Position'])
             # Check if in domain
@@ -840,11 +924,25 @@ class ProteomeScoutAPI:
             else:
                 site_macro.append("")
 
+            if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
+                trim_activation = activation_loops.loc[(activation_loops['Start_Position'] <= pos) & (activation_loops['End_Position'] >= pos)].copy()
+                if not trim_activation.empty:
+                    site_activation_loop.append(True)
+                    site_activation_loop_quality.append(";".join(trim_activation['Quality'].tolist()))
+                else:
+                    site_activation_loop.append(False)
+                    site_activation_loop_quality.append("")
+            else:
+                site_activation_loop.append(False)
+                site_activation_loop_quality.append("")
+
         mods['Domain_Names_InterPro'] = site_domain_name['interpro']
         mods['InterPro_IDs'] = site_interpro_ids
         mods['Domain_Names_UniProt'] = site_domain_name['uniprot']
         mods['Structures'] = site_structures
         mods['Macro_Molecular_Structures'] = site_macro
+        mods['In_Activation_Loop'] = site_activation_loop
+        mods['Activation_Loop_Quality'] = site_activation_loop_quality
         return mods
 
 
@@ -1174,6 +1272,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'structures',
         'in_macro_molecular_structure',
         'macro_molecular_structures',
+        'in_activation_loop',
+        'activation_loop_qualities',
     ]
 
     def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
@@ -1261,6 +1361,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         interpro_domains = self.get_domains(uniprot_id, domain_type='interpro', output_format='list')
         structures = self.get_structure(uniprot_id, output_format='list')
         macro_molecular = self.get_macro_molecular(uniprot_id, output_format='list')
+        activation_loops = self.get_activation_loops(uniprot_id, output_format='list')
 
         if interpro_domains in (-1, -2):
             interpro_domains = []
@@ -1268,6 +1369,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             structures = []
         if macro_molecular == -1:
             macro_molecular = []
+        if activation_loops == -1:
+            activation_loops = []
 
         reference_rows = []
         for position, residue, ptm_type in modifications:
@@ -1279,6 +1382,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             interpro_hits = self._get_overlapping_feature_names(interpro_domains, site_position)
             structure_hits = self._get_overlapping_feature_names(structures, site_position)
             macro_hits = self._get_overlapping_feature_names(macro_molecular, site_position)
+            activation_loop_hits = self._get_overlapping_feature_names(activation_loops, site_position)
 
             reference_rows.append({
                 'species': species,
@@ -1293,6 +1397,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
                 'structures': structure_hits,
                 'in_macro_molecular_structure': bool(macro_hits),
                 'macro_molecular_structures': macro_hits,
+                'in_activation_loop': bool(activation_loop_hits),
+                'activation_loop_qualities': activation_loop_hits,
             })
 
         return pd.DataFrame(reference_rows, columns=self.OUTPUT_COLUMNS)
@@ -1484,6 +1590,34 @@ class ProteomicDataset(ProteomeScoutAPI):
         site_in_macro = ';'.join(in_macro_arr)
         return site_in_macro
 
+    def get_activation_loops_with_site(self, activation_loops, positions):
+        """
+        Check if positions are within any activation loop regions.
+
+        Parameters
+        ----------
+        activation_loops : list of tuples
+            List of activation loops (quality, start_position, end_position)
+        positions : list of int
+            List of positions to check
+
+        Returns
+        -------
+        str
+            Semicolon-separated string of activation loop qualities for matching
+            positions.
+        """
+        in_activation_loop_arr = []
+        for pos in positions:
+            for loop in activation_loops:
+                quality, loop_start, loop_stop = loop
+                if pos >= int(loop_start) and pos <= int(loop_stop):
+                    in_activation_loop_arr.append(quality)
+                    continue
+
+        site_in_activation_loop = ';'.join(in_activation_loop_arr)
+        return site_in_activation_loop
+
     def annotate_peptide(self, accession, peptide):
         """
         Given a SwissProt accession and peptide sequence, annotate with gene-level and site-specific information from ProteomeScout.
@@ -1522,6 +1656,7 @@ class ProteomicDataset(ProteomeScoutAPI):
 
         domains = self.get_domains(accession, domain_type = self.domain_source)
         macro = self.get_macro_molecular(accession)
+        activation_loops = self.get_activation_loops(accession)
 
         #DOMAINS
         #get domains and the domain strings
@@ -1541,6 +1676,7 @@ class ProteomicDataset(ProteomeScoutAPI):
                 documented_sites = np.nan
                 sites_in_domain = np.nan
                 sites_in_macro = np.nan
+                sites_in_activation_loop = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
@@ -1554,6 +1690,9 @@ class ProteomicDataset(ProteomeScoutAPI):
 
                 #or if it's in a macro-molecular structure
                 sites_in_macro = self.get_macro_with_site(macro, seqPosArr)
+
+                #or if it's in an activation loop
+                sites_in_activation_loop = self.get_activation_loops_with_site(activation_loops, seqPosArr)
 
 
                 #now check if it's been annotated as a known modification site before
@@ -1570,7 +1709,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'modification_sites': mod_sites,
                 'documented_phosphosites': documented_sites,
                 'site_in_domain': sites_in_domain,
-                'site_in_macro': sites_in_macro
+                'site_in_macro': sites_in_macro,
+                'site_in_activation_loop': sites_in_activation_loop
                 }
         else:
             output = {
