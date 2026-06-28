@@ -11,6 +11,7 @@ ProteomeScoutAPI
    overview/overview
    overview/Dependencies
    overview/Functions
+   overview/FeatureIntegration
 
 .. toctree::
    :maxdepth: 3

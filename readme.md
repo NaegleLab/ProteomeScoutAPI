@@ -46,3 +46,5 @@ ProteomeScoutAPI allows for fast querying of protein-specific information, allow
 
 # Contributing code
 The code here is incredibly simple, and the few methods presented give a good example of how one should parse the ProteomeScout records. If you're interested in adding the ability to parse out other information please go ahead and make a pull request. Tests would be appreciated too!
+
+For step-by-step guidance on adding a new field so it propagates through API annotations, species datasets, and proteomic dataset annotation, see [FEATURE_INTEGRATION_README.md](FEATURE_INTEGRATION_README.md).
