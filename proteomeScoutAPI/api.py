@@ -1632,6 +1632,14 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'SpY-C Prediction Probability',
     ]
 
+    OPTIONAL_ANNOTATION_COLUMNS = [
+        'SpY-C Prediction',
+        'SpY-C Prediction Probability',
+        'in_exon',
+        'exons',
+        'site_in_exon',
+    ]
+
     def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
         super().__init__(version=version, update=update)
         self.flank = flank
@@ -1683,6 +1691,43 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         while "__" in safe_species:
             safe_species = safe_species.replace("__", "_")
         return safe_species.strip("_") + "_reference_dataset.csv"
+
+    def _drop_empty_optional_annotation_columns(self, reference_table):
+        """
+        Remove optional annotation columns that contain no annotations.
+
+        Parameters
+        ----------
+        reference_table : pd.DataFrame
+            Species-level PTM-centric reference table.
+
+        Returns
+        -------
+        pd.DataFrame
+            Table with empty optional annotation columns removed.
+        """
+        if reference_table is None or reference_table.empty:
+            return reference_table
+
+        columns_to_drop = []
+        for column_name in self.OPTIONAL_ANNOTATION_COLUMNS:
+            if column_name not in reference_table.columns:
+                continue
+
+            column_values = reference_table[column_name]
+            if pd.api.types.is_bool_dtype(column_values):
+                has_annotations = column_values.fillna(False).any()
+            else:
+                cleaned_values = column_values.fillna('').astype(str).str.strip()
+                has_annotations = (cleaned_values != '').any() and (~cleaned_values.str.lower().eq('nan')).any()
+
+            if not has_annotations:
+                columns_to_drop.append(column_name)
+
+        if columns_to_drop:
+            reference_table = reference_table.drop(columns=columns_to_drop)
+
+        return reference_table
 
     def build_protein_reference_dataset(self, uniprot_id, include_hidden=False):
         """
@@ -1805,6 +1850,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             species_reference_table = pd.concat(protein_reference_tables, ignore_index=True)
         else:
             species_reference_table = pd.DataFrame(columns=self.OUTPUT_COLUMNS)
+
+        species_reference_table = self._drop_empty_optional_annotation_columns(species_reference_table)
 
         if output_file is not None:
             species_reference_table.to_csv(output_file, index=False)
