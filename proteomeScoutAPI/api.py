@@ -112,6 +112,43 @@ class ProteomeScoutAPI:
         The version number of the dataset being used.
     
     """
+
+    POSITION_ANNOTATION_REGISTRY = [
+        {
+            'context_key': 'interpro',
+            'name_column': 'Domain_Names_InterPro',
+            'extra_column': 'InterPro_IDs',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'uniprot',
+            'name_column': 'Domain_Names_UniProt',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'structure',
+            'name_column': 'Structures',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'macro',
+            'name_column': 'Macro_Molecular_Structures',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'activation_loop',
+            'name_column': 'Activation_Loop_Quality',
+            'boolean_column': 'In_Activation_Loop',
+            'include_boolean': True,
+        },
+        {
+            'context_key': 'exons',
+            'name_column': 'Exons',
+            'extra_column': 'Exon_Constitutive',
+            'boolean_column': 'In_Exon',
+            'include_boolean': True,
+        },
+    ]
     def __init__(self, version = config.VERSION, update = config.UPDATE):
         #initialize figshare interface       
         try:
@@ -502,6 +539,8 @@ class ProteomeScoutAPI:
 
         mods_clean, _ = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
         if not mods_clean:
+            if output_format == 'table':
+                return pd.DataFrame(columns=['Position', 'Residue', 'Modification_Type'])
             return []
 
         if output_format == 'table':
@@ -1166,6 +1205,119 @@ class ProteomeScoutAPI:
     def get_region(self, position, regions):
         associated_region = regions[(regions['Start_Position'].astype(int) <= position) & (regions['End_Position'].astype(int) >= position)]
         return associated_region
+
+    def _normalize_feature_records(self, feature_records):
+        """
+        Normalize feature tuples into (name, start, end, extra) form.
+        """
+        if feature_records in (-1, -2, None):
+            return []
+
+        normalized_records = []
+        for feature in feature_records:
+            if not feature or len(feature) < 3:
+                continue
+
+            name, start_position, end_position = feature[:3]
+            extra = feature[3] if len(feature) > 3 else ""
+
+            try:
+                start_position = int(float(start_position))
+                end_position = int(float(end_position))
+            except (TypeError, ValueError):
+                continue
+
+            normalized_records.append((str(name), start_position, end_position, "" if extra is None else str(extra)))
+
+        return normalized_records
+
+    def _collect_site_annotation_context(self, ID):
+        """
+        Collect feature ranges required for site-level annotations.
+        """
+        return {
+            'interpro': self._normalize_feature_records(self.get_domains(ID, domain_type='interpro', output_format='list')),
+            'uniprot': self._normalize_feature_records(self.get_domains(ID, domain_type='uniprot', output_format='list')),
+            'structure': self._normalize_feature_records(self.get_structure(ID, output_format='list')),
+            'macro': self._normalize_feature_records(self.get_macro_molecular(ID, output_format='list')),
+            'activation_loop': self._normalize_feature_records(self.get_activation_loops(ID, output_format='list')),
+            'exons': self._normalize_feature_records(self.get_exons(ID, output_format='list')),
+        }
+
+    def _get_overlapping_features(self, features, position):
+        """
+        Return feature tuples that overlap a site position.
+        """
+        return [feature for feature in features if feature[1] <= position <= feature[2]]
+
+    def _annotate_positions(self, ID, positions, context=None):
+        """
+        Build reusable site-level annotations for one accession and many positions.
+        """
+        if context is None:
+            context = self._collect_site_annotation_context(ID)
+
+        annotations = {
+            'SpY-C Prediction': [],
+            'SpY-C Prediction Probability': [],
+        }
+        for rule in self.POSITION_ANNOTATION_REGISTRY:
+            annotations[rule['name_column']] = []
+            if 'extra_column' in rule:
+                annotations[rule['extra_column']] = []
+            if rule.get('include_boolean'):
+                annotations[rule['boolean_column']] = []
+
+        def _append_empty_annotation():
+            for rule in self.POSITION_ANNOTATION_REGISTRY:
+                annotations[rule['name_column']].append("")
+                if 'extra_column' in rule:
+                    annotations[rule['extra_column']].append("")
+                if rule.get('include_boolean'):
+                    annotations[rule['boolean_column']].append(False)
+            annotations['SpY-C Prediction'].append("")
+            annotations['SpY-C Prediction Probability'].append("")
+
+        for raw_position in positions:
+            try:
+                position = int(raw_position)
+            except (TypeError, ValueError):
+                _append_empty_annotation()
+                continue
+
+            for rule in self.POSITION_ANNOTATION_REGISTRY:
+                hits = self._get_overlapping_features(context[rule['context_key']], position)
+                annotations[rule['name_column']].append(';'.join(hit[0] for hit in hits))
+                if 'extra_column' in rule:
+                    annotations[rule['extra_column']].append(';'.join(hit[3] for hit in hits if hit[3]))
+                if rule.get('include_boolean'):
+                    annotations[rule['boolean_column']].append(bool(hits))
+
+            spyc_prediction = self.get_spyc_predictions_byPos(ID, position)
+            if spyc_prediction == -1:
+                annotations['SpY-C Prediction'].append("")
+                annotations['SpY-C Prediction Probability'].append("")
+            else:
+                probability, _, confidence = spyc_prediction
+                confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
+                annotations['SpY-C Prediction'].append(confidence_value)
+                annotations['SpY-C Prediction Probability'].append(probability_value)
+
+        return annotations
+
+    def _join_non_empty(self, values):
+        """
+        Join list values, skipping empty/NaN-like entries.
+        """
+        cleaned_values = []
+        for value in values:
+            if value is None:
+                continue
+            value = str(value).strip()
+            if not value or value.lower() == 'nan':
+                continue
+            cleaned_values.append(value)
+        return ';'.join(cleaned_values)
     
     def get_annotated_PTMs(self, ID, include_hidden=False):
         """
@@ -1196,6 +1348,16 @@ class ProteomeScoutAPI:
         mods = self.get_PTMs(ID, output_format='table', include_hidden=include_hidden)
         if mods.empty:
             mods['evidence'] = pd.Series(dtype=object)
+            mods['Domain_Names_InterPro'] = pd.Series(dtype=object)
+            mods['InterPro_IDs'] = pd.Series(dtype=object)
+            mods['Domain_Names_UniProt'] = pd.Series(dtype=object)
+            mods['Structures'] = pd.Series(dtype=object)
+            mods['Macro_Molecular_Structures'] = pd.Series(dtype=object)
+            mods['In_Activation_Loop'] = pd.Series(dtype=bool)
+            mods['Activation_Loop_Quality'] = pd.Series(dtype=object)
+            mods['In_Exon'] = pd.Series(dtype=bool)
+            mods['Exons'] = pd.Series(dtype=object)
+            mods['Exon_Constitutive'] = pd.Series(dtype=object)
             mods['SpY-C Prediction'] = pd.Series(dtype=object)
             mods['SpY-C Prediction Probability'] = pd.Series(dtype=object)
             return mods
@@ -1203,94 +1365,10 @@ class ProteomeScoutAPI:
         _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
         mods['evidence'] = filtered_evidence
 
-        #extract domains
-        domains = self.get_domains(ID, output_format='table')
-        domains['interpro'] = domains['interpro'].astype({'Start_Position': int, 'End_Position': int})
-        domains['uniprot'] = domains['uniprot'].astype({'Start_Position': int, 'End_Position': int})
+        site_annotations = self._annotate_positions(ID, mods['Position'].tolist())
+        for column_name, values in site_annotations.items():
+            mods[column_name] = values
 
-        #extract structures
-        structure = self.get_structure(ID, output_format='table')
-        structure = structure.astype({'Start_Position': int, 'End_Position': int})
-
-        #extract macro-molecular structures
-        macro_mol = self.get_macro_molecular(ID, output_format='table')
-        macro_mol = macro_mol.astype({'Start_Position': int, 'End_Position': int})
-
-        activation_loops = self.get_activation_loops(ID, output_format='table')
-        if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
-            activation_loops = activation_loops.astype({'Start_Position': int, 'End_Position': int})
-
-        site_domain_name = {'interpro': [], 'uniprot': []}
-        site_interpro_ids = []
-        site_structures = []
-        site_macro = []
-        site_activation_loop = []
-        site_activation_loop_quality = []
-        site_spyc_prediction = []
-        site_spyc_probability = []
-        for i, row in mods.iterrows():
-            pos = int(row['Position'])
-            # Check if in domain
-            for dbase in domains.keys():
-                trim_domains = domains[dbase]
-                trim_domains = trim_domains.loc[(trim_domains['Start_Position'] <= pos) & (trim_domains['End_Position'] >= pos)].copy()
-                if not trim_domains.empty:
-                    site_domain_name[dbase].append(";".join(trim_domains['Domain_Name'].tolist()))
-                    if dbase == 'interpro':
-                        site_interpro_ids.append(";".join(trim_domains['Domain_ID'].tolist()))
-                else:
-                    site_domain_name[dbase].append("")
-                    if dbase == 'interpro':
-                        site_interpro_ids.append("")
-
-
-
-            # Check if in structure
-            trim_structure = structure.loc[(structure['Start_Position'] <= pos) & (structure['End_Position'] >= pos)].copy()
-            if not trim_structure.empty:
-                site_structures.append(";".join(trim_structure['Structure_Name'].tolist()))
-            else:
-                site_structures.append("")
-
-            # Check if in macro-molecular structure
-            trim_macro = macro_mol.loc[(macro_mol['Start_Position'] <= pos) & (macro_mol['End_Position'] >= pos)].copy()
-            if not trim_macro.empty:
-                site_macro.append(";".join(trim_macro['Macro_Name'].tolist()))
-            else:
-                site_macro.append("")
-
-            if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
-                trim_activation = activation_loops.loc[(activation_loops['Start_Position'] <= pos) & (activation_loops['End_Position'] >= pos)].copy()
-                if not trim_activation.empty:
-                    site_activation_loop.append(True)
-                    site_activation_loop_quality.append(";".join(trim_activation['Quality'].tolist()))
-                else:
-                    site_activation_loop.append(False)
-                    site_activation_loop_quality.append("")
-            else:
-                site_activation_loop.append(False)
-                site_activation_loop_quality.append("")
-
-            spyc_prediction = self.get_spyc_predictions_byPos(ID, pos)
-            if spyc_prediction == -1:
-                site_spyc_prediction.append("")
-                site_spyc_probability.append("")
-            else:
-                probability, _, confidence = spyc_prediction
-                confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
-
-                site_spyc_prediction.append(confidence_value)
-                site_spyc_probability.append(probability_value)
-
-        mods['Domain_Names_InterPro'] = site_domain_name['interpro']
-        mods['InterPro_IDs'] = site_interpro_ids
-        mods['Domain_Names_UniProt'] = site_domain_name['uniprot']
-        mods['Structures'] = site_structures
-        mods['Macro_Molecular_Structures'] = site_macro
-        mods['In_Activation_Loop'] = site_activation_loop
-        mods['Activation_Loop_Quality'] = site_activation_loop_quality
-        mods['SpY-C Prediction'] = site_spyc_prediction
-        mods['SpY-C Prediction Probability'] = site_spyc_probability
         return mods
 
 
@@ -1628,6 +1706,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'macro_molecular_structures',
         'in_activation_loop',
         'activation_loop_qualities',
+        'in_exon',
+        'exons',
+        'exon_constitutive',
         'SpY-C Prediction',
         'SpY-C Prediction Probability',
     ]
@@ -1637,7 +1718,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'SpY-C Prediction Probability',
         'in_exon',
         'exons',
-        'site_in_exon',
+        'exon_constitutive',
     ]
 
     def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
@@ -1664,24 +1745,6 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             center_residue = str(residue).upper()
 
         return f"{left}{center_residue.lower()}{right}"
-
-    def _get_overlapping_feature_names(self, features, position):
-        overlapping_features = []
-        for feature in features:
-            if len(feature) < 3:
-                continue
-
-            feature_name, start_position, end_position = feature[:3]
-            try:
-                start_position = int(start_position)
-                end_position = int(end_position)
-            except (TypeError, ValueError):
-                continue
-
-            if start_position <= position <= end_position:
-                overlapping_features.append(feature_name)
-
-        return ";".join(overlapping_features)
 
     def _species_to_filename(self, species):
         safe_species = "".join(
@@ -1752,49 +1815,42 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         except KeyError:
             return -1
 
-        modifications = self.get_PTMs(uniprot_id, output_format='list', include_hidden=include_hidden)
-        if modifications == -1:
+        annotated_ptms = self.get_annotated_PTMs(uniprot_id, include_hidden=include_hidden)
+        if isinstance(annotated_ptms, int) and annotated_ptms == -1:
             return -1
-        if not modifications:
+        if annotated_ptms.empty:
             return pd.DataFrame(columns=self.OUTPUT_COLUMNS)
 
         sequence = self.get_sequence(uniprot_id)
         gene_name = self.get_gene_name(uniprot_id)
         species = record.get('species', '')
 
-        interpro_domains = self.get_domains(uniprot_id, domain_type='interpro', output_format='list')
-        structures = self.get_structure(uniprot_id, output_format='list')
-        macro_molecular = self.get_macro_molecular(uniprot_id, output_format='list')
-        activation_loops = self.get_activation_loops(uniprot_id, output_format='list')
-
-        if interpro_domains in (-1, -2):
-            interpro_domains = []
-        if structures == -1:
-            structures = []
-        if macro_molecular == -1:
-            macro_molecular = []
-        if activation_loops == -1:
-            activation_loops = []
+        def _value_or_empty(row, key):
+            value = row.get(key, "")
+            if pd.isna(value):
+                return ""
+            return value
 
         reference_rows = []
-        for position, residue, ptm_type in modifications:
+        for _, ptm_row in annotated_ptms.iterrows():
             try:
-                site_position = int(position)
+                site_position = int(ptm_row['Position'])
             except (TypeError, ValueError):
                 continue
 
-            interpro_hits = self._get_overlapping_feature_names(interpro_domains, site_position)
-            structure_hits = self._get_overlapping_feature_names(structures, site_position)
-            macro_hits = self._get_overlapping_feature_names(macro_molecular, site_position)
-            activation_loop_hits = self._get_overlapping_feature_names(activation_loops, site_position)
-            spyc_prediction = self.get_spyc_predictions_byPos(uniprot_id, site_position)
+            residue = _value_or_empty(ptm_row, 'Residue')
+            ptm_type = _value_or_empty(ptm_row, 'Modification_Type')
+            interpro_hits = _value_or_empty(ptm_row, 'Domain_Names_InterPro')
+            structure_hits = _value_or_empty(ptm_row, 'Structures')
+            macro_hits = _value_or_empty(ptm_row, 'Macro_Molecular_Structures')
+            activation_loop_hits = _value_or_empty(ptm_row, 'Activation_Loop_Quality')
+            exon_hits = _value_or_empty(ptm_row, 'Exons')
+            exon_constitutive = _value_or_empty(ptm_row, 'Exon_Constitutive')
+            spyc_confidence = _value_or_empty(ptm_row, 'SpY-C Prediction')
+            spyc_probability = _value_or_empty(ptm_row, 'SpY-C Prediction Probability')
 
-            if spyc_prediction == -1:
-                spyc_confidence = ""
-                spyc_probability = ""
-            else:
-                probability, _, confidence = spyc_prediction
-                spyc_confidence, spyc_probability = self._format_spyc_prediction_values(probability, confidence)
+            in_activation_loop = bool(ptm_row.get('In_Activation_Loop', False))
+            in_exon = bool(ptm_row.get('In_Exon', False))
 
             reference_rows.append({
                 'species': species,
@@ -1809,8 +1865,11 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
                 'structures': structure_hits,
                 'in_macro_molecular_structure': bool(macro_hits),
                 'macro_molecular_structures': macro_hits,
-                'in_activation_loop': bool(activation_loop_hits),
+                'in_activation_loop': in_activation_loop,
                 'activation_loop_qualities': activation_loop_hits,
+                'in_exon': in_exon,
+                'exons': exon_hits,
+                'exon_constitutive': exon_constitutive,
                 'SpY-C Prediction': spyc_confidence,
                 'SpY-C Prediction Probability': spyc_probability,
             })
@@ -2152,11 +2211,6 @@ class ProteomicDataset(ProteomeScoutAPI):
             return -1
 
         domains = self.get_domains(accession, domain_type = self.domain_source)
-        macro = self.get_macro_molecular(accession)
-        structure = self.get_structure(accession)
-        activation_loops = self.get_activation_loops(accession)
-        exons = self.get_exons(accession)
-
         #DOMAINS
         #get domains and the domain strings
         domain_string, domain_architecture = helpers.returnDomainArchString(domains)
@@ -2189,37 +2243,26 @@ class ProteomicDataset(ProteomeScoutAPI):
                 mod_sites = ';'.join(pos_aa_arr)
                 aligned_peptides = ';'.join(alignedPeps)
 
+                site_annotations = self._annotate_positions(accession, seqPosArr)
+
                 #now for each modification, ask if it's in a domain:
-                sites_in_domain = self.get_domains_with_site(domains, seqPosArr)
-                sites_in_domain_id = self.get_domains_with_site(domains, seqPosArr, domain_descriptor='id')
+                sites_in_domain = self._join_non_empty(site_annotations['Domain_Names_InterPro'])
+                sites_in_domain_id = self._join_non_empty(site_annotations['InterPro_IDs'])
 
                 #or if it's in a macro-molecular structure
-                sites_in_macro = self.get_macro_with_site(macro, seqPosArr)
+                sites_in_macro = self._join_non_empty(site_annotations['Macro_Molecular_Structures'])
 
                 #or if it's in a structure
-                sites_in_structure = self.get_structure_with_site(structure, seqPosArr)
+                sites_in_structure = self._join_non_empty(site_annotations['Structures'])
 
                 #or if it's in an activation loop
-                sites_in_activation_loop = self.get_activation_loops_with_site(activation_loops, seqPosArr)
+                sites_in_activation_loop = self._join_non_empty(site_annotations['Activation_Loop_Quality'])
 
                 #and the primary exon it is located in
-                sites_in_exon = self.get_exons_with_site(exons, seqPosArr)
+                sites_in_exon = self._join_non_empty(site_annotations['Exons'])
 
-                spyc_confidences = []
-                spyc_probabilities = []
-                for site_position in seqPosArr:
-                    spyc_prediction = self.get_spyc_predictions_byPos(accession, site_position)
-                    if spyc_prediction == -1:
-                        spyc_confidences.append("")
-                        spyc_probabilities.append("")
-                    else:
-                        probability, _, confidence = spyc_prediction
-                        confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
-                        spyc_confidences.append(confidence_value)
-                        spyc_probabilities.append(probability_value)
-
-                site_spyc_prediction = ';'.join(spyc_confidences)
-                site_spyc_probability = ';'.join(spyc_probabilities)
+                site_spyc_prediction = ';'.join(site_annotations['SpY-C Prediction'])
+                site_spyc_probability = ';'.join(site_annotations['SpY-C Prediction Probability'])
 
 
                 #now check if it's been annotated as a known modification site before
