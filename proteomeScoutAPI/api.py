@@ -323,7 +323,7 @@ class ProteomeScoutAPI:
             if len(headers) < 17 or not required_headers.issubset(set(headers)):
                 raise BadProteomeScoutFile("N/A")
             
-            optional_headers = {"activation_loop", "exons"}
+            optional_headers = {"activation_loop", "exons", "spyc_predictions"}
             missing_optional = optional_headers - set(headers)
             if missing_optional:
                 print(f"WARNING: The following optional headers are missing from the API: {', '.join(missing_optional)}. This likely means you are using an older version of the API dataset. If you would like to use these, please update the dataset with `update_to_latest()` and/or set the update parameter to True.")
@@ -854,6 +854,141 @@ class ProteomeScoutAPI:
         """
         return {}
 
+    def __parse_spyc_prediction_record(self, prediction_entry):
+        """
+        Parse one SpyC prediction entry in the format site:probability:class:confidence.
+
+        Parameters
+        ----------
+        prediction_entry : str
+            Single semicolon-delimited SpyC prediction entry.
+
+        Returns
+        -------
+        tuple or None
+            (site_position, probability, predicted_class, confidence) or None if
+            the entry is malformed.
+        """
+        if not prediction_entry:
+            return None
+
+        parts = prediction_entry.strip().split(":")
+        if len(parts) < 4:
+            return None
+
+        site_token, probability, predicted_class, confidence = parts[0], parts[1], parts[2], parts[3]
+
+        site_match = re.search(r'\d+', str(site_token))
+        if site_match is None:
+            return None
+
+        site_position = int(site_match.group())
+        return (site_position, probability, predicted_class, confidence)
+
+    def get_spyc_predictions(self, ID):
+        """
+        Return all SpyC predictions for a protein accession.
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+
+        Returns
+        -------
+        dict or int
+            Dictionary keyed by site position with values
+            [probability, class, confidence]. Returns -1 when SpyC predictions
+            are absent for the protein or accession is not found.
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+
+        raw_predictions = record.get("spyc_predictions", "")
+        if raw_predictions is None or str(raw_predictions).strip() == "":
+            return -1
+
+        spyc_predictions = {}
+        for prediction_entry in str(raw_predictions).split(";"):
+            parsed_prediction = self.__parse_spyc_prediction_record(prediction_entry)
+            if parsed_prediction is None:
+                continue
+
+            site_position, probability, predicted_class, confidence = parsed_prediction
+            spyc_predictions[site_position] = [probability, predicted_class, confidence]
+
+        if not spyc_predictions:
+            return -1
+
+        return spyc_predictions
+
+    def get_spyc_predictions_byPos(self, ID, site):
+        """
+        Return SpyC prediction values for one site in a protein.
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+        site : int
+            Residue position in the protein sequence.
+
+        Returns
+        -------
+        tuple or int
+            (probability, class, confidence) for the site. Returns -1 when no
+            SpyC prediction exists for that site or accession.
+        """
+        try:
+            site = int(site)
+        except (TypeError, ValueError):
+            return -1
+
+        protein_predictions = self.get_spyc_predictions(ID)
+        if protein_predictions == -1:
+            return -1
+
+        site_prediction = protein_predictions.get(site)
+        if site_prediction is None:
+            return -1
+
+        return tuple(site_prediction)
+
+    def _format_spyc_prediction_values(self, probability, confidence):
+        """
+        Convert raw SpyC probability/confidence into annotation-friendly values.
+
+        Parameters
+        ----------
+        probability : object
+            Raw probability value from SpyC predictions.
+        confidence : object
+            Raw confidence value from SpyC predictions.
+
+        Returns
+        -------
+        tuple of str
+            (confidence_value, probability_value) where probability_value uses
+            "Training" for training-set entries (missing probability with
+            present confidence).
+        """
+        confidence_value = "" if pd.isna(confidence) else str(confidence)
+        if confidence_value.strip().lower() == 'nan':
+            confidence_value = ""
+
+        probability_is_missing = pd.isna(probability)
+        if not probability_is_missing and str(probability).strip().lower() == 'nan':
+            probability_is_missing = True
+
+        if probability_is_missing:
+            probability_value = "Training" if confidence_value else ""
+        else:
+            probability_value = str(probability)
+
+        return confidence_value, probability_value
+
     def get_nearbyPTMs(self,ID,pos, window, output_format='list', include_hidden=False):
         """
         Return all PTMs within a specified window of a given position
@@ -1061,6 +1196,8 @@ class ProteomeScoutAPI:
         mods = self.get_PTMs(ID, output_format='table', include_hidden=include_hidden)
         if mods.empty:
             mods['evidence'] = pd.Series(dtype=object)
+            mods['SpY-C Prediction'] = pd.Series(dtype=object)
+            mods['SpY-C Prediction Probability'] = pd.Series(dtype=object)
             return mods
 
         _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
@@ -1089,6 +1226,8 @@ class ProteomeScoutAPI:
         site_macro = []
         site_activation_loop = []
         site_activation_loop_quality = []
+        site_spyc_prediction = []
+        site_spyc_probability = []
         for i, row in mods.iterrows():
             pos = int(row['Position'])
             # Check if in domain
@@ -1132,6 +1271,17 @@ class ProteomeScoutAPI:
                 site_activation_loop.append(False)
                 site_activation_loop_quality.append("")
 
+            spyc_prediction = self.get_spyc_predictions_byPos(ID, pos)
+            if spyc_prediction == -1:
+                site_spyc_prediction.append("")
+                site_spyc_probability.append("")
+            else:
+                probability, _, confidence = spyc_prediction
+                confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
+
+                site_spyc_prediction.append(confidence_value)
+                site_spyc_probability.append(probability_value)
+
         mods['Domain_Names_InterPro'] = site_domain_name['interpro']
         mods['InterPro_IDs'] = site_interpro_ids
         mods['Domain_Names_UniProt'] = site_domain_name['uniprot']
@@ -1139,6 +1289,8 @@ class ProteomeScoutAPI:
         mods['Macro_Molecular_Structures'] = site_macro
         mods['In_Activation_Loop'] = site_activation_loop
         mods['Activation_Loop_Quality'] = site_activation_loop_quality
+        mods['SpY-C Prediction'] = site_spyc_prediction
+        mods['SpY-C Prediction Probability'] = site_spyc_probability
         return mods
 
 
@@ -1476,6 +1628,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'macro_molecular_structures',
         'in_activation_loop',
         'activation_loop_qualities',
+        'SpY-C Prediction',
+        'SpY-C Prediction Probability',
     ]
 
     def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
@@ -1588,6 +1742,14 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             structure_hits = self._get_overlapping_feature_names(structures, site_position)
             macro_hits = self._get_overlapping_feature_names(macro_molecular, site_position)
             activation_loop_hits = self._get_overlapping_feature_names(activation_loops, site_position)
+            spyc_prediction = self.get_spyc_predictions_byPos(uniprot_id, site_position)
+
+            if spyc_prediction == -1:
+                spyc_confidence = ""
+                spyc_probability = ""
+            else:
+                probability, _, confidence = spyc_prediction
+                spyc_confidence, spyc_probability = self._format_spyc_prediction_values(probability, confidence)
 
             reference_rows.append({
                 'species': species,
@@ -1604,6 +1766,8 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
                 'macro_molecular_structures': macro_hits,
                 'in_activation_loop': bool(activation_loop_hits),
                 'activation_loop_qualities': activation_loop_hits,
+                'SpY-C Prediction': spyc_confidence,
+                'SpY-C Prediction Probability': spyc_probability,
             })
 
         return pd.DataFrame(reference_rows, columns=self.OUTPUT_COLUMNS)
@@ -1694,17 +1858,21 @@ class ProteomicDataset(ProteomeScoutAPI):
         source of domain annotations ('interpro' or 'uniprot')
     GO_terms: bool
         whether to include GO term annotations
+    version : int, optional
+        Version number of the ProteomeScout dataset to use.
+    update : bool, optional
+        Whether to update the local dataset when a version mismatch is detected.
     
     
     """
-    def __init__(self, dataset, accession_col = 'acc', peptide_col = 'pep', find_site = True, domain_source = 'interpro', GO_terms = True):
+    def __init__(self, dataset, accession_col = 'acc', peptide_col = 'pep', find_site = True, domain_source = 'interpro', GO_terms = True, version=config.VERSION, update=config.UPDATE):
         #check to make sure columns exist
         if accession_col not in dataset.columns:
             raise KeyError(f"Accession column '{accession_col}' not found in DataFrame")
         if peptide_col not in dataset.columns:
             raise KeyError(f"Peptide column '{peptide_col}' not found in DataFrame")
         
-        super().__init__()
+        super().__init__(version=version, update=update)
         self.dataset = dataset
         self.accession_col = accession_col
         self.peptide_col = peptide_col
@@ -1925,6 +2093,8 @@ class ProteomicDataset(ProteomeScoutAPI):
             - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
             - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
             - 'site_in_exon': Semicolon-separated string of exon IDs for matching positions
+            - 'SpY-C Prediction': Semicolon-separated SpyC confidence values at matching modification sites.
+            - 'SpY-C Prediction Probability': Semicolon-separated SpyC probability values at matching sites. Returns "Training" when a site is from the training set.
             Returns -1 if unable to find the accession in the database.
         """
         seq = self.get_sequence(accession)
@@ -1962,6 +2132,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 sites_in_structure = np.nan
                 sites_in_activation_loop = np.nan
                 sites_in_exon = np.nan
+                site_spyc_prediction = np.nan
+                site_spyc_probability = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
@@ -1986,6 +2158,22 @@ class ProteomicDataset(ProteomeScoutAPI):
                 #and the primary exon it is located in
                 sites_in_exon = self.get_exons_with_site(exons, seqPosArr)
 
+                spyc_confidences = []
+                spyc_probabilities = []
+                for site_position in seqPosArr:
+                    spyc_prediction = self.get_spyc_predictions_byPos(accession, site_position)
+                    if spyc_prediction == -1:
+                        spyc_confidences.append("")
+                        spyc_probabilities.append("")
+                    else:
+                        probability, _, confidence = spyc_prediction
+                        confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
+                        spyc_confidences.append(confidence_value)
+                        spyc_probabilities.append(probability_value)
+
+                site_spyc_prediction = ';'.join(spyc_confidences)
+                site_spyc_probability = ';'.join(spyc_probabilities)
+
 
                 #now check if it's been annotated as a known modification site before
                 documented_sites = self.check_phosphosites(accession, seqPosArr, include_hidden=include_hidden)
@@ -2005,7 +2193,9 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'site_in_macro': sites_in_macro,
                 'site_in_structure': sites_in_structure,
                 'site_in_activation_loop': sites_in_activation_loop,
-                'site_in_exon': sites_in_exon
+                'site_in_exon': sites_in_exon,
+                'SpY-C Prediction': site_spyc_prediction,
+                'SpY-C Prediction Probability': site_spyc_probability,
                 }
         else:
             output = {
