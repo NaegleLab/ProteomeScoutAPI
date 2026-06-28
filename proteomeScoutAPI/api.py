@@ -76,7 +76,7 @@
 #    print PTM_API.get_phosphosites(ID)
 #
 # ===============================================================================
-import os, json, contextlib
+import os, json, contextlib, re
 import pandas as pd
 import numpy as np
 
@@ -155,6 +155,108 @@ class ProteomeScoutAPI:
         #load citations
         citations_file = os.path.join(self.dataset_dir, "ProteomeScout_Dataset", "citations.tsv")
         self.citations = pd.read_csv(citations_file, sep='\t')
+        self.experiment_current_flags = self.__build_experiment_current_flags(self.citations)
+
+    def __build_experiment_current_flags(self, citations_df):
+        """
+        Build a fast lookup for experiment visibility keyed by experiment ID.
+
+        Parameters
+        ----------
+        citations_df : pd.DataFrame
+            Citation metadata loaded from citations.tsv.
+
+        Returns
+        -------
+        dict
+            Mapping of experiment ID string to whether the experiment is current.
+        """
+        experiment_flags = {}
+
+        if citations_df is None or citations_df.empty:
+            return experiment_flags
+
+        if 'Experiment ID' not in citations_df.columns or 'Current' not in citations_df.columns:
+            return experiment_flags
+
+        for _, row in citations_df[['Experiment ID', 'Current']].dropna(subset=['Experiment ID']).iterrows():
+            experiment_id = str(row['Experiment ID']).strip()
+            if experiment_id.endswith('.0'):
+                experiment_id = experiment_id[:-2]
+
+            current_value = str(row['Current']).strip().lower()
+            experiment_flags[experiment_id] = current_value in {'1', 'true', 'yes'}
+
+        return experiment_flags
+
+    def __parse_evidence_tokens(self, evidence_token):
+        """
+        Extract experiment IDs from one PTM evidence token.
+
+        Parameters
+        ----------
+        evidence_token : str
+            One semicolon-delimited evidence entry.
+
+        Returns
+        -------
+        list of str
+            Experiment IDs found in the token.
+        """
+        if evidence_token is None:
+            return []
+
+        return re.findall(r'\d+', str(evidence_token))
+
+    def __filter_modifications_by_visibility(self, record, include_hidden=False):
+        """
+        Filter PTMs so hidden-only evidence is excluded by default.
+
+        Parameters
+        ----------
+        record : dict
+            Protein record from the in-memory database.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+
+        Returns
+        -------
+        list of tuple
+            Filtered PTM tuples as (position, residue, modification-type).
+        list of str
+            Evidence tokens aligned to the filtered PTMs.
+        """
+        mods = record.get("modifications", "")
+        if not mods or mods.strip() == "":
+            return [], []
+
+        mods_clean = helpers.clean_PTM_string(mods)
+        evidence = record.get("evidence", "")
+        evidence_tokens = [token.strip() for token in str(evidence).split(';')]
+
+        if include_hidden or not evidence_tokens or len(evidence_tokens) != len(mods_clean):
+            trimmed_evidence = evidence_tokens[:len(mods_clean)]
+            if len(trimmed_evidence) < len(mods_clean):
+                trimmed_evidence.extend([''] * (len(mods_clean) - len(trimmed_evidence)))
+            return mods_clean, trimmed_evidence
+
+        filtered_mods = []
+        filtered_evidence = []
+        for mod, evidence_token in zip(mods_clean, evidence_tokens):
+            experiment_ids = self.__parse_evidence_tokens(evidence_token)
+            if not experiment_ids:
+                filtered_mods.append(mod)
+                filtered_evidence.append(evidence_token)
+                continue
+
+            flags = [self.experiment_current_flags.get(experiment_id) for experiment_id in experiment_ids]
+            known_flags = [flag for flag in flags if flag is not None]
+
+            if not known_flags or any(known_flags):
+                filtered_mods.append(mod)
+                filtered_evidence.append(evidence_token)
+
+        return filtered_mods, filtered_evidence
 
     def __checkDatasetVersion(self,update = False):
         """
@@ -367,7 +469,7 @@ class ProteomeScoutAPI:
         #save version number
         self.version = version
 
-    def get_PTMs(self, ID, output_format='list'):
+    def get_PTMs(self, ID, output_format='list', include_hidden=False):
         """
         Return all PTMs associated with the ID in question.
 
@@ -377,6 +479,9 @@ class ProteomeScoutAPI:
             SwissProt accession number
         output_format : str, optional
             Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -395,11 +500,9 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
 
-        mods = record["modifications"]
-        if not mods or mods.strip() == "":
+        mods_clean, _ = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        if not mods_clean:
             return []
-        
-        mods_clean = helpers.clean_PTM_string(mods)
 
         if output_format == 'table':
             # Convert to DataFrame
@@ -751,7 +854,7 @@ class ProteomeScoutAPI:
         """
         return {}
 
-    def get_nearbyPTMs(self,ID,pos, window, output_format='list'):
+    def get_nearbyPTMs(self,ID,pos, window, output_format='list', include_hidden=False):
         """
         Return all PTMs within a specified window of a given position
 
@@ -765,6 +868,9 @@ class ProteomeScoutAPI:
             Number of residues upstream and downstream to include in the search
         output_format : str, optional
             Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -785,7 +891,7 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID)
+        mods = self.get_PTMs(ID, include_hidden=include_hidden)
         nearby_mods = []
         for mod in mods:
             mod_pos = int(mod[0])
@@ -876,7 +982,7 @@ class ProteomeScoutAPI:
          
 
     
-    def get_phosphosites(self,ID, output_format='list'):
+    def get_phosphosites(self,ID, output_format='list', include_hidden=False):
         """
         Return all phosphosites (S/T/Y phosphorylation) associated with the ID
 
@@ -884,6 +990,11 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        output_format : str, optional
+            Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -903,7 +1014,7 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID, output_format='list')
+        mods = self.get_PTMs(ID, output_format='list', include_hidden=include_hidden)
         phos_sites = []
         for mod in mods:
             residue = mod[1]
@@ -921,7 +1032,7 @@ class ProteomeScoutAPI:
         associated_region = regions[(regions['Start_Position'].astype(int) <= position) & (regions['End_Position'].astype(int) >= position)]
         return associated_region
     
-    def get_annotated_PTMs(self, ID):
+    def get_annotated_PTMs(self, ID, include_hidden=False):
         """
         Given a UniProt ID, return a table of PTMs with annotations about whether they fall within domains, structures, or macro-molecular structures.
         
@@ -929,6 +1040,9 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
         
         Returns
         -------
@@ -944,8 +1058,13 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID, output_format='table')
-        mods['evidence'] = self.get_evidence(ID).split(';')
+        mods = self.get_PTMs(ID, output_format='table', include_hidden=include_hidden)
+        if mods.empty:
+            mods['evidence'] = pd.Series(dtype=object)
+            return mods
+
+        _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        mods['evidence'] = filtered_evidence
 
         #extract domains
         domains = self.get_domains(ID, output_format='table')
@@ -1189,7 +1308,7 @@ class ProteomeScoutAPI:
     #     # Implementation depends on your evidence format
     #     return self.get_PTMs(ID)
 
-    def get_PTMs_withEvidence(self, ID):
+    def get_PTMs_withEvidence(self, ID, include_hidden=False):
         """
         Return PTMs with their associated evidence information
 
@@ -1197,6 +1316,9 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1212,8 +1334,9 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID)
-        evidence = self.get_evidence(ID)
+        mods = self.get_PTMs(ID, include_hidden=include_hidden)
+        _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        evidence = ';'.join(filtered_evidence)
         return (mods, evidence)
     
     def return_species_nr_uniprot_ids(self):
@@ -1253,7 +1376,7 @@ class ProteomeScoutAPI:
         
         return species_dict, species_reference_bool
 
-    def search_by_peptide(self, peptide):
+    def search_by_peptide(self, peptide, include_hidden=False):
         """
         Search the ProteomeScout dataset for proteins containing a specific peptide sequence.
 
@@ -1261,6 +1384,9 @@ class ProteomeScoutAPI:
         ----------
         peptide : str
             Peptide sequence to search for (case-insensitive). Modification indicators (lowercased residues) are ignored for matching.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            counting matched protein PTMs. Defaults to False.
 
         Returns
         -------
@@ -1309,9 +1435,8 @@ class ProteomeScoutAPI:
                 matching_accessions.append(accession)
                 
                 # Get PTM count
-                modifications = record.get("modifications", "")
-                if modifications and modifications.strip() != "":
-                    mods_list = helpers.clean_PTM_string(modifications)
+                mods_list = self.get_PTMs(accession, output_format='list', include_hidden=include_hidden)
+                if mods_list not in (-1, []) and mods_list:
                     num_ptms = len(mods_list)
                 else:
                     num_ptms = 0
@@ -1405,7 +1530,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             safe_species = safe_species.replace("__", "_")
         return safe_species.strip("_") + "_reference_dataset.csv"
 
-    def build_protein_reference_dataset(self, uniprot_id):
+    def build_protein_reference_dataset(self, uniprot_id, include_hidden=False):
         """
         Build a PTM-centric reference table for a single UniProt accession.
 
@@ -1413,6 +1538,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         ----------
         uniprot_id : str
             UniProt accession to convert into PTM-centric rows.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1425,7 +1553,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         except KeyError:
             return -1
 
-        modifications = self.get_PTMs(uniprot_id, output_format='list')
+        modifications = self.get_PTMs(uniprot_id, output_format='list', include_hidden=include_hidden)
         if modifications == -1:
             return -1
         if not modifications:
@@ -1480,7 +1608,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
 
         return pd.DataFrame(reference_rows, columns=self.OUTPUT_COLUMNS)
 
-    def build_species_reference_dataset(self, species, output_file=None):
+    def build_species_reference_dataset(self, species, output_file=None, include_hidden=False):
         """
         Build a PTM-centric reference table for a nonredundant species.
 
@@ -1490,6 +1618,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             Species name present in return_species_nr_uniprot_ids().
         output_file : str, optional
             If provided, write the resulting DataFrame to CSV.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1502,7 +1633,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
 
         protein_reference_tables = []
         for uniprot_id in species_dict[species]:
-            protein_reference_table = self.build_protein_reference_dataset(uniprot_id)
+            protein_reference_table = self.build_protein_reference_dataset(uniprot_id, include_hidden=include_hidden)
             if isinstance(protein_reference_table, pd.DataFrame) and not protein_reference_table.empty:
                 protein_reference_tables.append(protein_reference_table)
 
@@ -1516,7 +1647,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
 
         return species_reference_table
 
-    def write_all_species_reference_datasets(self, output_dir):
+    def write_all_species_reference_datasets(self, output_dir, include_hidden=False):
         """
         Write one PTM-centric reference CSV per nonredundant species.
 
@@ -1524,6 +1655,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         ----------
         output_dir : str
             Directory where species-specific CSV files should be written.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1536,7 +1670,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         output_files = {}
         for species in sorted(species_dict):
             output_path = os.path.join(output_dir, self._species_to_filename(species))
-            self.build_species_reference_dataset(species, output_file=output_path)
+            self.build_species_reference_dataset(species, output_file=output_path, include_hidden=include_hidden)
             output_files[species] = output_path
 
         return output_files
@@ -1578,7 +1712,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         self.domain_source = domain_source
         self.GO_terms = GO_terms
 
-    def check_phosphosites(self, accessions, positions):
+    def check_phosphosites(self, accessions, positions, include_hidden=False):
         """
         Check if positions are documented phosphosites in ProteomeScout for the given accessions
         
@@ -1588,6 +1722,9 @@ class ProteomicDataset(ProteomeScoutAPI):
             SwissProt accession number
         positions : list of int
             List of positions to check
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
 
         Returns
         -------
@@ -1595,7 +1732,7 @@ class ProteomicDataset(ProteomeScoutAPI):
             Semicolon-separated string of 1s and 0s indicating whether each position is a documented phosphosite (1) or not (0)
         """
         #now check if it's been annotated as a known modification site before
-        phosphosites = self.get_phosphosites(accessions)
+        phosphosites = self.get_phosphosites(accessions, include_hidden=include_hidden)
         
         found_arr = []
         for pos in positions:
@@ -1755,7 +1892,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         return site_in_exon
 
 
-    def annotate_peptide(self, accession, peptide):
+    def annotate_peptide(self, accession, peptide, include_hidden=False):
         """
         Given a SwissProt accession and peptide sequence, annotate with gene-level and site-specific information from ProteomeScout.
 
@@ -1765,6 +1902,9 @@ class ProteomicDataset(ProteomeScoutAPI):
             SwissProt accession number
         peptide : str
             Peptide sequence with modification sites lowercased
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
 
         Returns
         -------
@@ -1848,7 +1988,7 @@ class ProteomicDataset(ProteomeScoutAPI):
 
 
                 #now check if it's been annotated as a known modification site before
-                documented_sites = self.check_phosphosites(accession, seqPosArr)
+                documented_sites = self.check_phosphosites(accession, seqPosArr, include_hidden=include_hidden)
 
 
 
@@ -1877,7 +2017,7 @@ class ProteomicDataset(ProteomeScoutAPI):
             
         return output
     
-    def annotate_dataset(self):
+    def annotate_dataset(self, include_hidden=False):
         """
         Given a proteomic dataset in self.dataset, annotate each row with information from ProteomeScout.
         
@@ -1897,12 +2037,15 @@ class ProteomicDataset(ProteomeScoutAPI):
         - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
         - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
         - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
         """
         new_info = []
         for i, row in self.dataset.iterrows():
             acc = row[self.accession_col]
             pep = row[self.peptide_col]
-            annotation = self.annotate_peptide(acc, pep)
+            annotation = self.annotate_peptide(acc, pep, include_hidden=include_hidden)
             if annotation == -1:
                 #if sequence not found, skip
                 new_info.append(pd.Series())
