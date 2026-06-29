@@ -1024,7 +1024,9 @@ class ProteomeScoutAPI:
         if probability_is_missing:
             probability_value = "Training" if confidence_value else ""
         else:
-            probability_value = str(probability)
+            probability_value = str(probability).strip()
+            if probability_value.lower() in {'train', 'training'}:
+                probability_value = "Training"
 
         return confidence_value, probability_value
 
@@ -1848,6 +1850,24 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             exon_constitutive = _value_or_empty(ptm_row, 'Exon_Constitutive')
             spyc_confidence = _value_or_empty(ptm_row, 'SpY-C Prediction')
             spyc_probability = _value_or_empty(ptm_row, 'SpY-C Prediction Probability')
+
+            spyc_prediction_raw = self.get_spyc_predictions_byPos(uniprot_id, site_position)
+            if spyc_prediction_raw != -1:
+                probability_raw, predicted_class_raw, confidence_raw = spyc_prediction_raw
+                confidence_mapped, probability_mapped = self._format_spyc_prediction_values(probability_raw, confidence_raw)
+
+                if str(probability_mapped).strip().lower() in {'training', 'train'}:
+                    class_token = str(predicted_class_raw).strip().lower()
+                    if class_token not in {'0', '1', '0.0', '1.0'}:
+                        # Some training rows encode the binary class in confidence.
+                        class_token = str(confidence_raw).strip().lower()
+                    if class_token in {'0', '0.0'}:
+                        confidence_mapped = 'confident non-binder'
+                    elif class_token in {'1', '1.0'}:
+                        confidence_mapped = 'confident binder'
+
+                spyc_confidence = confidence_mapped
+                spyc_probability = probability_mapped
 
             in_activation_loop = bool(ptm_row.get('In_Activation_Loop', False))
             in_exon = bool(ptm_row.get('In_Exon', False))
