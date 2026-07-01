@@ -226,7 +226,7 @@ class ProteomeScoutAPI:
 
         return experiment_flags
 
-    def __parse_evidence_tokens(self, evidence_token):
+    def _parse_evidence_tokens(self, evidence_token):
         """
         Extract experiment IDs from one PTM evidence token.
 
@@ -245,7 +245,7 @@ class ProteomeScoutAPI:
 
         return re.findall(r'\d+', str(evidence_token))
 
-    def __filter_modifications_by_visibility(self, record, include_hidden=False):
+    def _filter_modifications_by_visibility(self, record, include_hidden=False):
         """
         Filter PTMs so hidden-only evidence is excluded by default.
 
@@ -280,7 +280,7 @@ class ProteomeScoutAPI:
         filtered_mods = []
         filtered_evidence = []
         for mod, evidence_token in zip(mods_clean, evidence_tokens):
-            experiment_ids = self.__parse_evidence_tokens(evidence_token)
+            experiment_ids = self._parse_evidence_tokens(evidence_token)
             if not experiment_ids:
                 filtered_mods.append(mod)
                 filtered_evidence.append(evidence_token)
@@ -537,7 +537,7 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
 
-        mods_clean, _ = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        mods_clean, _ = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
         if not mods_clean:
             if output_format == 'table':
                 return pd.DataFrame(columns=['Position', 'Residue', 'Modification_Type'])
@@ -1364,7 +1364,7 @@ class ProteomeScoutAPI:
             mods['SpY-C Prediction Probability'] = pd.Series(dtype=object)
             return mods
 
-        _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        _, filtered_evidence = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
         mods['evidence'] = filtered_evidence
 
         site_annotations = self._annotate_positions(ID, mods['Position'].tolist())
@@ -1567,7 +1567,7 @@ class ProteomeScoutAPI:
             return -1
         
         mods = self.get_PTMs(ID, include_hidden=include_hidden)
-        _, filtered_evidence = self.__filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        _, filtered_evidence = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
         evidence = ';'.join(filtered_evidence)
         return (mods, evidence)
     
@@ -2025,24 +2025,68 @@ class ProteomicDataset(ProteomeScoutAPI):
         str
             Semicolon-separated string of 1s and 0s indicating whether each position is a documented phosphosite (1) or not (0)
         """
-        #now check if it's been annotated as a known modification site before
-        phosphosites = self.get_phosphosites(accessions, include_hidden=include_hidden)
-        
-        found_arr = []
-        for pos in positions:
-            found = 0
-            for mod in phosphosites:
-                (pos_mod, res_mod, type_mod) = mod
-                #print("Debug, comparing %d to %d"%(pos, int(pos_mod)))
-                if pos == int(pos_mod):
-                    found = 1
-                    #print("FOUND IT!")
-                    break
+        try:
+            record = self.database[accessions]
+        except KeyError:
+            return -1
 
-            found_arr.append(str(found))
-        #combine into string
-        documented_sites = ';'.join(found_arr)
-        return documented_sites
+        documented_values, _ = self._collect_documented_modifications(record, positions, include_hidden=include_hidden)
+        return ';'.join('1' if value else '0' for value in documented_values)
+
+    def _collect_documented_modifications(self, record, positions, include_hidden=False):
+        """
+        Collect PTM documentation status and formatted modification details for positions.
+
+        Parameters
+        ----------
+        record : dict
+            Protein record from the in-memory database.
+        positions : list of int
+            Site positions to annotate.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+
+        Returns
+        -------
+        tuple of list[bool], list[str]
+            Documented status per position and formatted modification detail strings.
+        """
+        mods, evidence_tokens = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
+
+        site_modifications = {}
+        for mod, evidence_token in zip(mods, evidence_tokens):
+            pos_mod, _, modification_type = mod
+            try:
+                site_position = int(pos_mod)
+            except (TypeError, ValueError):
+                continue
+
+            visible_experiments = []
+            for experiment_id in self._parse_evidence_tokens(evidence_token):
+                if self.experiment_current_flags.get(experiment_id):
+                    visible_experiments.append(experiment_id)
+
+            modification_details = modification_type
+            if visible_experiments:
+                modification_details = f"{modification_type} ({', '.join(visible_experiments)})"
+
+            site_modifications.setdefault(site_position, []).append(modification_details)
+
+        documented_values = []
+        modification_details_values = []
+        for position in positions:
+            try:
+                site_position = int(position)
+            except (TypeError, ValueError):
+                documented_values.append(False)
+                modification_details_values.append('')
+                continue
+
+            matched_modifications = site_modifications.get(site_position, [])
+            documented_values.append(bool(matched_modifications))
+            modification_details_values.append(', '.join(matched_modifications))
+
+        return documented_values, modification_details_values
     
     def get_domains_with_site(self, domains, positions, domain_descriptor = 'name'):
         """
@@ -2213,7 +2257,8 @@ class ProteomicDataset(ProteomeScoutAPI):
             If find_site is True, additional keys are included:
             - 'modification_sites': Semicolon-separated string of modification sites found in the peptide.
             - 'aligned_peps': Aligned peptide sequences found in the protein sequence (if find_site is True).
-            - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
+            - 'documented_modification': Semicolon-separated string indicating whether each site has any documented PTM (1) or not (0).
+            - 'documented_modification_details': Semicolon-separated string of PTM types and visible experiment IDs per site.
             - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
             - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
             - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
@@ -2247,6 +2292,7 @@ class ProteomicDataset(ProteomeScoutAPI):
                 mod_sites = np.nan
                 aligned_peptides = np.nan
                 documented_sites = np.nan
+                documented_modification_details = np.nan
                 sites_in_domain = np.nan
                 sites_in_domain_id = np.nan
                 sites_in_macro = np.nan
@@ -2286,7 +2332,14 @@ class ProteomicDataset(ProteomeScoutAPI):
 
 
                 #now check if it's been annotated as a known modification site before
-                documented_sites = self.check_phosphosites(accession, seqPosArr, include_hidden=include_hidden)
+                record = self.database[accession]
+                documented_statuses, documented_modification_details_values = self._collect_documented_modifications(
+                    record,
+                    seqPosArr,
+                    include_hidden=include_hidden,
+                )
+                documented_sites = ';'.join('1' if value else '0' for value in documented_statuses)
+                documented_modification_details = ';'.join(documented_modification_details_values)
 
 
 
@@ -2297,7 +2350,8 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'GO_terms': GO_terms,
                 'aligned_peps': aligned_peptides,
                 'modification_sites': mod_sites,
-                'documented_phosphosites': documented_sites,
+                'documented_modification': documented_sites,
+                'documented_modification_details': documented_modification_details,
                 'site_in_domain:name': sites_in_domain,
                 'site_in_domain:interpro': sites_in_domain_id,
                 'site_in_macro': sites_in_macro,
@@ -2332,7 +2386,8 @@ class ProteomicDataset(ProteomeScoutAPI):
         If find_site is True, additional columns are added:
         - 'modification_sites': Semicolon-separated string of modification sites found in the peptide.
         - 'aligned_peps': Aligned peptide sequences found in the protein sequence (if find_site is True).
-        - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
+        - 'documented_modification': Semicolon-separated string indicating whether each modification site has any documented PTM (1) or not (0).
+        - 'documented_modification_details': Semicolon-separated string of PTM types and visible experiment IDs for each site.
         - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
         - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
         - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
