@@ -6,7 +6,7 @@ A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phos
 See full [documentation](https://naeglelab.github.io/ProteomeScoutAPI/) for installation and use cases.
 
 ## About ProteomeScout
-Version 3.0 - March 2026
+Version 3.1 - July 2026
 
 Current Version: Naegle Lab, University of Virginia [https://github.com/naegleLab](https://github.com/naegleLab)
 
@@ -52,8 +52,8 @@ For step-by-step guidance on adding a new field so it propagates through API ann
 
 Trying to use your own version of the database file? For example, testing a new feature integration. If so, you will want to make sure to force the API to point to and NOT update to the latest Figshare version. 
 
-# Dataset root now that you added ProteomeScout_Dataset under April_cleaned.
-``` dataset_root = Path("<your/local/path>")  # <-- UPDATE THIS TO YOUR LOCAL PATH
+```
+dataset_root = Path("<your/local/path>")  # <-- UPDATE THIS TO YOUR LOCAL PATH
 expected_data_file = dataset_root / "ProteomeScout_Dataset" / "data.tsv"
 if not expected_data_file.exists():
     raise FileNotFoundError(f"Could not find local dataset file: {expected_data_file}")
