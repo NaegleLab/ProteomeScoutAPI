@@ -76,7 +76,7 @@
 #    print PTM_API.get_phosphosites(ID)
 #
 # ===============================================================================
-import os, json, contextlib
+import os, json, contextlib, re
 import pandas as pd
 import numpy as np
 
@@ -112,6 +112,43 @@ class ProteomeScoutAPI:
         The version number of the dataset being used.
     
     """
+
+    POSITION_ANNOTATION_REGISTRY = [
+        {
+            'context_key': 'interpro',
+            'name_column': 'Domain_Names_InterPro',
+            'extra_column': 'InterPro_IDs',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'uniprot',
+            'name_column': 'Domain_Names_UniProt',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'structure',
+            'name_column': 'Structures',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'macro',
+            'name_column': 'Macro_Molecular_Structures',
+            'include_boolean': False,
+        },
+        {
+            'context_key': 'activation_loop',
+            'name_column': 'Activation_Loop_Quality',
+            'boolean_column': 'In_Activation_Loop',
+            'include_boolean': True,
+        },
+        {
+            'context_key': 'exons',
+            'name_column': 'Exons',
+            'extra_column': 'Exon_Constitutive',
+            'boolean_column': 'In_Exon',
+            'include_boolean': True,
+        },
+    ]
     def __init__(self, version = config.VERSION, update = config.UPDATE):
         #initialize figshare interface       
         try:
@@ -155,6 +192,108 @@ class ProteomeScoutAPI:
         #load citations
         citations_file = os.path.join(self.dataset_dir, "ProteomeScout_Dataset", "citations.tsv")
         self.citations = pd.read_csv(citations_file, sep='\t')
+        self.experiment_current_flags = self.__build_experiment_current_flags(self.citations)
+
+    def __build_experiment_current_flags(self, citations_df):
+        """
+        Build a fast lookup for experiment visibility keyed by experiment ID.
+
+        Parameters
+        ----------
+        citations_df : pd.DataFrame
+            Citation metadata loaded from citations.tsv.
+
+        Returns
+        -------
+        dict
+            Mapping of experiment ID string to whether the experiment is current.
+        """
+        experiment_flags = {}
+
+        if citations_df is None or citations_df.empty:
+            return experiment_flags
+
+        if 'Experiment ID' not in citations_df.columns or 'Current' not in citations_df.columns:
+            return experiment_flags
+
+        for _, row in citations_df[['Experiment ID', 'Current']].dropna(subset=['Experiment ID']).iterrows():
+            experiment_id = str(row['Experiment ID']).strip()
+            if experiment_id.endswith('.0'):
+                experiment_id = experiment_id[:-2]
+
+            current_value = str(row['Current']).strip().lower()
+            experiment_flags[experiment_id] = current_value in {'1', 'true', 'yes'}
+
+        return experiment_flags
+
+    def _parse_evidence_tokens(self, evidence_token):
+        """
+        Extract experiment IDs from one PTM evidence token.
+
+        Parameters
+        ----------
+        evidence_token : str
+            One semicolon-delimited evidence entry.
+
+        Returns
+        -------
+        list of str
+            Experiment IDs found in the token.
+        """
+        if evidence_token is None:
+            return []
+
+        return re.findall(r'\d+', str(evidence_token))
+
+    def _filter_modifications_by_visibility(self, record, include_hidden=False):
+        """
+        Filter PTMs so hidden-only evidence is excluded by default.
+
+        Parameters
+        ----------
+        record : dict
+            Protein record from the in-memory database.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+
+        Returns
+        -------
+        list of tuple
+            Filtered PTM tuples as (position, residue, modification-type).
+        list of str
+            Evidence tokens aligned to the filtered PTMs.
+        """
+        mods = record.get("modifications", "")
+        if not mods or mods.strip() == "":
+            return [], []
+
+        mods_clean = helpers.clean_PTM_string(mods)
+        evidence = record.get("evidence", "")
+        evidence_tokens = [token.strip() for token in str(evidence).split(';')]
+
+        if include_hidden or not evidence_tokens or len(evidence_tokens) != len(mods_clean):
+            trimmed_evidence = evidence_tokens[:len(mods_clean)]
+            if len(trimmed_evidence) < len(mods_clean):
+                trimmed_evidence.extend([''] * (len(mods_clean) - len(trimmed_evidence)))
+            return mods_clean, trimmed_evidence
+
+        filtered_mods = []
+        filtered_evidence = []
+        for mod, evidence_token in zip(mods_clean, evidence_tokens):
+            experiment_ids = self._parse_evidence_tokens(evidence_token)
+            if not experiment_ids:
+                filtered_mods.append(mod)
+                filtered_evidence.append(evidence_token)
+                continue
+
+            flags = [self.experiment_current_flags.get(experiment_id) for experiment_id in experiment_ids]
+            known_flags = [flag for flag in flags if flag is not None]
+
+            if not known_flags or any(known_flags):
+                filtered_mods.append(mod)
+                filtered_evidence.append(evidence_token)
+
+        return filtered_mods, filtered_evidence
 
     def __checkDatasetVersion(self,update = False):
         """
@@ -221,7 +360,7 @@ class ProteomeScoutAPI:
             if len(headers) < 17 or not required_headers.issubset(set(headers)):
                 raise BadProteomeScoutFile("N/A")
             
-            optional_headers = {"activation_loop", "exons"}
+            optional_headers = {"activation_loop", "exons", "spyc_predictions"}
             missing_optional = optional_headers - set(headers)
             if missing_optional:
                 print(f"WARNING: The following optional headers are missing from the API: {', '.join(missing_optional)}. This likely means you are using an older version of the API dataset. If you would like to use these, please update the dataset with `update_to_latest()` and/or set the update parameter to True.")
@@ -367,7 +506,7 @@ class ProteomeScoutAPI:
         #save version number
         self.version = version
 
-    def get_PTMs(self, ID, output_format='list'):
+    def get_PTMs(self, ID, output_format='list', include_hidden=False):
         """
         Return all PTMs associated with the ID in question.
 
@@ -377,6 +516,9 @@ class ProteomeScoutAPI:
             SwissProt accession number
         output_format : str, optional
             Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -395,11 +537,11 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
 
-        mods = record["modifications"]
-        if not mods or mods.strip() == "":
+        mods_clean, _ = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        if not mods_clean:
+            if output_format == 'table':
+                return pd.DataFrame(columns=['Position', 'Residue', 'Modification_Type'])
             return []
-        
-        mods_clean = helpers.clean_PTM_string(mods)
 
         if output_format == 'table':
             # Convert to DataFrame
@@ -751,7 +893,144 @@ class ProteomeScoutAPI:
         """
         return {}
 
-    def get_nearbyPTMs(self,ID,pos, window, output_format='list'):
+    def __parse_spyc_prediction_record(self, prediction_entry):
+        """
+        Parse one SpyC prediction entry in the format site:probability:class:confidence.
+
+        Parameters
+        ----------
+        prediction_entry : str
+            Single semicolon-delimited SpyC prediction entry.
+
+        Returns
+        -------
+        tuple or None
+            (site_position, probability, predicted_class, confidence) or None if
+            the entry is malformed.
+        """
+        if not prediction_entry:
+            return None
+
+        parts = prediction_entry.strip().split(":")
+        if len(parts) < 4:
+            return None
+
+        site_token, probability, predicted_class, confidence = parts[0], parts[1], parts[2], parts[3]
+
+        site_match = re.search(r'\d+', str(site_token))
+        if site_match is None:
+            return None
+
+        site_position = int(site_match.group())
+        return (site_position, probability, predicted_class, confidence)
+
+    def get_spyc_predictions(self, ID):
+        """
+        Return all SpyC predictions for a protein accession.
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+
+        Returns
+        -------
+        dict or int
+            Dictionary keyed by site position with values
+            [probability, class, confidence]. Returns -1 when SpyC predictions
+            are absent for the protein or accession is not found.
+        """
+        try:
+            record = self.database[ID]
+        except KeyError:
+            return -1
+
+        raw_predictions = record.get("spyc_predictions", "")
+        if raw_predictions is None or str(raw_predictions).strip() == "":
+            return -1
+
+        spyc_predictions = {}
+        for prediction_entry in str(raw_predictions).split(";"):
+            parsed_prediction = self.__parse_spyc_prediction_record(prediction_entry)
+            if parsed_prediction is None:
+                continue
+
+            site_position, probability, predicted_class, confidence = parsed_prediction
+            spyc_predictions[site_position] = [probability, predicted_class, confidence]
+
+        if not spyc_predictions:
+            return -1
+
+        return spyc_predictions
+
+    def get_spyc_predictions_byPos(self, ID, site):
+        """
+        Return SpyC prediction values for one site in a protein.
+
+        Parameters
+        ----------
+        ID : str
+            SwissProt accession number
+        site : int
+            Residue position in the protein sequence.
+
+        Returns
+        -------
+        tuple or int
+            (probability, class, confidence) for the site. Returns -1 when no
+            SpyC prediction exists for that site or accession.
+        """
+        try:
+            site = int(site)
+        except (TypeError, ValueError):
+            return -1
+
+        protein_predictions = self.get_spyc_predictions(ID)
+        if protein_predictions == -1:
+            return -1
+
+        site_prediction = protein_predictions.get(site)
+        if site_prediction is None:
+            return -1
+
+        return tuple(site_prediction)
+
+    def _format_spyc_prediction_values(self, probability, confidence):
+        """
+        Convert raw SpyC probability/confidence into annotation-friendly values.
+
+        Parameters
+        ----------
+        probability : object
+            Raw probability value from SpyC predictions.
+        confidence : object
+            Raw confidence value from SpyC predictions.
+
+        Returns
+        -------
+        tuple of str
+            (confidence_value, probability_value) where probability_value uses
+            "Training" for training-set entries (missing probability with
+            present confidence).
+        """
+        confidence_value = "" if pd.isna(confidence) else str(confidence)
+        if confidence_value.strip().lower() == 'nan':
+            confidence_value = ""
+
+        probability_is_missing = pd.isna(probability)
+        if not probability_is_missing and str(probability).strip().lower() == 'nan':
+            probability_is_missing = True
+
+        if probability_is_missing:
+            probability_value = "Training" if confidence_value else ""
+        else:
+            probability_value = str(probability).strip()
+            if probability_value.lower() in {'train', 'training'}:
+                probability_value = "Training"
+
+        return confidence_value, probability_value
+
+    def get_nearbyPTMs(self,ID,pos, window, output_format='list', include_hidden=False):
         """
         Return all PTMs within a specified window of a given position
 
@@ -765,6 +1044,9 @@ class ProteomeScoutAPI:
             Number of residues upstream and downstream to include in the search
         output_format : str, optional
             Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -785,7 +1067,7 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID)
+        mods = self.get_PTMs(ID, include_hidden=include_hidden)
         nearby_mods = []
         for mod in mods:
             mod_pos = int(mod[0])
@@ -876,7 +1158,7 @@ class ProteomeScoutAPI:
          
 
     
-    def get_phosphosites(self,ID, output_format='list'):
+    def get_phosphosites(self,ID, output_format='list', include_hidden=False):
         """
         Return all phosphosites (S/T/Y phosphorylation) associated with the ID
 
@@ -884,6 +1166,11 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        output_format : str, optional
+            Format of the output ('list' or 'table'). Defaults to 'list'.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -903,7 +1190,7 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID, output_format='list')
+        mods = self.get_PTMs(ID, output_format='list', include_hidden=include_hidden)
         phos_sites = []
         for mod in mods:
             residue = mod[1]
@@ -920,8 +1207,121 @@ class ProteomeScoutAPI:
     def get_region(self, position, regions):
         associated_region = regions[(regions['Start_Position'].astype(int) <= position) & (regions['End_Position'].astype(int) >= position)]
         return associated_region
+
+    def _normalize_feature_records(self, feature_records):
+        """
+        Normalize feature tuples into (name, start, end, extra) form.
+        """
+        if feature_records in (-1, -2, None):
+            return []
+
+        normalized_records = []
+        for feature in feature_records:
+            if not feature or len(feature) < 3:
+                continue
+
+            name, start_position, end_position = feature[:3]
+            extra = feature[3] if len(feature) > 3 else ""
+
+            try:
+                start_position = int(float(start_position))
+                end_position = int(float(end_position))
+            except (TypeError, ValueError):
+                continue
+
+            normalized_records.append((str(name), start_position, end_position, "" if extra is None else str(extra)))
+
+        return normalized_records
+
+    def _collect_site_annotation_context(self, ID):
+        """
+        Collect feature ranges required for site-level annotations.
+        """
+        return {
+            'interpro': self._normalize_feature_records(self.get_domains(ID, domain_type='interpro', output_format='list')),
+            'uniprot': self._normalize_feature_records(self.get_domains(ID, domain_type='uniprot', output_format='list')),
+            'structure': self._normalize_feature_records(self.get_structure(ID, output_format='list')),
+            'macro': self._normalize_feature_records(self.get_macro_molecular(ID, output_format='list')),
+            'activation_loop': self._normalize_feature_records(self.get_activation_loops(ID, output_format='list')),
+            'exons': self._normalize_feature_records(self.get_exons(ID, output_format='list')),
+        }
+
+    def _get_overlapping_features(self, features, position):
+        """
+        Return feature tuples that overlap a site position.
+        """
+        return [feature for feature in features if feature[1] <= position <= feature[2]]
+
+    def _annotate_positions(self, ID, positions, context=None):
+        """
+        Build reusable site-level annotations for one accession and many positions.
+        """
+        if context is None:
+            context = self._collect_site_annotation_context(ID)
+
+        annotations = {
+            'SpY-C Prediction': [],
+            'SpY-C Prediction Probability': [],
+        }
+        for rule in self.POSITION_ANNOTATION_REGISTRY:
+            annotations[rule['name_column']] = []
+            if 'extra_column' in rule:
+                annotations[rule['extra_column']] = []
+            if rule.get('include_boolean'):
+                annotations[rule['boolean_column']] = []
+
+        def _append_empty_annotation():
+            for rule in self.POSITION_ANNOTATION_REGISTRY:
+                annotations[rule['name_column']].append("")
+                if 'extra_column' in rule:
+                    annotations[rule['extra_column']].append("")
+                if rule.get('include_boolean'):
+                    annotations[rule['boolean_column']].append(False)
+            annotations['SpY-C Prediction'].append("")
+            annotations['SpY-C Prediction Probability'].append("")
+
+        for raw_position in positions:
+            try:
+                position = int(raw_position)
+            except (TypeError, ValueError):
+                _append_empty_annotation()
+                continue
+
+            for rule in self.POSITION_ANNOTATION_REGISTRY:
+                hits = self._get_overlapping_features(context[rule['context_key']], position)
+                annotations[rule['name_column']].append(';'.join(hit[0] for hit in hits))
+                if 'extra_column' in rule:
+                    annotations[rule['extra_column']].append(';'.join(hit[3] for hit in hits if hit[3]))
+                if rule.get('include_boolean'):
+                    annotations[rule['boolean_column']].append(bool(hits))
+
+            spyc_prediction = self.get_spyc_predictions_byPos(ID, position)
+            if spyc_prediction == -1:
+                annotations['SpY-C Prediction'].append("")
+                annotations['SpY-C Prediction Probability'].append("")
+            else:
+                probability, _, confidence = spyc_prediction
+                confidence_value, probability_value = self._format_spyc_prediction_values(probability, confidence)
+                annotations['SpY-C Prediction'].append(confidence_value)
+                annotations['SpY-C Prediction Probability'].append(probability_value)
+
+        return annotations
+
+    def _join_non_empty(self, values):
+        """
+        Join list values, skipping empty/NaN-like entries.
+        """
+        cleaned_values = []
+        for value in values:
+            if value is None:
+                continue
+            value = str(value).strip()
+            if not value or value.lower() == 'nan':
+                continue
+            cleaned_values.append(value)
+        return ';'.join(cleaned_values)
     
-    def get_annotated_PTMs(self, ID):
+    def get_annotated_PTMs(self, ID, include_hidden=False):
         """
         Given a UniProt ID, return a table of PTMs with annotations about whether they fall within domains, structures, or macro-molecular structures.
         
@@ -929,6 +1329,9 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
         
         Returns
         -------
@@ -944,82 +1347,30 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID, output_format='table')
-        mods['evidence'] = self.get_evidence(ID).split(';')
+        mods = self.get_PTMs(ID, output_format='table', include_hidden=include_hidden)
+        if mods.empty:
+            mods['evidence'] = pd.Series(dtype=object)
+            mods['Domain_Names_InterPro'] = pd.Series(dtype=object)
+            mods['InterPro_IDs'] = pd.Series(dtype=object)
+            mods['Domain_Names_UniProt'] = pd.Series(dtype=object)
+            mods['Structures'] = pd.Series(dtype=object)
+            mods['Macro_Molecular_Structures'] = pd.Series(dtype=object)
+            mods['In_Activation_Loop'] = pd.Series(dtype=bool)
+            mods['Activation_Loop_Quality'] = pd.Series(dtype=object)
+            mods['In_Exon'] = pd.Series(dtype=bool)
+            mods['Exons'] = pd.Series(dtype=object)
+            mods['Exon_Constitutive'] = pd.Series(dtype=object)
+            mods['SpY-C Prediction'] = pd.Series(dtype=object)
+            mods['SpY-C Prediction Probability'] = pd.Series(dtype=object)
+            return mods
 
-        #extract domains
-        domains = self.get_domains(ID, output_format='table')
-        domains['interpro'] = domains['interpro'].astype({'Start_Position': int, 'End_Position': int})
-        domains['uniprot'] = domains['uniprot'].astype({'Start_Position': int, 'End_Position': int})
+        _, filtered_evidence = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        mods['evidence'] = filtered_evidence
 
-        #extract structures
-        structure = self.get_structure(ID, output_format='table')
-        structure = structure.astype({'Start_Position': int, 'End_Position': int})
+        site_annotations = self._annotate_positions(ID, mods['Position'].tolist())
+        for column_name, values in site_annotations.items():
+            mods[column_name] = values
 
-        #extract macro-molecular structures
-        macro_mol = self.get_macro_molecular(ID, output_format='table')
-        macro_mol = macro_mol.astype({'Start_Position': int, 'End_Position': int})
-
-        activation_loops = self.get_activation_loops(ID, output_format='table')
-        if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
-            activation_loops = activation_loops.astype({'Start_Position': int, 'End_Position': int})
-
-        site_domain_name = {'interpro': [], 'uniprot': []}
-        site_interpro_ids = []
-        site_structures = []
-        site_macro = []
-        site_activation_loop = []
-        site_activation_loop_quality = []
-        for i, row in mods.iterrows():
-            pos = int(row['Position'])
-            # Check if in domain
-            for dbase in domains.keys():
-                trim_domains = domains[dbase]
-                trim_domains = trim_domains.loc[(trim_domains['Start_Position'] <= pos) & (trim_domains['End_Position'] >= pos)].copy()
-                if not trim_domains.empty:
-                    site_domain_name[dbase].append(";".join(trim_domains['Domain_Name'].tolist()))
-                    if dbase == 'interpro':
-                        site_interpro_ids.append(";".join(trim_domains['Domain_ID'].tolist()))
-                else:
-                    site_domain_name[dbase].append("")
-                    if dbase == 'interpro':
-                        site_interpro_ids.append("")
-
-
-
-            # Check if in structure
-            trim_structure = structure.loc[(structure['Start_Position'] <= pos) & (structure['End_Position'] >= pos)].copy()
-            if not trim_structure.empty:
-                site_structures.append(";".join(trim_structure['Structure_Name'].tolist()))
-            else:
-                site_structures.append("")
-
-            # Check if in macro-molecular structure
-            trim_macro = macro_mol.loc[(macro_mol['Start_Position'] <= pos) & (macro_mol['End_Position'] >= pos)].copy()
-            if not trim_macro.empty:
-                site_macro.append(";".join(trim_macro['Macro_Name'].tolist()))
-            else:
-                site_macro.append("")
-
-            if isinstance(activation_loops, pd.DataFrame) and not activation_loops.empty:
-                trim_activation = activation_loops.loc[(activation_loops['Start_Position'] <= pos) & (activation_loops['End_Position'] >= pos)].copy()
-                if not trim_activation.empty:
-                    site_activation_loop.append(True)
-                    site_activation_loop_quality.append(";".join(trim_activation['Quality'].tolist()))
-                else:
-                    site_activation_loop.append(False)
-                    site_activation_loop_quality.append("")
-            else:
-                site_activation_loop.append(False)
-                site_activation_loop_quality.append("")
-
-        mods['Domain_Names_InterPro'] = site_domain_name['interpro']
-        mods['InterPro_IDs'] = site_interpro_ids
-        mods['Domain_Names_UniProt'] = site_domain_name['uniprot']
-        mods['Structures'] = site_structures
-        mods['Macro_Molecular_Structures'] = site_macro
-        mods['In_Activation_Loop'] = site_activation_loop
-        mods['Activation_Loop_Quality'] = site_activation_loop_quality
         return mods
 
 
@@ -1189,7 +1540,7 @@ class ProteomeScoutAPI:
     #     # Implementation depends on your evidence format
     #     return self.get_PTMs(ID)
 
-    def get_PTMs_withEvidence(self, ID):
+    def get_PTMs_withEvidence(self, ID, include_hidden=False):
         """
         Return PTMs with their associated evidence information
 
@@ -1197,6 +1548,9 @@ class ProteomeScoutAPI:
         ----------
         ID : str
             SwissProt accession number
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1212,8 +1566,9 @@ class ProteomeScoutAPI:
         except KeyError:
             return -1
         
-        mods = self.get_PTMs(ID)
-        evidence = self.get_evidence(ID)
+        mods = self.get_PTMs(ID, include_hidden=include_hidden)
+        _, filtered_evidence = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
+        evidence = ';'.join(filtered_evidence)
         return (mods, evidence)
     
     def return_species_nr_uniprot_ids(self):
@@ -1253,7 +1608,7 @@ class ProteomeScoutAPI:
         
         return species_dict, species_reference_bool
 
-    def search_by_peptide(self, peptide):
+    def search_by_peptide(self, peptide, include_hidden=False):
         """
         Search the ProteomeScout dataset for proteins containing a specific peptide sequence.
 
@@ -1261,6 +1616,9 @@ class ProteomeScoutAPI:
         ----------
         peptide : str
             Peptide sequence to search for (case-insensitive). Modification indicators (lowercased residues) are ignored for matching.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            counting matched protein PTMs. Defaults to False.
 
         Returns
         -------
@@ -1309,9 +1667,8 @@ class ProteomeScoutAPI:
                 matching_accessions.append(accession)
                 
                 # Get PTM count
-                modifications = record.get("modifications", "")
-                if modifications and modifications.strip() != "":
-                    mods_list = helpers.clean_PTM_string(modifications)
+                mods_list = self.get_PTMs(accession, output_format='list', include_hidden=include_hidden)
+                if mods_list not in (-1, []) and mods_list:
                     num_ptms = len(mods_list)
                 else:
                     num_ptms = 0
@@ -1351,6 +1708,19 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         'macro_molecular_structures',
         'in_activation_loop',
         'activation_loop_qualities',
+        'in_exon',
+        'exons',
+        'exon_constitutive',
+        'SpY-C Prediction',
+        'SpY-C Prediction Probability',
+    ]
+
+    OPTIONAL_ANNOTATION_COLUMNS = [
+        'SpY-C Prediction',
+        'SpY-C Prediction Probability',
+        'in_exon',
+        'exons',
+        'exon_constitutive',
     ]
 
     def __init__(self, flank=7, version=config.VERSION, update=config.UPDATE):
@@ -1378,24 +1748,6 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
 
         return f"{left}{center_residue.lower()}{right}"
 
-    def _get_overlapping_feature_names(self, features, position):
-        overlapping_features = []
-        for feature in features:
-            if len(feature) < 3:
-                continue
-
-            feature_name, start_position, end_position = feature[:3]
-            try:
-                start_position = int(start_position)
-                end_position = int(end_position)
-            except (TypeError, ValueError):
-                continue
-
-            if start_position <= position <= end_position:
-                overlapping_features.append(feature_name)
-
-        return ";".join(overlapping_features)
-
     def _species_to_filename(self, species):
         safe_species = "".join(
             character.lower() if character.isalnum() else "_"
@@ -1405,7 +1757,44 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             safe_species = safe_species.replace("__", "_")
         return safe_species.strip("_") + "_reference_dataset.csv"
 
-    def build_protein_reference_dataset(self, uniprot_id):
+    def _drop_empty_optional_annotation_columns(self, reference_table):
+        """
+        Remove optional annotation columns that contain no annotations.
+
+        Parameters
+        ----------
+        reference_table : pd.DataFrame
+            Species-level PTM-centric reference table.
+
+        Returns
+        -------
+        pd.DataFrame
+            Table with empty optional annotation columns removed.
+        """
+        if reference_table is None or reference_table.empty:
+            return reference_table
+
+        columns_to_drop = []
+        for column_name in self.OPTIONAL_ANNOTATION_COLUMNS:
+            if column_name not in reference_table.columns:
+                continue
+
+            column_values = reference_table[column_name]
+            if pd.api.types.is_bool_dtype(column_values):
+                has_annotations = column_values.fillna(False).any()
+            else:
+                cleaned_values = column_values.fillna('').astype(str).str.strip()
+                has_annotations = (cleaned_values != '').any() and (~cleaned_values.str.lower().eq('nan')).any()
+
+            if not has_annotations:
+                columns_to_drop.append(column_name)
+
+        if columns_to_drop:
+            reference_table = reference_table.drop(columns=columns_to_drop)
+
+        return reference_table
+
+    def build_protein_reference_dataset(self, uniprot_id, include_hidden=False):
         """
         Build a PTM-centric reference table for a single UniProt accession.
 
@@ -1413,6 +1802,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         ----------
         uniprot_id : str
             UniProt accession to convert into PTM-centric rows.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1425,41 +1817,60 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         except KeyError:
             return -1
 
-        modifications = self.get_PTMs(uniprot_id, output_format='list')
-        if modifications == -1:
+        annotated_ptms = self.get_annotated_PTMs(uniprot_id, include_hidden=include_hidden)
+        if isinstance(annotated_ptms, int) and annotated_ptms == -1:
             return -1
-        if not modifications:
+        if annotated_ptms.empty:
             return pd.DataFrame(columns=self.OUTPUT_COLUMNS)
 
         sequence = self.get_sequence(uniprot_id)
         gene_name = self.get_gene_name(uniprot_id)
         species = record.get('species', '')
 
-        interpro_domains = self.get_domains(uniprot_id, domain_type='interpro', output_format='list')
-        structures = self.get_structure(uniprot_id, output_format='list')
-        macro_molecular = self.get_macro_molecular(uniprot_id, output_format='list')
-        activation_loops = self.get_activation_loops(uniprot_id, output_format='list')
-
-        if interpro_domains in (-1, -2):
-            interpro_domains = []
-        if structures == -1:
-            structures = []
-        if macro_molecular == -1:
-            macro_molecular = []
-        if activation_loops == -1:
-            activation_loops = []
+        def _value_or_empty(row, key):
+            value = row.get(key, "")
+            if pd.isna(value):
+                return ""
+            return value
 
         reference_rows = []
-        for position, residue, ptm_type in modifications:
+        for _, ptm_row in annotated_ptms.iterrows():
             try:
-                site_position = int(position)
+                site_position = int(ptm_row['Position'])
             except (TypeError, ValueError):
                 continue
 
-            interpro_hits = self._get_overlapping_feature_names(interpro_domains, site_position)
-            structure_hits = self._get_overlapping_feature_names(structures, site_position)
-            macro_hits = self._get_overlapping_feature_names(macro_molecular, site_position)
-            activation_loop_hits = self._get_overlapping_feature_names(activation_loops, site_position)
+            residue = _value_or_empty(ptm_row, 'Residue')
+            ptm_type = _value_or_empty(ptm_row, 'Modification_Type')
+            interpro_hits = _value_or_empty(ptm_row, 'Domain_Names_InterPro')
+            structure_hits = _value_or_empty(ptm_row, 'Structures')
+            macro_hits = _value_or_empty(ptm_row, 'Macro_Molecular_Structures')
+            activation_loop_hits = _value_or_empty(ptm_row, 'Activation_Loop_Quality')
+            exon_hits = _value_or_empty(ptm_row, 'Exons')
+            exon_constitutive = _value_or_empty(ptm_row, 'Exon_Constitutive')
+            spyc_confidence = _value_or_empty(ptm_row, 'SpY-C Prediction')
+            spyc_probability = _value_or_empty(ptm_row, 'SpY-C Prediction Probability')
+
+            spyc_prediction_raw = self.get_spyc_predictions_byPos(uniprot_id, site_position)
+            if spyc_prediction_raw != -1:
+                probability_raw, predicted_class_raw, confidence_raw = spyc_prediction_raw
+                confidence_mapped, probability_mapped = self._format_spyc_prediction_values(probability_raw, confidence_raw)
+
+                if str(probability_mapped).strip().lower() in {'training', 'train'}:
+                    class_token = str(predicted_class_raw).strip().lower()
+                    if class_token not in {'0', '1', '0.0', '1.0'}:
+                        # Some training rows encode the binary class in confidence.
+                        class_token = str(confidence_raw).strip().lower()
+                    if class_token in {'0', '0.0'}:
+                        confidence_mapped = 'confident non-binder'
+                    elif class_token in {'1', '1.0'}:
+                        confidence_mapped = 'confident binder'
+
+                spyc_confidence = confidence_mapped
+                spyc_probability = probability_mapped
+
+            in_activation_loop = bool(ptm_row.get('In_Activation_Loop', False))
+            in_exon = bool(ptm_row.get('In_Exon', False))
 
             reference_rows.append({
                 'species': species,
@@ -1474,13 +1885,18 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
                 'structures': structure_hits,
                 'in_macro_molecular_structure': bool(macro_hits),
                 'macro_molecular_structures': macro_hits,
-                'in_activation_loop': bool(activation_loop_hits),
+                'in_activation_loop': in_activation_loop,
                 'activation_loop_qualities': activation_loop_hits,
+                'in_exon': in_exon,
+                'exons': exon_hits,
+                'exon_constitutive': exon_constitutive,
+                'SpY-C Prediction': spyc_confidence,
+                'SpY-C Prediction Probability': spyc_probability,
             })
 
         return pd.DataFrame(reference_rows, columns=self.OUTPUT_COLUMNS)
 
-    def build_species_reference_dataset(self, species, output_file=None):
+    def build_species_reference_dataset(self, species, output_file=None, include_hidden=False):
         """
         Build a PTM-centric reference table for a nonredundant species.
 
@@ -1490,6 +1906,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
             Species name present in return_species_nr_uniprot_ids().
         output_file : str, optional
             If provided, write the resulting DataFrame to CSV.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1502,7 +1921,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
 
         protein_reference_tables = []
         for uniprot_id in species_dict[species]:
-            protein_reference_table = self.build_protein_reference_dataset(uniprot_id)
+            protein_reference_table = self.build_protein_reference_dataset(uniprot_id, include_hidden=include_hidden)
             if isinstance(protein_reference_table, pd.DataFrame) and not protein_reference_table.empty:
                 protein_reference_tables.append(protein_reference_table)
 
@@ -1511,12 +1930,14 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         else:
             species_reference_table = pd.DataFrame(columns=self.OUTPUT_COLUMNS)
 
+        species_reference_table = self._drop_empty_optional_annotation_columns(species_reference_table)
+
         if output_file is not None:
             species_reference_table.to_csv(output_file, index=False)
 
         return species_reference_table
 
-    def write_all_species_reference_datasets(self, output_dir):
+    def write_all_species_reference_datasets(self, output_dir, include_hidden=False):
         """
         Write one PTM-centric reference CSV per nonredundant species.
 
@@ -1524,6 +1945,9 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         ----------
         output_dir : str
             Directory where species-specific CSV files should be written.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+            Defaults to False.
 
         Returns
         -------
@@ -1536,7 +1960,7 @@ class SpeciesReferenceDataset(ProteomeScoutAPI):
         output_files = {}
         for species in sorted(species_dict):
             output_path = os.path.join(output_dir, self._species_to_filename(species))
-            self.build_species_reference_dataset(species, output_file=output_path)
+            self.build_species_reference_dataset(species, output_file=output_path, include_hidden=include_hidden)
             output_files[species] = output_path
 
         return output_files
@@ -1560,17 +1984,21 @@ class ProteomicDataset(ProteomeScoutAPI):
         source of domain annotations ('interpro' or 'uniprot')
     GO_terms: bool
         whether to include GO term annotations
+    version : int, optional
+        Version number of the ProteomeScout dataset to use.
+    update : bool, optional
+        Whether to update the local dataset when a version mismatch is detected.
     
     
     """
-    def __init__(self, dataset, accession_col = 'acc', peptide_col = 'pep', find_site = True, domain_source = 'interpro', GO_terms = True):
+    def __init__(self, dataset, accession_col = 'acc', peptide_col = 'pep', find_site = True, domain_source = 'interpro', GO_terms = True, version=config.VERSION, update=config.UPDATE):
         #check to make sure columns exist
         if accession_col not in dataset.columns:
             raise KeyError(f"Accession column '{accession_col}' not found in DataFrame")
         if peptide_col not in dataset.columns:
             raise KeyError(f"Peptide column '{peptide_col}' not found in DataFrame")
         
-        super().__init__()
+        super().__init__(version=version, update=update)
         self.dataset = dataset
         self.accession_col = accession_col
         self.peptide_col = peptide_col
@@ -1578,7 +2006,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         self.domain_source = domain_source
         self.GO_terms = GO_terms
 
-    def check_phosphosites(self, accessions, positions):
+    def check_phosphosites(self, accessions, positions, include_hidden=False):
         """
         Check if positions are documented phosphosites in ProteomeScout for the given accessions
         
@@ -1588,30 +2016,77 @@ class ProteomicDataset(ProteomeScoutAPI):
             SwissProt accession number
         positions : list of int
             List of positions to check
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
 
         Returns
         -------
         str
             Semicolon-separated string of 1s and 0s indicating whether each position is a documented phosphosite (1) or not (0)
         """
-        #now check if it's been annotated as a known modification site before
-        phosphosites = self.get_phosphosites(accessions)
-        
-        found_arr = []
-        for pos in positions:
-            found = 0
-            for mod in phosphosites:
-                (pos_mod, res_mod, type_mod) = mod
-                #print("Debug, comparing %d to %d"%(pos, int(pos_mod)))
-                if pos == int(pos_mod):
-                    found = 1
-                    #print("FOUND IT!")
-                    break
+        try:
+            record = self.database[accessions]
+        except KeyError:
+            return -1
 
-            found_arr.append(str(found))
-        #combine into string
-        documented_sites = ';'.join(found_arr)
-        return documented_sites
+        documented_values, _ = self._collect_documented_modifications(record, positions, include_hidden=include_hidden)
+        return ';'.join('1' if value else '0' for value in documented_values)
+
+    def _collect_documented_modifications(self, record, positions, include_hidden=False):
+        """
+        Collect PTM documentation status and formatted modification details for positions.
+
+        Parameters
+        ----------
+        record : dict
+            Protein record from the in-memory database.
+        positions : list of int
+            Site positions to annotate.
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments.
+
+        Returns
+        -------
+        tuple of list[bool], list[str]
+            Documented status per position and formatted modification detail strings.
+        """
+        mods, evidence_tokens = self._filter_modifications_by_visibility(record, include_hidden=include_hidden)
+
+        site_modifications = {}
+        for mod, evidence_token in zip(mods, evidence_tokens):
+            pos_mod, _, modification_type = mod
+            try:
+                site_position = int(pos_mod)
+            except (TypeError, ValueError):
+                continue
+
+            visible_experiments = []
+            for experiment_id in self._parse_evidence_tokens(evidence_token):
+                if self.experiment_current_flags.get(experiment_id):
+                    visible_experiments.append(experiment_id)
+
+            modification_details = modification_type
+            if visible_experiments:
+                modification_details = f"{modification_type} ({', '.join(visible_experiments)})"
+
+            site_modifications.setdefault(site_position, []).append(modification_details)
+
+        documented_values = []
+        modification_details_values = []
+        for position in positions:
+            try:
+                site_position = int(position)
+            except (TypeError, ValueError):
+                documented_values.append(False)
+                modification_details_values.append('')
+                continue
+
+            matched_modifications = site_modifications.get(site_position, [])
+            documented_values.append(bool(matched_modifications))
+            modification_details_values.append(', '.join(matched_modifications))
+
+        return documented_values, modification_details_values
     
     def get_domains_with_site(self, domains, positions, domain_descriptor = 'name'):
         """
@@ -1755,7 +2230,7 @@ class ProteomicDataset(ProteomeScoutAPI):
         return site_in_exon
 
 
-    def annotate_peptide(self, accession, peptide):
+    def annotate_peptide(self, accession, peptide, include_hidden=False):
         """
         Given a SwissProt accession and peptide sequence, annotate with gene-level and site-specific information from ProteomeScout.
 
@@ -1765,6 +2240,9 @@ class ProteomicDataset(ProteomeScoutAPI):
             SwissProt accession number
         peptide : str
             Peptide sequence with modification sites lowercased
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
 
         Returns
         -------
@@ -1779,12 +2257,15 @@ class ProteomicDataset(ProteomeScoutAPI):
             If find_site is True, additional keys are included:
             - 'modification_sites': Semicolon-separated string of modification sites found in the peptide.
             - 'aligned_peps': Aligned peptide sequences found in the protein sequence (if find_site is True).
-            - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
+            - 'documented_modification': Semicolon-separated string indicating whether each site has any documented PTM (1) or not (0).
+            - 'documented_modification_details': Semicolon-separated string of PTM types and visible experiment IDs per site.
             - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
             - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
             - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
             - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
             - 'site_in_exon': Semicolon-separated string of exon IDs for matching positions
+            - 'SpY-C Prediction': Semicolon-separated SpyC confidence values at matching modification sites.
+            - 'SpY-C Prediction Probability': Semicolon-separated SpyC probability values at matching sites. Returns "Training" when a site is from the training set.
             Returns -1 if unable to find the accession in the database.
         """
         seq = self.get_sequence(accession)
@@ -1795,11 +2276,6 @@ class ProteomicDataset(ProteomeScoutAPI):
             return -1
 
         domains = self.get_domains(accession, domain_type = self.domain_source)
-        macro = self.get_macro_molecular(accession)
-        structure = self.get_structure(accession)
-        activation_loops = self.get_activation_loops(accession)
-        exons = self.get_exons(accession)
-
         #DOMAINS
         #get domains and the domain strings
         domain_string, domain_architecture = helpers.returnDomainArchString(domains)
@@ -1816,12 +2292,15 @@ class ProteomicDataset(ProteomeScoutAPI):
                 mod_sites = np.nan
                 aligned_peptides = np.nan
                 documented_sites = np.nan
+                documented_modification_details = np.nan
                 sites_in_domain = np.nan
                 sites_in_domain_id = np.nan
                 sites_in_macro = np.nan
                 sites_in_structure = np.nan
                 sites_in_activation_loop = np.nan
                 sites_in_exon = np.nan
+                site_spyc_prediction = np.nan
+                site_spyc_probability = np.nan
             else:
                 pos_aa_arr = []
                 for i in range(0, len(seqPosArr)):
@@ -1830,25 +2309,37 @@ class ProteomicDataset(ProteomeScoutAPI):
                 mod_sites = ';'.join(pos_aa_arr)
                 aligned_peptides = ';'.join(alignedPeps)
 
+                site_annotations = self._annotate_positions(accession, seqPosArr)
+
                 #now for each modification, ask if it's in a domain:
-                sites_in_domain = self.get_domains_with_site(domains, seqPosArr)
-                sites_in_domain_id = self.get_domains_with_site(domains, seqPosArr, domain_descriptor='id')
+                sites_in_domain = self._join_non_empty(site_annotations['Domain_Names_InterPro'])
+                sites_in_domain_id = self._join_non_empty(site_annotations['InterPro_IDs'])
 
                 #or if it's in a macro-molecular structure
-                sites_in_macro = self.get_macro_with_site(macro, seqPosArr)
+                sites_in_macro = self._join_non_empty(site_annotations['Macro_Molecular_Structures'])
 
                 #or if it's in a structure
-                sites_in_structure = self.get_structure_with_site(structure, seqPosArr)
+                sites_in_structure = self._join_non_empty(site_annotations['Structures'])
 
                 #or if it's in an activation loop
-                sites_in_activation_loop = self.get_activation_loops_with_site(activation_loops, seqPosArr)
+                sites_in_activation_loop = self._join_non_empty(site_annotations['Activation_Loop_Quality'])
 
                 #and the primary exon it is located in
-                sites_in_exon = self.get_exons_with_site(exons, seqPosArr)
+                sites_in_exon = self._join_non_empty(site_annotations['Exons'])
+
+                site_spyc_prediction = ';'.join(site_annotations['SpY-C Prediction'])
+                site_spyc_probability = ';'.join(site_annotations['SpY-C Prediction Probability'])
 
 
                 #now check if it's been annotated as a known modification site before
-                documented_sites = self.check_phosphosites(accession, seqPosArr)
+                record = self.database[accession]
+                documented_statuses, documented_modification_details_values = self._collect_documented_modifications(
+                    record,
+                    seqPosArr,
+                    include_hidden=include_hidden,
+                )
+                documented_sites = ';'.join('1' if value else '0' for value in documented_statuses)
+                documented_modification_details = ';'.join(documented_modification_details_values)
 
 
 
@@ -1859,13 +2350,16 @@ class ProteomicDataset(ProteomeScoutAPI):
                 'GO_terms': GO_terms,
                 'aligned_peps': aligned_peptides,
                 'modification_sites': mod_sites,
-                'documented_phosphosites': documented_sites,
+                'documented_modification': documented_sites,
+                'documented_modification_details': documented_modification_details,
                 'site_in_domain:name': sites_in_domain,
                 'site_in_domain:interpro': sites_in_domain_id,
                 'site_in_macro': sites_in_macro,
                 'site_in_structure': sites_in_structure,
                 'site_in_activation_loop': sites_in_activation_loop,
-                'site_in_exon': sites_in_exon
+                'site_in_exon': sites_in_exon,
+                'SpY-C Prediction': site_spyc_prediction,
+                'SpY-C Prediction Probability': site_spyc_probability,
                 }
         else:
             output = {
@@ -1877,7 +2371,7 @@ class ProteomicDataset(ProteomeScoutAPI):
             
         return output
     
-    def annotate_dataset(self):
+    def annotate_dataset(self, include_hidden=False):
         """
         Given a proteomic dataset in self.dataset, annotate each row with information from ProteomeScout.
         
@@ -1892,17 +2386,21 @@ class ProteomicDataset(ProteomeScoutAPI):
         If find_site is True, additional columns are added:
         - 'modification_sites': Semicolon-separated string of modification sites found in the peptide.
         - 'aligned_peps': Aligned peptide sequences found in the protein sequence (if find_site is True).
-        - 'documented_phosphosites': Semicolon-separated string indicating whether each modification site is documented (1) or not (0).
+        - 'documented_modification': Semicolon-separated string indicating whether each modification site has any documented PTM (1) or not (0).
+        - 'documented_modification_details': Semicolon-separated string of PTM types and visible experiment IDs for each site.
         - 'site_in_domain': Semicolon-separated string of domain names that contain the modification sites
         - 'site_in_macro': Semicolon-separated string of macro-molecular structure names that contain the modification sites
         - 'site_in_structure': Semicolon-separated string of structure names that contain the modification sites
         - 'site_in_activation_loop': Semicolon-separated string of activation loop qualities for matching positions
+        include_hidden : bool, optional
+            Whether to include PTMs supported only by hidden experiments when
+            checking documented phosphosites. Defaults to False.
         """
         new_info = []
         for i, row in self.dataset.iterrows():
             acc = row[self.accession_col]
             pep = row[self.peptide_col]
-            annotation = self.annotate_peptide(acc, pep)
+            annotation = self.annotate_peptide(acc, pep, include_hidden=include_hidden)
             if annotation == -1:
                 #if sequence not found, skip
                 new_info.append(pd.Series())

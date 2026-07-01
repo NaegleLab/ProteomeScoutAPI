@@ -89,9 +89,9 @@ def returnStartOfPeptidePosition(proteinSeq, pep):
 
 def returnOrientedPhosphoPeptide(proteinSeq, pep, flank=7):
     """
-    For every lowercase amino acid in a pep sequence, match it to 
-    protein and return an oriented peptide, with one lc letter in center,
-    and flanked by x-amino acids. This currently looks only for s, t, and y. Can update find_phospho to find other modification types
+    For every lowercase amino acid in a pep sequence, match it to
+    protein and return an oriented peptide, with one lowercase letter in center,
+    and flanked by x-amino acids.
 
     Parameters
     ----------
@@ -103,7 +103,7 @@ def returnOrientedPhosphoPeptide(proteinSeq, pep, flank=7):
         default 7. The number of amino acids to add to the n and c terminal side of the phosphoryaltion site.
 
     """
-    pTyr_posArr = find_phospho(pep)
+    mod_posArr = find_mod(pep)
     seqPosArr = []
     alignedArr = []
     aaArr = []
@@ -113,8 +113,8 @@ def returnOrientedPhosphoPeptide(proteinSeq, pep, flank=7):
         print("ERROR: pep %s not found"%(pep))
     else:
         #
-        for pTyr_pos in pTyr_posArr:
-            seq_pos = indStart+pTyr_pos
+        for mod_pos in mod_posArr:
+            seq_pos = indStart + mod_pos
             seqPosArr.append(seq_pos+1)
             aligned = proteinSeq[seq_pos-flank:seq_pos]+proteinSeq[seq_pos].lower()+proteinSeq[seq_pos+1:seq_pos+flank+1]
             #wrote this assuming we weren't at C/Nterminal for any of these
@@ -124,8 +124,20 @@ def returnOrientedPhosphoPeptide(proteinSeq, pep, flank=7):
             
     return alignedArr, seqPosArr, aaArr
 
+def find_mod(s):
+    """
+    Return the indices of all lowercase residues in a peptide string.
+
+    This treats any lowercase amino acid as a modified site.
+    """
+    return [i for i, letter in enumerate(s) if letter.islower()]
+
+
 def find_phospho(s):
-    return [i for i, letter in enumerate(s) if (letter == 't' or letter=='s' or letter=='y')]
+    """
+    Backward-compatible wrapper for legacy phosphorylation-only callers.
+    """
+    return find_mod(s)
 
 
 

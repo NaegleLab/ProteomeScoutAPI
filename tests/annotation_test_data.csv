@@ -1,0 +1,6 @@
+﻿UniprotID,peptide_sequence,Expectation
+Q92802,GNEPDKyPCNGQV,Should not match
+Q13029,PPCFDEyKMSKEW,Should match pTyr
+Q9BU68,STPKVLyEIPDTY,"Should match pTyr, multiple experiments"
+P00533,GLWIPEGEkVkIP,"Adding one peptide, two known mod site"
+P00533,IPVAIkELREATSP,A residue with 3 mod types
