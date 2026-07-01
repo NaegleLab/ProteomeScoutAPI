@@ -62,8 +62,8 @@ For range-style features:
 2. Add a rule in POSITION_ANNOTATION_REGISTRY with:
    - context_key
    - name_column
-   - optional extra_column
-   - optional boolean_column
+   - optional extra_column(s)
+   - optional boolean_column(s)
    - include_boolean
 3. Ensure _collect_site_annotation_context provides context_key data
 
