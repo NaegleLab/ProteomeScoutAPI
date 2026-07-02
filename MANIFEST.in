@@ -1,1 +1,2 @@
 include proteomeScoutAPI/configuration.json
+include readme.md
