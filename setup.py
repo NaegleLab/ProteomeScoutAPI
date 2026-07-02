@@ -8,7 +8,7 @@ long_description = (this_directory / "README.md").read_text()
 # Run setup
 setup(
     name="proteomeScoutAPI",
-    version="3.0.0",
+    version="3.1.1",
     author="Naegle Lab",
     author_email="kmn4mj@virginia.edu",
     url="https://github.com/NaegleLab/ProteomeScoutAPI",

@@ -6,7 +6,7 @@ A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phos
 See full [documentation](https://naeglelab.github.io/ProteomeScoutAPI/) for installation and use cases.
 
 ## About ProteomeScout
-Version 3.1 - July 2026
+Version 3.1.1 - July 2026
 
 Current Version: Naegle Lab, University of Virginia [https://github.com/naegleLab](https://github.com/naegleLab)
 
