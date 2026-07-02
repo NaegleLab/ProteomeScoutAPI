@@ -125,3 +125,75 @@ class TestSpeciesReferenceDataset(unittest.TestCase):
             self.assertNotIn('SpY-C Prediction Probability', reference_table.columns)
         finally:
             self.builder.return_species_nr_uniprot_ids = original_method
+
+    def test_species_reference_training_class_labels_non_binder(self):
+        accession = 'O00629'
+        record = self.builder.database[accession]
+        original_spyc_predictions = record.get('spyc_predictions', None)
+
+        record['spyc_predictions'] = 'T24:NaN:0:High'
+        try:
+            reference_table = self.builder.build_protein_reference_dataset(accession)
+            reference_row = reference_table.loc[reference_table['site'] == 'T24'].iloc[0]
+
+            self.assertEqual('confident non-binder', reference_row['SpY-C Prediction'])
+            self.assertEqual('Training', reference_row['SpY-C Prediction Probability'])
+        finally:
+            if original_spyc_predictions is None:
+                record.pop('spyc_predictions', None)
+            else:
+                record['spyc_predictions'] = original_spyc_predictions
+
+    def test_species_reference_training_class_labels_binder(self):
+        accession = 'O00629'
+        record = self.builder.database[accession]
+        original_spyc_predictions = record.get('spyc_predictions', None)
+
+        record['spyc_predictions'] = 'T24:NaN:1:High'
+        try:
+            reference_table = self.builder.build_protein_reference_dataset(accession)
+            reference_row = reference_table.loc[reference_table['site'] == 'T24'].iloc[0]
+
+            self.assertEqual('confident binder', reference_row['SpY-C Prediction'])
+            self.assertEqual('Training', reference_row['SpY-C Prediction Probability'])
+        finally:
+            if original_spyc_predictions is None:
+                record.pop('spyc_predictions', None)
+            else:
+                record['spyc_predictions'] = original_spyc_predictions
+
+    def test_species_reference_training_class_labels_with_train_token(self):
+        accession = 'O00629'
+        record = self.builder.database[accession]
+        original_spyc_predictions = record.get('spyc_predictions', None)
+
+        record['spyc_predictions'] = 'T24:Train:1:High'
+        try:
+            reference_table = self.builder.build_protein_reference_dataset(accession)
+            reference_row = reference_table.loc[reference_table['site'] == 'T24'].iloc[0]
+
+            self.assertEqual('confident binder', reference_row['SpY-C Prediction'])
+            self.assertEqual('Training', reference_row['SpY-C Prediction Probability'])
+        finally:
+            if original_spyc_predictions is None:
+                record.pop('spyc_predictions', None)
+            else:
+                record['spyc_predictions'] = original_spyc_predictions
+
+    def test_species_reference_training_class_labels_from_confidence_fallback(self):
+        accession = 'O00629'
+        record = self.builder.database[accession]
+        original_spyc_predictions = record.get('spyc_predictions', None)
+
+        record['spyc_predictions'] = 'T24:Train:NaN:1'
+        try:
+            reference_table = self.builder.build_protein_reference_dataset(accession)
+            reference_row = reference_table.loc[reference_table['site'] == 'T24'].iloc[0]
+
+            self.assertEqual('confident binder', reference_row['SpY-C Prediction'])
+            self.assertEqual('Training', reference_row['SpY-C Prediction Probability'])
+        finally:
+            if original_spyc_predictions is None:
+                record.pop('spyc_predictions', None)
+            else:
+                record['spyc_predictions'] = original_spyc_predictions
