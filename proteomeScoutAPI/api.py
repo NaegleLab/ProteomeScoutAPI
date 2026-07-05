@@ -1028,6 +1028,12 @@ class ProteomeScoutAPI:
             if probability_value.lower() in {'train', 'training'}:
                 probability_value = "Training"
 
+        # final reshape of the confidence_value
+        if confidence_value == 'confident binder' or confidence_value == 1:
+            confidence_value = "binder"
+        if confidence_value == 'confident nonbinder' or confidence_value == 0:
+            confidence_value = "nonbinder"
+
         return confidence_value, probability_value
 
     def get_nearbyPTMs(self,ID,pos, window, output_format='list', include_hidden=False):
