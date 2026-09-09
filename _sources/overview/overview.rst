@@ -6,11 +6,11 @@ A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phos
 
 About
 -----
-Version 2.0 - June 2020
+Version 3.1.1 - July 2026
 
-Originally: By Alex Holehouse, Washington University in St. Louis Contact alex.holehouse@gmail.com or contribute at [https://github.com/alexholehouse](https://github.com/alexholehouse)
+Current Version: Naegle Lab, University of Virginia https://github.com/naegleLab
 
-Current Version: Naegle Lab, University of Virginia [https://github.com/naegleLab](https://github.com/naegleLab)
+Originally: By Alex Holehouse, Washington University in St. Louis.
 
 Overview
 --------

@@ -16,69 +16,69 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="../_static/documentation_options.js?v=6a41c08d"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/peruse_protein';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Annotate phosphoproteomic dataset" href="annotate_dataset.html" />
-    <link rel="prev" title="API Reference" href="../overview/Functions.html" />
+    <link rel="prev" title="Feature Integration" href="../overview/FeatureIntegration.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -86,7 +86,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -94,15 +93,55 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
     </header>
   
 
@@ -111,7 +150,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,15 +181,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
@@ -157,12 +193,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/Dependencies.html">Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/Functions.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/FeatureIntegration.html">Feature Integration</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Explore features of a protein of interest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotate_dataset.html">Annotate phosphoproteomic dataset</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Overlap_withPhosphoProteome.html">Look at overlap with ProteomeScout Dataset</a></li>
 </ul>
 
     </div>
@@ -171,9 +207,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -303,7 +344,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -317,24 +358,23 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -365,7 +405,7 @@ document.write(`
 <p>ProteomeScoutAPI allows for easy access of features associated with any protein of interest. Let’s say, for example, we wanted to better understand the PTMs, domains, and other features associated with the tyrosine kinase SRC (UniProt ID = P12931).</p>
 <p>First, initialize the API:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">proteomeScoutAPI</span>
@@ -375,15 +415,15 @@ document.write(`
 </div>
 <p>Let’s first get an idea of the structure of SRC. What domains are present in the protein, focusing on interpro definitions?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">.</span><span class="n">get_domains</span><span class="p">(</span><span class="s1">&#39;P12931&#39;</span><span class="p">,</span> <span class="n">domain_type</span> <span class="o">=</span> <span class="s1">&#39;interpro&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">.</span><span class="n">get_domains</span><span class="p">(</span><span class="s1">'P12931'</span><span class="p">,</span> <span class="n">domain_type</span> <span class="o">=</span> <span class="s1">'interpro'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -396,18 +436,18 @@ document.write(`
 <p>Here, we can see there are three domains in SRC, provided as a list of tuples. Each tuple contains the domain name, start position in the protein, end position in the protein, and interpro ID.</p>
 <p>We can easily convert this list to a dataframe if you prefer:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="n">domains</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_domains</span><span class="p">(</span><span class="s1">&#39;P12931&#39;</span><span class="p">,</span> <span class="n">domain_type</span> <span class="o">=</span> <span class="s1">&#39;interpro&#39;</span><span class="p">)</span>
-<span class="n">domains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Domain_Name&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;InterPro_ID&#39;</span><span class="p">])</span>
+<span class="n">domains</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_domains</span><span class="p">(</span><span class="s1">'P12931'</span><span class="p">,</span> <span class="n">domain_type</span> <span class="o">=</span> <span class="s1">'interpro'</span><span class="p">)</span>
+<span class="n">domains</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Domain_Name'</span><span class="p">,</span> <span class="s1">'Start'</span><span class="p">,</span> <span class="s1">'End'</span><span class="p">,</span> <span class="s1">'InterPro_ID'</span><span class="p">])</span>
 <span class="n">domains</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -464,15 +504,15 @@ document.write(`
 <p>If want to also get the structure, PTMs, or other details about the protein, we can repeat the same as above, but using <code class="docutils literal notranslate"><span class="pre">api.get_structures()</span></code>, <code class="docutils literal notranslate"><span class="pre">api.get_macro_molecular()</span></code>, or <code class="docutils literal notranslate"><span class="pre">api.get_PTMs()</span></code>.</p>
 <p>In some cases, you might also want to get PTMs AND information about where each PTM is located in the protein. We have provided an additional function for quickly getting this info (<code class="docutils literal notranslate"><span class="pre">api.get_annotated_ptms()</span></code>). This will output a dataframe containing the standard information about the PTM (position, residue, and type of modification), but will also indicate whether the PTM is associated with a specific domain, structure, or macromolecular instance.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">.</span><span class="n">get_annotated_PTMs</span><span class="p">(</span><span class="s1">&#39;P12931&#39;</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api</span><span class="o">.</span><span class="n">get_annotated_PTMs</span><span class="p">(</span><span class="s1">'P12931'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -498,11 +538,18 @@ document.write(`
       <th>Residue</th>
       <th>Modification_Type</th>
       <th>evidence</th>
+      <th>SpY-C Prediction</th>
+      <th>SpY-C Prediction Probability</th>
       <th>Domain_Names_InterPro</th>
       <th>InterPro_IDs</th>
       <th>Domain_Names_UniProt</th>
       <th>Structures</th>
       <th>Macro_Molecular_Structures</th>
+      <th>Activation_Loop_Quality</th>
+      <th>In_Activation_Loop</th>
+      <th>Exons</th>
+      <th>Exon_Constitutive</th>
+      <th>In_Exon</th>
     </tr>
   </thead>
   <tbody>
@@ -511,468 +558,1026 @@ document.write(`
       <td>2</td>
       <td>G</td>
       <td>N-myristoyl glycine</td>
-      <td>1395,1575</td>
+      <td>1395,1575,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>12</td>
+      <td>6</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1323,1395,1575,1718,1719,1790</td>
+      <td>1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td>Disordered;Basic and acidic residues</td>
+      <td></td>
+      <td></td>
+      <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>17</td>
+      <td>12</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1886,1323,1395,1575,1718,1723,1790,1803</td>
+      <td>1323,1395,1575,1718,1719,1790,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered;Basic and acidic residues</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>35</td>
+      <td>17</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1575,1790,1803</td>
+      <td>1323,1395,1575,1718,1723,1790,1803,1886,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
-      <td>Disordered</td>
+      <td></td>
+      <td></td>
+      <td>Disordered;Basic and acidic residues</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>37</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1575,1790</td>
+      <td>35</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1575,1790,1803,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>39</td>
-      <td>S</td>
-      <td>Phosphoserine</td>
-      <td>1575,1790</td>
+      <td>37</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1575,1790,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>43</td>
+      <td>39</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1790</td>
+      <td>1575,1790,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>51</td>
+      <td>43</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1790</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>62</td>
-      <td>K</td>
-      <td>N6-acetyllysine</td>
-      <td>1790</td>
+      <td>51</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1790,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td>Disordered</td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>69</td>
-      <td>S</td>
-      <td>Phosphoserine</td>
-      <td>1323,1575,1718,1723,1790,1803</td>
+      <td>62</td>
+      <td>K</td>
+      <td>Acetylation</td>
+      <td>1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>10</th>
-      <td>70</td>
+      <td>69</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1575,1790</td>
+      <td>1323,1575,1718,1723,1790,1803,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>11</th>
-      <td>72</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1575,1790</td>
+      <td>70</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1575,1790,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>12</th>
-      <td>74</td>
+      <td>72</td>
       <td>T</td>
       <td>Phosphothreonine</td>
-      <td>1323,1395,1575,1790,1803</td>
+      <td>1575,1790,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>13</th>
-      <td>75</td>
-      <td>S</td>
-      <td>Phosphoserine</td>
-      <td>1886,1323,1395,1575,1718,1719,1723,1790,1803</td>
+      <td>74</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1323,1395,1575,1790,1803,1888</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>14</th>
-      <td>93</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1790</td>
-      <td>SH3_domain</td>
-      <td>IPR001452</td>
-      <td>SH3</td>
-      <td>STRAND</td>
+      <td>75</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1323,1395,1575,1718,1719,1723,1790,1803,1886,1888</td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00000661877</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>15</th>
       <td>97</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1323,1395,1575,1790</td>
+      <td>1323,1395,1575,1790,1888</td>
+      <td></td>
+      <td></td>
       <td>SH3_domain</td>
       <td>IPR001452</td>
       <td>SH3</td>
       <td></td>
       <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003544319</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>16</th>
+      <td>101</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>SH3_domain</td>
+      <td>IPR001452</td>
+      <td>SH3</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003544319</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>17</th>
       <td>104</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1723,1790</td>
+      <td>1723,1790,1888</td>
+      <td></td>
+      <td></td>
       <td>SH3_domain</td>
       <td>IPR001452</td>
       <td>SH3</td>
       <td></td>
       <td></td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>182</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
-      <td>SH2</td>
-      <td>IPR000980</td>
-      <td>SH2</td>
-      <td>STRAND</td>
       <td></td>
+      <td>False</td>
+      <td>ENSE00003544319</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>18</th>
-      <td>183</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
-      <td>SH2</td>
-      <td>IPR000980</td>
-      <td>SH2</td>
-      <td>STRAND</td>
+      <td>106</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
       <td></td>
+      <td></td>
+      <td>SH3_domain</td>
+      <td>IPR001452</td>
+      <td>SH3</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003544319</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>19</th>
-      <td>187</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1886,1521,1575,1787,1790,1803</td>
+      <td>180</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
       <td>SH2</td>
       <td>IPR000980</td>
       <td>SH2</td>
-      <td>STRAND</td>
       <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003523341</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>20</th>
-      <td>216</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1323,1395,1575,1790</td>
+      <td>182</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
       <td>SH2</td>
       <td>IPR000980</td>
       <td>SH2</td>
       <td>STRAND</td>
       <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003523341</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>21</th>
-      <td>246</td>
+      <td>183</td>
       <td>T</td>
       <td>Phosphothreonine</td>
-      <td>1790</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003523341</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>184</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
       <td>SH2</td>
       <td>IPR000980</td>
       <td>SH2</td>
       <td></td>
       <td></td>
-    </tr>
-    <tr>
-      <th>22</th>
-      <td>250</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>False</td>
+      <td>ENSE00003523341</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>23</th>
-      <td>255</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
+      <td>187</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1521,1575,1787,1790,1803,1886,1888</td>
+      <td>low-confidence</td>
+      <td>0.4563833554946678</td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>24</th>
-      <td>269</td>
+      <td>190</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1790</td>
+      <td>1888</td>
       <td></td>
       <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
       <td></td>
-      <td>HELIX</td>
       <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>25</th>
-      <td>304</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
-      <td>TURN</td>
+      <td>203</td>
+      <td>K</td>
+      <td>Acetylation</td>
+      <td>1888</td>
       <td></td>
+      <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>26</th>
-      <td>306</td>
+      <td>212</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1395,1575,1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
+      <td>1888</td>
       <td></td>
       <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>27</th>
-      <td>338</td>
+      <td>216</td>
       <td>Y</td>
       <td>Phosphotyrosine</td>
-      <td>1323,1575,1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
+      <td>1323,1395,1575,1790,1888</td>
+      <td>binder</td>
+      <td>0.7092145709467987</td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
       <td>STRAND</td>
       <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>28</th>
-      <td>348</td>
+      <td>218</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>219</td>
       <td>S</td>
       <td>Phosphoserine</td>
-      <td>1790</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>SH2</td>
+      <td>IPR000980</td>
+      <td>SH2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003678936</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>252</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003516229</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>255</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003516229</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>269</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>HELIX</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003516229</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>298</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
       <td>Prot_kinase_dom</td>
       <td>IPR000719</td>
       <td>Protein kinase</td>
       <td>STRAND</td>
       <td></td>
-    </tr>
-    <tr>
-      <th>29</th>
-      <td>385</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
       <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>419</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1886,1323,1395,1575,1718,1719,1790,1803</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
-      <td>HELIX</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>31</th>
-      <td>420</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1575,1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
-      <td>HELIX</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>32</th>
-      <td>430</td>
-      <td>K</td>
-      <td>Ubiquitination</td>
-      <td>1790</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
-      <td>HELIX</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>33</th>
-      <td>439</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1323,1575,1790,1803</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
-      <td>HELIX</td>
-      <td></td>
+      <td>False</td>
+      <td>ENSE00003564760</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>34</th>
-      <td>511</td>
+      <td>304</td>
       <td>T</td>
       <td>Phosphothreonine</td>
-      <td>1575,1803</td>
-      <td>Prot_kinase_dom</td>
-      <td>IPR000719</td>
-      <td>Protein kinase</td>
+      <td>1790,1888</td>
       <td></td>
       <td></td>
-    </tr>
-    <tr>
-      <th>35</th>
-      <td>522</td>
-      <td>Y</td>
-      <td>Phosphotyrosine</td>
-      <td>1575,1790,1803</td>
       <td>Prot_kinase_dom</td>
       <td>IPR000719</td>
       <td>Protein kinase</td>
       <td>TURN</td>
       <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003564760</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>306</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1395,1575,1790,1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003564760</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>36</th>
-      <td>525</td>
-      <td>S</td>
-      <td>Phosphoserine</td>
-      <td>1575,1790</td>
+      <td>338</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1323,1575,1790,1888</td>
+      <td>binder</td>
+      <td>0.7244592047569105</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>STRAND</td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>False</td>
+      <td>ENSE00003564760</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>37</th>
-      <td>526</td>
-      <td>T</td>
-      <td>Phosphothreonine</td>
-      <td>1790</td>
+      <td>348</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1790,1888</td>
       <td></td>
       <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>STRAND</td>
       <td></td>
       <td></td>
-      <td></td>
+      <td>False</td>
+      <td>ENSE00003669255</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
     <tr>
       <th>38</th>
+      <td>375</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>379</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1888</td>
+      <td>binder</td>
+      <td>0.625708757989302</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>385</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1790,1888</td>
+      <td>nonbinder</td>
+      <td>0.0768720113308754</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>404</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>STRAND</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>419</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1323,1395,1575,1718,1719,1790,1803,1886,1888</td>
+      <td>nonbinder</td>
+      <td>0.1063481666062969</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td>HIGH</td>
+      <td>True</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>420</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1575,1790,1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td>HIGH</td>
+      <td>True</td>
+      <td>ENSE00003543788</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>426</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>TURN</td>
+      <td></td>
+      <td>HIGH</td>
+      <td>True</td>
+      <td>ENSE00003638193</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>430</td>
+      <td>K</td>
+      <td>Ubiquitination</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td>HIGH</td>
+      <td>True</td>
+      <td>ENSE00003638193</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>439</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1323,1575,1790,1803,1888</td>
+      <td>binder</td>
+      <td>0.6554389457324623</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>HELIX</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003638193</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>443</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00003638193</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>511</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1575,1803,1888</td>
+      <td></td>
+      <td></td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>522</td>
+      <td>Y</td>
+      <td>Phosphotyrosine</td>
+      <td>1575,1790,1803,1888</td>
+      <td>nonbinder</td>
+      <td>0.0800138914816677</td>
+      <td>Prot_kinase_dom</td>
+      <td>IPR000719</td>
+      <td>Protein kinase</td>
+      <td>TURN</td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>50</th>
+      <td>524</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>525</td>
+      <td>S</td>
+      <td>Phosphoserine</td>
+      <td>1575,1790,1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>526</td>
+      <td>T</td>
+      <td>Phosphothreonine</td>
+      <td>1790,1888</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>53</th>
       <td>530</td>
       <td>Y</td>
       <td>Phosphotyrosine</td>
-      <td>1323,1395,1575,1787,1790,1803,1886</td>
+      <td>1323,1395,1575,1787,1790,1803,1886,1888</td>
+      <td>nonbinder</td>
+      <td>0.0116835110116847</td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
+      <td>False</td>
+      <td>ENSE00001460955</td>
+      <td>0</td>
+      <td>True</td>
     </tr>
   </tbody>
 </table>
@@ -992,12 +1597,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../overview/Functions.html"
+       href="../overview/FeatureIntegration.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Feature Integration</p>
       </div>
     </a>
     <a class="right-next"
@@ -1059,8 +1664,8 @@ By Naegle Lab
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>

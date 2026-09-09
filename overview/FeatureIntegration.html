@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting Started &#8212; ProteomeScoutAPI 3.0.0 documentation</title>
+    <title>Feature Integration &#8212; ProteomeScoutAPI 3.0.0 documentation</title>
   
   
   
@@ -44,12 +44,12 @@
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'overview/overview';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'overview/FeatureIntegration';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dependencies" href="Dependencies.html" />
-    <link rel="prev" title="ProteomeScoutAPI" href="../index.html" />
+    <link rel="next" title="Explore features of a protein of interest" href="../examples/peruse_protein.html" />
+    <link rel="prev" title="API Reference" href="Functions.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="3.0" />
@@ -137,10 +137,6 @@
   
 
   
-    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
-      <span class="fa-solid fa-outdent"></span>
-    </button>
-  
 </div>
 
     </header>
@@ -191,10 +187,10 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Dependencies.html">Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Functions.html">API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FeatureIntegration.html">Feature Integration</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Feature Integration</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="nav bd-sidenav">
@@ -276,7 +272,7 @@
       
       
       
-      <li><a href="https://github.com/NaegleLab/ProteomeScoutAPI/issues/new?title=Issue%20on%20page%20%2Foverview/overview.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/NaegleLab/ProteomeScoutAPI/issues/new?title=Issue%20on%20page%20%2Foverview/FeatureIntegration.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -306,7 +302,7 @@
       
       
       
-      <li><a href="../_sources/overview/overview.rst" target="_blank"
+      <li><a href="../_sources/overview/FeatureIntegration.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -376,9 +372,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -389,30 +383,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Getting Started</h1>
+    <h1>Feature Integration</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about">About</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-information">Available Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pip">Pip</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarball">Tarball</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-code">Contributing code</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -422,96 +397,20 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h1>
-<p>A lightweight API to talk to ProteomeScout flatfiles in Python and annotate phosphoproteomic datasets with protein and site-specific information</p>
-<section id="about">
-<h2>About<a class="headerlink" href="#about" title="Link to this heading">#</a></h2>
-<p>Version 3.1.1 - July 2026</p>
-<p>Current Version: Naegle Lab, University of Virginia <a class="github reference external" href="https://github.com/naegleLab">naegleLab</a></p>
-<p>Originally: By Alex Holehouse, Washington University in St. Louis.</p>
-</section>
-<section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
-<p>ProteomeScoutAPI is a Python module which can be used to connect to and parse ProteomeScout flatfiles. Specifically, the goal of this module is to allow anyone to interact with ProteomeScout data without the need to</p>
-<ol class="arabic simple">
-<li><p>Repeatedly query the ProteomeScout sever</p></li>
-<li><p>Have any knowledge of SQL, or use an SQL-Python ORM</p></li>
-<li><p>Facilitate rapid exploration of the ProteomeScout dataset</p></li>
-</ol>
-</section>
-<section id="available-information">
-<h2>Available Information<a class="headerlink" href="#available-information" title="Link to this heading">#</a></h2>
-<p>The ProteomeScout flat file contains information associated with all proteins in the human proteome, including:
-- Protein sequence
-- Protein domains (from InterPro or UniProt)
-- Protein structures (alpha helices, beta strands, etc)
-- Macromolecular structures (disorder, etc.)
-- PTMs
-- Gene Ontology terms</p>
-</section>
-<section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Explore properties of an individual protein of interest (domains, PTMs, structure, etc.)</p></li>
-<li><p>Annotate a phosphoproteomic dataset with additional information about the proteins and sites in the dataset (e.g. domains, GO terms, etc.)</p></li>
-</ol>
-</section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<p>ProteomeScoutAPI can be installed via <code class="docutils literal notranslate"><span class="pre">pip</span></code>, tarball, and directly from the Git repository.</p>
-<section id="pip">
-<h3>Pip<a class="headerlink" href="#pip" title="Link to this heading">#</a></h3>
-<p>To install via pip, execute:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ProteomeScoutAPI</span>
-</pre></div>
-</div>
-</section>
-<section id="tarball">
-<h3>Tarball<a class="headerlink" href="#tarball" title="Link to this heading">#</a></h3>
-<p>To install via a tarball, head over to the <a class="reference external" href="https://github.com/NaegleLab/KSTAR/releases">Releases page</a> and download the latest stable tar release.</p>
-<p>Afterwards, navigate to your downloads directory and execute the following commands, substituting &lt;version&gt; for the release’s version number:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">xvf</span> <span class="n">ProteomeScoutAPI</span><span class="o">-&lt;</span><span class="n">version</span><span class="o">&gt;.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
-<span class="n">cd</span> <span class="n">ProteomeScoutAPI</span><span class="o">-&lt;</span><span class="n">version</span><span class="o">&gt;</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
-</pre></div>
-</div>
-</section>
-<section id="git">
-<h3>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h3>
-<p>If you want to try out the latest commit, you can install directly from the Git repository by executing the following commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">NaegleLab</span><span class="o">/</span><span class="n">ProteomeScoutAPI</span>
-<span class="n">cd</span> <span class="n">ProteomeScoutAPI</span>
-<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
-<p>By default, the API will automatically look for and download the most recent version of the ProteomeScout flatfiles into the package directory. For most users, this behavior is sufficient and there is no need to change anything.</p>
-<p>However, if you would like to adjust this behavior, you can update the default configuration:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">proteomeScoutAPI</span><span class="w"> </span><span class="kn">import</span> <span class="n">update_configuration</span>
-
-<span class="c1"># where to save ProteomeScout flatfiles</span>
-<span class="n">pscout_data_path</span> <span class="o">=</span> <span class="s2">"/path/to/your/directory"</span>
-
-<span class="c1"># default dataset version to use (if None, will always use latest)</span>
-<span class="n">dataset_version</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="c1"># whether to automatically update ProteomeScout flatfiles if new version is available</span>
-<span class="n">update</span> <span class="o">=</span> <span class="kc">True</span>
-
-<span class="n">update_configuration</span><span class="p">(</span><span class="n">dataset_dir</span><span class="o">=</span><span class="n">pscout_data_path</span><span class="p">,</span>
-                     <span class="n">version</span><span class="o">=</span><span class="n">dataset_version</span><span class="p">,</span>
-                     <span class="n">update</span><span class="o">=</span><span class="n">update</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="contributing-code">
-<h2>Contributing code<a class="headerlink" href="#contributing-code" title="Link to this heading">#</a></h2>
-<p>The code here is incredibly simple, and the few methods presented give a good example of how one should parse the ProteomeScout records. If you’re interested in adding the ability to parse out other information please go ahead and make a pull request. Tests would be appreciated too!</p>
-</section>
+  <section id="feature-integration">
+<h1>Feature Integration<a class="headerlink" href="#feature-integration" title="Link to this heading">#</a></h1>
+<p>The contributor guide for adding new fields that propagate through the API,
+PTM annotations, species reference datasets, and proteomic dataset annotation
+is available in the repository root:</p>
+<p><a class="reference external" href="../../FEATURE_INTEGRATION_README.md">FEATURE_INTEGRATION_README.md</a></p>
+<p>This guide covers:</p>
+<ul class="simple">
+<li><p>Parser and accessor patterns for new columns</p></li>
+<li><p>Shared site-level annotation integration</p></li>
+<li><p>Propagation to <cite>get_annotated_PTMs</cite>, <cite>SpeciesReferenceDataset</cite>, and <cite>ProteomicDataset</cite></p></li>
+<li><p>Backward compatibility for optional columns</p></li>
+<li><p>Recommended tests and validation workflow</p></li>
+</ul>
 </section>
 
 
@@ -526,20 +425,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="Functions.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">ProteomeScoutAPI</p>
+        <p class="prev-next-title">API Reference</p>
       </div>
     </a>
     <a class="right-next"
-       href="Dependencies.html"
+       href="../examples/peruse_protein.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Dependencies</p>
+        <p class="prev-next-title">Explore features of a protein of interest</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -549,34 +448,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item"><div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#about">About</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#available-information">Available Information</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pip">Pip</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tarball">Tarball</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-code">Contributing code</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

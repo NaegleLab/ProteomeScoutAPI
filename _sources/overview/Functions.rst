@@ -1,6 +1,5 @@
 API Reference
 =============================
-.. automodule:: kstar 
 
 The "Config" Module
 --------------------

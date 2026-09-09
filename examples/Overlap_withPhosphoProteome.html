@@ -16,68 +16,67 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
     <script src="../_static/documentation_options.js?v=6a41c08d"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/Overlap_withPhosphoProteome';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Annotate phosphoproteomic dataset" href="annotate_dataset.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -85,7 +84,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -93,15 +91,59 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
     </header>
   
 
@@ -110,7 +152,10 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -140,15 +185,11 @@
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview</span></p>
@@ -156,12 +197,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../overview/overview.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/Dependencies.html">Dependencies</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../overview/Functions.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview/FeatureIntegration.html">Feature Integration</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="peruse_protein.html">Explore features of a protein of interest</a></li>
 <li class="toctree-l1"><a class="reference internal" href="annotate_dataset.html">Annotate phosphoproteomic dataset</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Look at overlap with ProteomeScout Dataset</a></li>
 </ul>
 
     </div>
@@ -170,9 +211,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -302,7 +348,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -316,25 +362,24 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -356,7 +401,7 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Get-list-of-all-proteins-and-check-they-have-a-record-in-ProteomeScout-database-file">Get list of all proteins and check they have a record in ProteomeScout database file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#For-proteins,-get-phosphorylation-sites-and-look-at-overlap">For proteins, get phosphorylation sites and look at overlap</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-report">Create a report</a></li>
@@ -380,24 +425,93 @@ document.write(`
 <li><p>For each protein/site pair, see if that phosphorylation site is known to exist in the list of PTM_API.get_phosphosites</p></li>
 </ol>
 <p>The remainder of the code is handling possible errors in the file.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># Setup the workspace,
-from proteomeScoutAPI.api import ProteomeScoutAPI
-import matplotlib.pyplot as plt
-from pylab import *
-import pandas as pd
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup the workspace,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proteomeScoutAPI.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProteomeScoutAPI</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pylab</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
-# read in ProteomeScout data and initialize api
-PTM_API = ProteomeScoutAPI()
+<span class="c1"># read in ProteomeScout data and initialize api</span>
+<span class="n">PTM_API</span> <span class="o">=</span> <span class="n">ProteomeScoutAPI</span><span class="p">()</span>
 
-# Open up and load the file of interest, this file may have redundant sites, so uniquify it.
-dataFile = &#39;Overlap_exampleList.txt&#39;
-df = pd.DataFrame.from_csv(dataFile, sep=&#39;\t&#39;)
+<span class="c1"># Open up and load the file of interest, this file may have redundant sites, so uniquify it.</span>
+<span class="n">dataFile</span> <span class="o">=</span> <span class="s1">'Overlap_exampleList.txt'</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">dataFile</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[4]</span><span class="ansi-green-fg">, line 12</span>
+<span class="ansi-green-fg">     10</span> <span style="color: rgb(95,135,135)"># Open up and load the file of interest, this file may have redundant sites, so uniquify it.</span>
+<span class="ansi-green-fg">     11</span> dataFile = <span class="ansi-yellow-fg">&#39;</span><span class="ansi-yellow-fg">Overlap_exampleList.txt</span><span class="ansi-yellow-fg">&#39;</span>
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">12</span> df = <span class="ansi-yellow-bg">pd</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">read_csv</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">dataFile</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">sep</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\t</span><span class="ansi-yellow-fg ansi-yellow-bg">&#39;</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/anaconda3/envs/pscoutapi_dev/lib/python3.14/site-packages/pandas/io/parsers/readers.py:873</span>, in <span class="ansi-cyan-fg">read_csv</span><span class="ansi-blue-fg">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, skip_blank_lines, parse_dates, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="ansi-green-fg">    861</span> kwds_defaults = _refine_defaults_read(
+<span class="ansi-green-fg">    862</span>     dialect,
+<span class="ansi-green-fg">    863</span>     delimiter,
+<span class="ansi-green-fg">   (...)</span><span class="ansi-green-fg">    869</span>     dtype_backend=dtype_backend,
+<span class="ansi-green-fg">    870</span> )
+<span class="ansi-green-fg">    871</span> kwds.update(kwds_defaults)
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">873</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">_read</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filepath_or_buffer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">kwds</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/anaconda3/envs/pscoutapi_dev/lib/python3.14/site-packages/pandas/io/parsers/readers.py:300</span>, in <span class="ansi-cyan-fg">_read</span><span class="ansi-blue-fg">(filepath_or_buffer, kwds)</span>
+<span class="ansi-green-fg">    297</span> _validate_names(kwds.get(<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">names</span><span class="ansi-yellow-fg">&#34;</span>, <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>))
+<span class="ansi-green-fg">    299</span> <span style="color: rgb(95,135,135)"># Create the parser.</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">300</span> parser = <span class="ansi-yellow-bg">TextFileReader</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">filepath_or_buffer</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">*</span><span class="ansi-yellow-bg">kwds</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    302</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> chunksize <span class="ansi-bold" style="color: rgb(175,0,255)">or</span> iterator:
+<span class="ansi-green-fg">    303</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> parser
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/anaconda3/envs/pscoutapi_dev/lib/python3.14/site-packages/pandas/io/parsers/readers.py:1645</span>, in <span class="ansi-cyan-fg">TextFileReader.__init__</span><span class="ansi-blue-fg">(self, f, engine, **kwds)</span>
+<span class="ansi-green-fg">   1642</span>     <span style="color: rgb(0,135,0)">self</span>.options[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">has_index_names</span><span class="ansi-yellow-fg">&#34;</span>] = kwds[<span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">has_index_names</span><span class="ansi-yellow-fg">&#34;</span>]
+<span class="ansi-green-fg">   1644</span> <span style="color: rgb(0,135,0)">self</span>.handles: IOHandles | <span class="ansi-bold" style="color: rgb(0,135,0)">None</span> = <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1645</span> <span style="color: rgb(0,135,0)">self</span>._engine = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">_make_engine</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">engine</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/anaconda3/envs/pscoutapi_dev/lib/python3.14/site-packages/pandas/io/parsers/readers.py:1904</span>, in <span class="ansi-cyan-fg">TextFileReader._make_engine</span><span class="ansi-blue-fg">(self, f, engine)</span>
+<span class="ansi-green-fg">   1902</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> mode:
+<span class="ansi-green-fg">   1903</span>         mode += <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">&#34;</span>
+<span class="ansi-green-fg">-&gt; </span><span class="ansi-green-fg">1904</span> <span style="color: rgb(0,135,0)">self</span>.handles = <span class="ansi-yellow-bg">get_handle</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">   1905</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">f</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1906</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">mode</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1907</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">encoding</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1908</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">compression</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">compression</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1909</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">memory_map</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">memory_map</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">False</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1910</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">is_text</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">is_text</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1911</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">encoding_errors</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">strict</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1912</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">storage_options</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">options</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">get</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">storage_options</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">None</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">   1913</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">   1914</span> <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> <span style="color: rgb(0,135,0)">self</span>.handles <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>
+<span class="ansi-green-fg">   1915</span> f = <span style="color: rgb(0,135,0)">self</span>.handles.handle
+
+<span class="ansi-cyan-fg">File </span><span class="ansi-green-fg">~/anaconda3/envs/pscoutapi_dev/lib/python3.14/site-packages/pandas/io/common.py:926</span>, in <span class="ansi-cyan-fg">get_handle</span><span class="ansi-blue-fg">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
+<span class="ansi-green-fg">    921</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> <span style="color: rgb(0,135,0)">isinstance</span>(handle, <span style="color: rgb(0,135,0)">str</span>):
+<span class="ansi-green-fg">    922</span>     <span style="color: rgb(95,135,135)"># Check whether the filename is to be opened in binary mode.</span>
+<span class="ansi-green-fg">    923</span>     <span style="color: rgb(95,135,135)"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
+<span class="ansi-green-fg">    924</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> ioargs.encoding <span class="ansi-bold" style="color: rgb(175,0,255)">and</span> <span class="ansi-yellow-fg">&#34;</span><span class="ansi-yellow-fg">b</span><span class="ansi-yellow-fg">&#34;</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> ioargs.mode:
+<span class="ansi-green-fg">    925</span>         <span style="color: rgb(95,135,135)"># Encoding</span>
+<span class="ansi-green-fg">--&gt; </span><span class="ansi-green-fg">926</span>         handle = <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">open</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-fg">    927</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">handle</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    928</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">ioargs</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">mode</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    929</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">ioargs</span><span class="ansi-yellow-bg">.</span><span class="ansi-yellow-bg">encoding</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    930</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-bg">errors</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    931</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">newline</span><span class="ansi-yellow-bg">=</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-fg ansi-yellow-bg">&#34;</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-fg">    932</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">    933</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+<span class="ansi-green-fg">    934</span>         <span style="color: rgb(95,135,135)"># Binary mode</span>
+<span class="ansi-green-fg">    935</span>         handle = <span style="color: rgb(0,135,0)">open</span>(handle, ioargs.mode)
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;Overlap_exampleList.txt&#39;
+</pre></div></div>
 </div>
 <section id="Get-list-of-all-proteins-and-check-they-have-a-record-in-ProteomeScout-database-file">
 <h2>Get list of all proteins and check they have a record in ProteomeScout database file<a class="headerlink" href="#Get-list-of-all-proteins-and-check-they-have-a-record-in-ProteomeScout-database-file" title="Link to this heading">#</a></h2>
@@ -405,14 +519,14 @@ df = pd.DataFrame.from_csv(dataFile, sep=&#39;\t&#39;)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>protein_list = [] #this will hold accessions with protein records that can be found
-protein_list_noMatch = []
-for protein, group_proteins in df.groupby(&#39;acc&#39;): # walk through each list
-    sequence = PTM_API.get_sequence(protein)
-    if sequence != &#39;-1&#39;: #means the record could not be found
-        protein_list.append(protein)
-    else:
-        protein_list_noMatch.append(protein)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">protein_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#this will hold accessions with protein records that can be found</span>
+<span class="n">protein_list_noMatch</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">protein</span><span class="p">,</span> <span class="n">group_proteins</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'acc'</span><span class="p">):</span> <span class="c1"># walk through each list</span>
+    <span class="n">sequence</span> <span class="o">=</span> <span class="n">PTM_API</span><span class="o">.</span><span class="n">get_sequence</span><span class="p">(</span><span class="n">protein</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sequence</span> <span class="o">!=</span> <span class="s1">'-1'</span><span class="p">:</span> <span class="c1">#means the record could not be found</span>
+        <span class="n">protein_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">protein</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">protein_list_noMatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">protein</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -424,45 +538,45 @@ for protein, group_proteins in df.groupby(&#39;acc&#39;): # walk through each li
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>columns = [&#39;pep&#39;, &#39;acc&#39;, &#39;site&#39;, &#39;phosphorylation_code&#39; ]
-df_u = pd.DataFrame(columns=columns)
-rows_list = []
-for protein_acc in protein_list:
-    known_phosphosites = PTM_API.get_phosphosites(protein_acc)
-    site_pos_Y = []
-    for pSites in known_phosphosites:
-        if pSites[1] == &#39;Y&#39;:
-            site_pos_Y.append(int(pSites[0]))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'pep'</span><span class="p">,</span> <span class="s1">'acc'</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">,</span> <span class="s1">'phosphorylation_code'</span> <span class="p">]</span>
+<span class="n">df_u</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">rows_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">protein_acc</span> <span class="ow">in</span> <span class="n">protein_list</span><span class="p">:</span>
+    <span class="n">known_phosphosites</span> <span class="o">=</span> <span class="n">PTM_API</span><span class="o">.</span><span class="n">get_phosphosites</span><span class="p">(</span><span class="n">protein_acc</span><span class="p">)</span>
+    <span class="n">site_pos_Y</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">pSites</span> <span class="ow">in</span> <span class="n">known_phosphosites</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pSites</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Y'</span><span class="p">:</span>
+            <span class="n">site_pos_Y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">pSites</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
-    df_sub = df[df[&#39;acc&#39;]==protein_acc]
-    sequence = PTM_API.get_sequence(protein_acc)
-    #Walk through each site for a protein
-    for sites, group in df_sub.groupby([&#39;peptide&#39;, &#39;site&#39;]):
-        site_code = &#39;&#39;
-        pep = sites[0]
-        #check that the middle of the peptide is a Y
-        offset = len(pep)/2
-        if pep[offset] != &#39;Y&#39;:
-            site_code = &#39;E_NY&#39;
-        else:
-            match = sequence.find(pep)
-            if not match:
-                site_code = &#39;E_NP&#39;
-            else:
+    <span class="n">df_sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'acc'</span><span class="p">]</span><span class="o">==</span><span class="n">protein_acc</span><span class="p">]</span>
+    <span class="n">sequence</span> <span class="o">=</span> <span class="n">PTM_API</span><span class="o">.</span><span class="n">get_sequence</span><span class="p">(</span><span class="n">protein_acc</span><span class="p">)</span>
+    <span class="c1">#Walk through each site for a protein</span>
+    <span class="k">for</span> <span class="n">sites</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'peptide'</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">]):</span>
+        <span class="n">site_code</span> <span class="o">=</span> <span class="s1">''</span>
+        <span class="n">pep</span> <span class="o">=</span> <span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">#check that the middle of the peptide is a Y</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+        <span class="k">if</span> <span class="n">pep</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">'Y'</span><span class="p">:</span>
+            <span class="n">site_code</span> <span class="o">=</span> <span class="s1">'E_NY'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">sequence</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">site_code</span> <span class="o">=</span> <span class="s1">'E_NP'</span>
+            <span class="k">else</span><span class="p">:</span>
 
-                pos = match+len(pep)/2 #phosphorylation site is in center of this peptide string
-                #print pos
-                #is that pos a tyrosine
-                if sequence[pos] == &#39;Y&#39;:
-                    if int(sites[1]) in site_pos_Y:
-                        site_code = &#39;Yes&#39;
-                    else:
-                        site_code = &#39;No&#39;
-                else:
-                    site_code = &#39;E_PNY&#39;
-        #append a row in the dataframe
-        row_list = (sites[0], protein_acc, sites[1], site_code)
-        df_u = df_u.append({&#39;pep&#39;:sites[0], &#39;acc&#39;:protein_acc, &#39;site&#39;:sites[1], &#39;phosphorylation_code&#39;:site_code}, ignore_index=True)
+                <span class="n">pos</span> <span class="o">=</span> <span class="n">match</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">pep</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="c1">#phosphorylation site is in center of this peptide string</span>
+                <span class="c1">#print pos</span>
+                <span class="c1">#is that pos a tyrosine</span>
+                <span class="k">if</span> <span class="n">sequence</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'Y'</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">sites</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">in</span> <span class="n">site_pos_Y</span><span class="p">:</span>
+                        <span class="n">site_code</span> <span class="o">=</span> <span class="s1">'Yes'</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">site_code</span> <span class="o">=</span> <span class="s1">'No'</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">site_code</span> <span class="o">=</span> <span class="s1">'E_PNY'</span>
+        <span class="c1">#append a row in the dataframe</span>
+        <span class="n">row_list</span> <span class="o">=</span> <span class="p">(</span><span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">protein_acc</span><span class="p">,</span> <span class="n">sites</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">site_code</span><span class="p">)</span>
+        <span class="n">df_u</span> <span class="o">=</span> <span class="n">df_u</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'pep'</span><span class="p">:</span><span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'acc'</span><span class="p">:</span><span class="n">protein_acc</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">:</span><span class="n">sites</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'phosphorylation_code'</span><span class="p">:</span><span class="n">site_code</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <br/></pre></div>
 </div>
 </div>
@@ -470,13 +584,13 @@ for protein_acc in protein_list:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span># append all the sites and proteins for proteins that could not be found
-site_code = &#39;E_P_NF&#39;
-for protein_acc in protein_list_noMatch:
-    df_sub = df[df[&#39;acc&#39;]==protein_acc]
-    for sites, group in df_sub.groupby([&#39;peptide&#39;, &#39;site&#39;]):
-        row_list = (sites[0], protein_acc, sites[1], site_code)
-        df_u = df_u.append({&#39;pep&#39;:sites[0], &#39;acc&#39;:protein_acc, &#39;site&#39;:sites[1], &#39;phosphorylation_code&#39;:site_code}, ignore_index=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># append all the sites and proteins for proteins that could not be found</span>
+<span class="n">site_code</span> <span class="o">=</span> <span class="s1">'E_P_NF'</span>
+<span class="k">for</span> <span class="n">protein_acc</span> <span class="ow">in</span> <span class="n">protein_list_noMatch</span><span class="p">:</span>
+    <span class="n">df_sub</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'acc'</span><span class="p">]</span><span class="o">==</span><span class="n">protein_acc</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">sites</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df_sub</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'peptide'</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">]):</span>
+        <span class="n">row_list</span> <span class="o">=</span> <span class="p">(</span><span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">protein_acc</span><span class="p">,</span> <span class="n">sites</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">site_code</span><span class="p">)</span>
+        <span class="n">df_u</span> <span class="o">=</span> <span class="n">df_u</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'pep'</span><span class="p">:</span><span class="n">sites</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">'acc'</span><span class="p">:</span><span class="n">protein_acc</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">:</span><span class="n">sites</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">'phosphorylation_code'</span><span class="p">:</span><span class="n">site_code</span><span class="p">},</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -487,8 +601,8 @@ for protein_acc in protein_list_noMatch:
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>print &quot;The total Number of Peptides\t\t%d&quot;%(len(df_u))
-df_u.groupby([&#39;phosphorylation_code&#39;]).size()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span> <span class="s2">"The total Number of Peptides</span><span class="se">\t\t</span><span class="si">%d</span><span class="s2">"</span><span class="o">%</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_u</span><span class="p">))</span>
+<span class="n">df_u</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'phosphorylation_code'</span><span class="p">])</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -518,7 +632,7 @@ dtype: int64
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython2 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -536,15 +650,6 @@ dtype: int64
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="annotate_dataset.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Annotate phosphoproteomic dataset</p>
-      </div>
-    </a>
 </div>
                 </footer>
               
@@ -552,15 +657,17 @@ dtype: int64
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Get-list-of-all-proteins-and-check-they-have-a-record-in-ProteomeScout-database-file">Get list of all proteins and check they have a record in ProteomeScout database file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#For-proteins,-get-phosphorylation-sites-and-look-at-overlap">For proteins, get phosphorylation sites and look at overlap</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Create-a-report">Create a report</a></li>
@@ -612,8 +719,8 @@ By Naegle Lab
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
 
   <footer class="bd-footer">
   </footer>
