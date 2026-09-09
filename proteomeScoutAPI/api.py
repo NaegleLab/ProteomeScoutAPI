@@ -2409,7 +2409,8 @@ class ProteomicDataset(ProteomeScoutAPI):
             annotation = self.annotate_peptide(acc, pep, include_hidden=include_hidden)
             if annotation == -1:
                 #if sequence not found, skip
-                new_info.append(pd.Series())
+                #name must match the original row index so concat aligns instead of creating a new row
+                new_info.append(pd.Series(name=i))
             else:
                 #if found, convert to series and add to list
                 annotation = pd.Series(annotation, name=i)
